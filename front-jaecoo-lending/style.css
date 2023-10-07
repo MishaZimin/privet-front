@@ -126,7 +126,7 @@ body {
     margin-bottom: 50px;
     border-radius: 30px;
 
-    overflow-x: scroll;
+
 
     scroll-snap-align: end;
 
@@ -145,8 +145,9 @@ body {
 
 #chat-bot-message {
     display: flex;
-    width: 98%;
-    align-items: flex-start;
+    width: 95%;
+    justify-content: flex-start;
+
     font-size: 0.75em;
 
     margin-top: 1%;
@@ -154,9 +155,19 @@ body {
     margin-left: 1%;
     background-color: rgba(255, 255, 255, 0);
     border-radius: 10px;
+}
 
-    /* box-shadow: 2px 2px 10px rgba(20, 20, 20, 0.3); */
-    /* border-bottom: 1px solid rgb(35, 35, 35); */
+#chat-user-message {
+    display: flex;
+    width: 93%;
+    margin-left: 5%;
+    justify-content: flex-end;
+    font-size: 0.75em;
+
+    margin-top: 1%;
+    padding: 1% 2%;
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 10px;
 }
 
 .avatar {
@@ -183,7 +194,8 @@ body {
     height: 50px;
 }
 
-.comment-text {
+.comment-bot-text {
+
     margin-left: 10px;
     background-color: white;
     padding: 10px;
@@ -193,9 +205,29 @@ body {
     box-shadow: 3px 3px 10px rgb(112, 112, 112);
 }
 
+.comment-user-text {
+    text-align: end;
+    margin-left: 10px;
+    background-color: lightblue;
+    padding: 10px;
+    border-radius: 15px 15px 0px 15px;
+    margin-top: 5px;
+
+    box-shadow: 3px 3px 10px rgb(112, 112, 112);
+}
+
 .chat-bot-message {
     display: flex;
-    max-width: 700px;
+    width: 90%;
+
+
+    padding: 10px;
+
+}
+
+.chat-user-message {
+    display: flex;
+    width: 80%;
 
     padding: 10px;
 
@@ -232,6 +264,96 @@ body {
     margin-bottom: 2.5%;
     margin-left: 70px;
     ;
+}
+
+
+
+.selection-color-text {
+    display: flex;
+    flex-direction: row;
+
+    border: 1px solid white;
+    padding: 10px;
+    border-radius: 30px;
+    background-color: white;
+    box-shadow: 3px 3px 10px rgb(112, 112, 112);
+}
+
+.selection-color-text:hover {
+    border: 1px solid silver;
+    background-color: silver;
+}
+
+.selection-color-text p {
+    padding: 0 15px;
+}
+
+.selection-colors {
+    display: flex;
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+    width: 80%;
+    gap: 10px;
+    margin-bottom: 2.5%;
+    margin-left: 70px;
+}
+
+#color-white,
+#color-black,
+#color-green,
+#color-green-balack-roof,
+#color-silver,
+#color-silver-balack-roof,
+#color-grey,
+#color-grey-balack-roof {
+    height: 20px;
+    width: 20px;
+    background-color: black;
+    border-radius: 20%;
+}
+
+#color-white {
+    background-color: white;
+}
+
+#color-black {
+    background-color: black;
+}
+
+#color-green {
+    background-color: olive;
+}
+
+#color-green-balack-roof {
+    background-color: olive;
+}
+
+#color-silver {
+    background-color: silver;
+}
+
+#color-silver-balack-roof {
+    background-color: silver;
+}
+
+#color-grey {
+    background-color: grey;
+}
+
+#color-grey-balack-roof {
+    background-color: grey;
+}
+
+#button-option-list {
+    background-color: rgb(225, 225, 225);
+    border: 1px solid rgb(225, 225, 225);
+    padding: 7px 10px;
+    border-radius: 20px;
+}
+
+#button-option-list:hover {
+    border: 1px solid silver;
+    background-color: silver;
 }
 
 
