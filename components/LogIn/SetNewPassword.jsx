@@ -3,12 +3,24 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
+// import { getJSONFromServer, sendJSONToServer } from './serverUtils.js';
+import {
+    LogInData,
+    registrationData,
+    languageTranslate,
+    getJSONFromServer,
+    sendDataToServer
+} from '../Utils.jsx';
+
+
+import { styles } from '../main.jsx';
+
 
 const SetNewPasswordScreen = ({ navigation }) => {
-    var newPasswordData = {
-        newPassword: '',
-        SetNewPasswordScreenasswordConfirm: '',
-    }
+    // var newPasswordData = {
+    //     newPassword: '',
+    //     SetNewPasswordScreenasswordConfirm: '',
+    // }
 
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -24,8 +36,15 @@ const SetNewPasswordScreen = ({ navigation }) => {
             if (password === passwordConfirm) {
                 console.log('----------newPasswordData---------');
 
-                newPasswordData.password = password;
-                newPasswordData.passwordConfirm = passwordConfirm;
+                const data = {
+                    "old_password": password,
+                    "new_password": passwordConfirm,
+                };
+
+                const newPassword = sendChaingePasswordToServer(data);
+                console.log('newPasswordData:', newPassword);
+                registrationData.password = password;
+                registrationData.passwordConfirm = passwordConfirm;
 
                 //output newPasswordData on backend
 
@@ -39,8 +58,12 @@ const SetNewPasswordScreen = ({ navigation }) => {
 
     return (
         <ScrollView style={styles.main}>
-            <View style={styles.newPasswordForm}>
-                <Text style={styles.text}>Установка нового пароля
+            <View style={styles.form}>
+                <Text style={styles.textHeader}>
+                    {languageTranslate(
+                        registrationData.language,
+                        'Setting a new password',
+                        'Установка нового пароля')}
                 </Text>
                 <View style={styles.textInputs}>
                     <TextInput
@@ -65,8 +88,11 @@ const SetNewPasswordScreen = ({ navigation }) => {
                     style={styles.button}
                     title="Готово"
                     onPress={handleSetNewPassword}>
-                    <Text style={styles.text}>
-                        Готово
+                    <Text style={styles.textButton}>
+                        {languageTranslate(
+                            registrationData.language,
+                            'Ready',
+                            'Готово')}
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -74,77 +100,23 @@ const SetNewPasswordScreen = ({ navigation }) => {
     );
 };
 
-export const styles = StyleSheet.create({
-    main: {
-        flex: 1,
-        // alignItems: 'center',
-        backgroundColor: 'white',
-    },
-
-    newPasswordForm: {
-        display: 'flex',
-        flex: 1,
-        width: '80%',
-        margin: '10%',
-        padding: '10%',
-
-        alignItems: 'center',
-
-        backgroundColor: 'rgba(240, 240, 240, 1)',
-        borderRadius: 40,
-
-        justifyContent: 'center',
-
-        // backgroundColor: 'silver',
-    },
-
-    textInputs: {
-        flex: 1,
-        width: '100%',
-        padding: '10%',
-
-        alignItems: 'center',
-        borderRadius: 40,
-        // backgroundColor: 'plum',
-    },
-
-    textHeader: {
-        paddingBottom: '10%',
-    },
-
-    textInput: {
-        width: '100%',
-        padding: '3%',
-        marginTop: '10%',
-
-        borderBottomWidth: 1,
-        borderColor: 'grey',
-    },
-
-    unCorrectTextInput: {
-        width: '100%',
-        padding: '3%',
-        marginTop: '10%',
-
-        borderBottomWidth: 1,
-        borderColor: 'red',
-    },
-
-    buttons: {
-        flex: 1,
-
-        marginTop: '100%',
-    },
-
-    button: {
-        padding: '5%',
-        margin: '2%',
-
-        alignItems: 'center',
-
-        backgroundColor: 'white',
-        borderRadius: 40,
-    },
-});
+const sendChaingePasswordToServer = async (data) => {
+    try {
+        const res = await fetch("https://privet-mobile-app.onrender.com/users/me/change-password", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: 'include',
+            body: JSON.stringify(data),
+        });
+        const responseData = await res.json();
+        console.log('responseData new password:', responseData);
+        return responseData;
+    } catch (err) {
+        console.log('err token new password:', err);
+        throw err;
+    }
+}
 
 export default SetNewPasswordScreen;

@@ -4,39 +4,44 @@ import React from 'react';
 import { View, Text, Button, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { styles } from '../main.jsx';
 import {
+    LogInData,
     registrationData,
     languageTranslate,
     getJSONFromServer,
-    sendJSONToServer,
+    sendJSONToServer
 } from '../Utils.jsx';
 
 
-const WelcomeScreen = ({ navigation }) => {
+const SupportScreen = ({ navigation }) => {
     const handleRegister = () => {
-        navigation.navigate('RegistrationISScreen');
+        navigation.navigate('EmailScreen');
     };
 
     return (
         <View style={styles.main}>
             <View style={styles.form}>
                 <View style={styles.textBlock}>
-                    <Text style={styles.textHeader}>Privet</Text>
-
+                    <Text style={styles.textHeader}>
+                        {languageTranslate(
+                            registrationData.language,
+                            'Support phone',
+                            'Телефон поддержки')}
+                    </Text>
                 </View>
-
-                <Image
-                    style={styles.img}
-                    source={require('./img/d29e31c59a395ddf644fea8cc04fb79b.jpg')} />
+                <View style={styles.textBlock}>
+                    <Text style={styles.textHeader}>88005553535</Text>
+                    <Text style={styles.textHeader}>88008008080</Text>
+                    <Text style={styles.textHeader}>88000000000</Text>
+                </View>
                 <TouchableOpacity
                     style={styles.button}
-                    title="2-3 sec"
+                    title="go back"
                     onPress={handleRegister}>
-
                     <Text style={styles.textButton}>
                         {languageTranslate(
                             registrationData.language,
-                            'Sign Up',
-                            'Зарегистрироваться')}
+                            'Back',
+                            'Назад')}
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -44,4 +49,4 @@ const WelcomeScreen = ({ navigation }) => {
     );
 };
 
-export default WelcomeScreen;
+export default SupportScreen;

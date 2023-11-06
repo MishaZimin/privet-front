@@ -1,5 +1,4 @@
-//2.2.3. Регистрация Сопровождающего
-
+//2.2.3. Регистрация ИС
 
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
@@ -15,11 +14,10 @@ import {
 import { styles } from '../main.jsx';
 
 
+let correctPassword = true;
+let correctEmail = true;
 
-let correctPassword = false;
-let correctEmail = false;
-
-const RegistrationBuddySreen = ({ navigation }) => {
+const RegistrationISScreen = ({ navigation }) => {
     const [university, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -42,33 +40,44 @@ const RegistrationBuddySreen = ({ navigation }) => {
     userData.escortIsPaid = '';
     userData.profileType = '';
 
+    correctEmail = email.split('@').length === 2 ? true : false;
     correctPassword = (
         password.length > 0
         && password === passwordConfirm) ? true : false;
-    correctEmail = email.includes('@') ? true : false;
 
     const handleRegistration = async () => {
-        if (correctPassword && correctEmail) {
+        if (!correctEmail) {
+            console.log('uncorrect email');
+        }
+        else if (password.length < 4) {
+            console.log('password < 4');
+        }
+        else if (!correctPassword) {
+            console.log('passwords not match');
+        }
+        else if (correctPassword && correctEmail) {
             if (password === passwordConfirm) {
-                console.log('----------Buddy-Data---------');
+                console.log('----------IS-Data---------');
 
                 registrationData.university = university;
                 registrationData.email = email;
                 registrationData.password = password;
                 registrationData.passwordConfirm = passwordConfirm;
-                registrationData.user = 2;
+                registrationData.user = 1;
                 registrationData.isNewPassword = false;
 
                 userData.university = university;
                 userData.email = email;
-                userData.user = 2;
+                userData.user = 1;
 
+                // //send registrationData on backend
+                // sendJSONToServer(registrationData);
 
                 try {
                     const data = {
                         "email": email,
                         "password": password,
-                        "role_id": 2,
+                        "role_id": 1,
                     };
 
                     await sendDataToServer(data, "/register", "/json");
@@ -91,11 +100,17 @@ const RegistrationBuddySreen = ({ navigation }) => {
                 catch (e) {
                     console.log(e);
                 }
-            } else {
-                console.log('--------------------');
-                console.log(password, 'and', passwordConfirm, 'not match');
-            }
-        }
+            };
+        };
+    };
+
+    const handleLogIn = () => {
+        console.log('handleLogIn');
+        navigation.navigate('LogInForm');
+    };
+
+    const handleBuddy = () => {
+        navigation.navigate('RegistrationBuddyScreen');
     };
 
     return (
@@ -104,8 +119,8 @@ const RegistrationBuddySreen = ({ navigation }) => {
                 <Text style={styles.textHeader}>
                     {languageTranslate(
                         registrationData.language,
-                        'Registration Buddy',
-                        'Регистрация Сопровождающего')}
+                        'Sign Up',
+                        'Регистрация ИС')}
                 </Text>
                 <View style={styles.textInputs}>
                     <RNPickerSelect
@@ -148,15 +163,15 @@ const RegistrationBuddySreen = ({ navigation }) => {
                     />
                     <TextInput
                         style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
-                        placeholder="Password"
                         secureTextEntry
+                        placeholder="Password"
                         value={password}
                         onChangeText={text => setPassword(text)}
                     />
                     <TextInput
                         style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
-                        placeholder="Password confirm"
                         secureTextEntry
+                        placeholder="Password confirm"
                         value={passwordConfirm}
                         onChangeText={text => setPasswordConfirm(text)}
                     />
@@ -173,10 +188,32 @@ const RegistrationBuddySreen = ({ navigation }) => {
                                 'Зарегистрироваться')}
                         </Text>
                     </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.button}
+                        title="Я Сопровождающий"
+                        onPress={handleBuddy}>
+                        <Text style={styles.textButton}>
+                            {languageTranslate(
+                                registrationData.language,
+                                'I am a Buddy',
+                                'Я Сопровождающий')}
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.button}
+                        title="Войти"
+                        onPress={handleLogIn}>
+                        <Text style={styles.textButton}>
+                            {languageTranslate(
+                                registrationData.language,
+                                'Log In',
+                                'Войти')}
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </ScrollView>
     );
 };
 
-export default RegistrationBuddySreen;
+export default RegistrationISScreen;

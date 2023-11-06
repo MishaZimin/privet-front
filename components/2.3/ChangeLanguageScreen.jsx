@@ -10,9 +10,9 @@ import {
 } from '../Utils.jsx';
 import { styles } from '../main.jsx';
 
-var languageSelection = 'ru';
+var languageSelection = '';
 
-const LanguageSelectionScreen = ({ navigation }) => {
+const ChangeLanguageScreen = ({ navigation }) => {
     const [selectedLanguage, setSelectedLanguage] = useState('ru');
 
     const handleLanguageChange = (language) => {
@@ -26,14 +26,22 @@ const LanguageSelectionScreen = ({ navigation }) => {
     const handleContinue = () => {
         console.log('selctor:', languageSelection);
         registrationData.language = languageSelection;
+        console.log('-', registrationData.language);
 
-        navigation.navigate('WelcomeScreen');
+        //проверка на IS/Buddy
+        if (registrationData.user == 'IS') {
+            navigation.navigate('LoadingSettingISScreen');
+        }
+        else {
+            navigation.navigate('LoadingSettingBuddyScreen');
+
+        }
     };
 
     return (
         <View style={styles.main}>
             <View style={styles.form}>
-                <Text style={styles.textHeader}>Language Choice</Text>
+                <Text style={styles.textHeader}>Change Language Screen Settings</Text>
 
                 <View style={styles.buttons}>
                     <TouchableOpacity
@@ -85,4 +93,4 @@ export const languageStyles = StyleSheet.create({
 
 });
 
-export default LanguageSelectionScreen;
+export default ChangeLanguageScreen;
