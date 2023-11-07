@@ -9,7 +9,8 @@ import {
     registrationData,
     languageTranslate,
     getJSONFromServer,
-    sendDataToServer
+    sendDataToServer,
+    sendChangePasswordToServer,
 } from '../Utils.jsx';
 
 
@@ -30,18 +31,23 @@ const SetNewPasswordScreen = ({ navigation }) => {
         password === passwordConfirm
     ) ? true : false;
 
-    const handleSetNewPassword = () => {
+    const handleSetNewPassword = async () => {
         if (correctPassword) {
 
             if (password === passwordConfirm) {
                 console.log('----------newPasswordData---------');
 
-                const data = {
-                    "old_password": password,
-                    "new_password": passwordConfirm,
-                };
+                // const data = {
+                //     "old_password": password,
+                //     "new_password": passwordConfirm,
+                // };
 
-                const newPassword = sendChaingePasswordToServer(data);
+                const data = {
+                    "email": registrationData.email,
+                    "new_password": password,
+                }
+
+                const newPassword = await sendChangePasswordToServer(data, "/auth/forgot-password", "/json");
                 console.log('newPasswordData:', newPassword);
                 registrationData.password = password;
                 registrationData.passwordConfirm = passwordConfirm;
@@ -100,23 +106,5 @@ const SetNewPasswordScreen = ({ navigation }) => {
     );
 };
 
-const sendChaingePasswordToServer = async (data) => {
-    try {
-        const res = await fetch("https://privet-mobile-app.onrender.com/users/me/change-password", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            credentials: 'include',
-            body: JSON.stringify(data),
-        });
-        const responseData = await res.json();
-        console.log('responseData new password:', responseData);
-        return responseData;
-    } catch (err) {
-        console.log('err token new password:', err);
-        throw err;
-    }
-}
 
 export default SetNewPasswordScreen;

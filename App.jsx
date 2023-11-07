@@ -13,6 +13,12 @@ import BuddysScreen from './components/2.4/BuddysScreen.jsx';
 import PasswordRecoveryScreen from './components/LogIn/PasswordRecoveryScreen.jsx';
 import SetNewPasswordScreen from './components/LogIn/SetNewPassword.jsx';
 import StudentProfileScreen from './components/2.3/StudentProfileScreen.jsx';
+
+import AllArrivalsScreen from './components/2.4/AllArrivalsScreen.jsx';
+import BuddysStudentsScreen from './components/2.4/BuddysStudentsScreen.jsx';
+
+import BuddyProfileScreen from './components/2.4/BuddyProfileScreen.jsx';
+
 import ToDoListScreen from './components/2.3/ToDoListScreen.jsx';
 import RouteScreen from './components/2.3/RouteScreen.jsx';
 import InfoScreen from './components/2.3/InfoScreen.jsx';
@@ -21,6 +27,7 @@ import ChangeLanguageScreen from './components/2.3/ChangeLanguageScreen.jsx';
 import SettingScreen from './components/2.3/SettingScreen.jsx';
 import LoadingSettingISScreen from './components/2.3/LoadingSettingISScreen.jsx';
 import LoadingSettingBuddyScreen from './components/2.4/LoadingSettingBuddyScreen.jsx';
+import SupportScreen from './components/Registration/SupportScreen.jsx';
 
 
 // import NotGetEmail from './components/Registration/EmailScreen/NotGetEmail.jsx';
@@ -31,32 +38,40 @@ const Stack = createNativeStackNavigator();
 function App() {
 
     return (
-        <NavigationContainer>
+        <NavigationContainer >
 
-            <Stack.Navigator initialRouteName="Privet">
+            <Stack.Navigator initialRouteName="Privet" >
                 <Stack.Screen name="LoadingScreen" component={LoadingScreen} />
+
+
                 <Stack.Screen name="LogInForm" component={LogInForm} />
                 <Stack.Screen name="LanguageSelectionScreen" component={LanguageSelectionScreen} />
                 <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
                 <Stack.Screen name="RegistrationISScreen" component={RegistrationISScreen} />
                 <Stack.Screen name="RegistrationBuddyScreen" component={RegistrationBuddyScreen} />
                 <Stack.Screen name="EmailScreen" component={EmailScreen} />
+                <Stack.Screen name="LoadingSettingISScreen" component={LoadingSettingISScreen} />
+                <Stack.Screen name="LoadingSettingBuddyScreen" component={LoadingSettingBuddyScreen} />
                 <Stack.Screen name="StudentsScreen" component={StudentsScreen} />
                 <Stack.Screen name="BuddysScreen" component={BuddysScreen} />
                 <Stack.Screen name="PasswordRecoveryScreen" component={PasswordRecoveryScreen} />
                 <Stack.Screen name="SetNewPasswordScreen" component={SetNewPasswordScreen} />
                 <Stack.Screen name="StudentProfileScreen" component={StudentProfileScreen} />
+                <Stack.Screen name="BuddyProfileScreen" component={BuddyProfileScreen} />
+
                 <Stack.Screen name="ToDoListScreen" component={ToDoListScreen} />
                 <Stack.Screen name="RouteScreen" component={RouteScreen} />
                 <Stack.Screen name="InfoScreen" component={InfoScreen} />
                 <Stack.Screen name="MessengerScreen" component={MessengerScreen} />
                 <Stack.Screen name="ChangeLanguageScreen" component={ChangeLanguageScreen} />
                 <Stack.Screen name="SettingScreen" component={SettingScreen} />
-                <Stack.Screen name="LoadingSettingISScreen" component={LoadingSettingISScreen} />
-                <Stack.Screen name="LoadingSettingBuddyScreen" component={LoadingSettingBuddyScreen} />
+
+                <Stack.Screen name="AllArrivalsScreen" component={AllArrivalsScreen} />
+
+                <Stack.Screen name="BuddysStudentsScreen" component={BuddysStudentsScreen} />
+                <Stack.Screen name="SupportScreen" component={SupportScreen} />
 
 
-                {/* <Stack.Screen name="NotGetEmail" component={NotGetEmail} /> */}
 
             </Stack.Navigator>
         </NavigationContainer>

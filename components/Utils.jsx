@@ -12,6 +12,7 @@ export var registrationData = {
 
 export var userData = {
     access_token: '',
+    id: '',
     photo: '',
     fullName: '',
     citizenship: '',
@@ -27,6 +28,7 @@ export var userData = {
     university: '',
     escortIsPaid: '',
     profileType: '',
+    user: '',
 };
 
 export var LogInData = {
@@ -88,8 +90,28 @@ export const getJSONFromServer = async () => {
     }
 };
 
+export const sendChangePasswordToServer = async (data, adress, contentType) => {
+    try {
+        const res = await fetch("https://privet-mobile-app.onrender.com" + adress, {
+            method: "PATCH",
+            headers: {
+                "Accept": "application" + contentType,
+                "Content-Type": "application" + contentType,
+            },
+            credentials: 'include',
+            body: JSON.stringify(data),
+        });
+        const responseData = await res.json();
+        console.log(adress, responseData);
+        return responseData;
+    } catch (err) {
+        console.log(adress, err);
+        throw err;
+    }
+}
+
 export const sendDataToServer = async (data, adress, contentType) => {
-    let badyData = (contentType == "/json") ? JSON.stringify(data) : new URLSearchParams(data).toString();
+    let bodyData = (contentType == "/json") ? JSON.stringify(data) : new URLSearchParams(data).toString();
 
     try {
         const res = await fetch("https://privet-mobile-app.onrender.com" + adress, {
@@ -98,7 +120,28 @@ export const sendDataToServer = async (data, adress, contentType) => {
                 "Content-Type": "application" + contentType,
             },
             credentials: 'include',
-            body: badyData,
+            body: bodyData,
+        });
+        const responseData = await res.json();
+        console.log(adress, responseData);
+        return responseData;
+    } catch (err) {
+        console.log(adress, err);
+        throw err;
+    }
+}
+
+export const getUserByEmailFromServer = async (adress, contentType) => {
+    // let badyData = (contentType == "/json") ? JSON.stringify(data) : new URLSearchParams(data).toString();
+
+    try {
+        const res = await fetch("https://privet-mobile-app.onrender.com" + adress, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application" + contentType,
+            },
+            credentials: 'include',
+            // body: badyData,
         });
         const responseData = await res.json();
         console.log(adress, responseData);
@@ -117,6 +160,28 @@ export const getDataFromServer = async (adress, contentType) => {
             method: "GET",
             headers: {
                 "Content-Type": "application" + contentType,
+            },
+            credentials: 'include',
+            // body: badyData,
+        });
+        const responseData = await res.json();
+        console.log(adress, responseData);
+        return responseData;
+    } catch (err) {
+        console.log(adress, err);
+        throw err;
+    }
+}
+
+export const getTokenToServer = async (token, adress, contentType) => {
+    // let badyData = (contentType == "/json") ? JSON.stringify(data) : new URLSearchParams(data).toString();
+
+    try {
+        const res = await fetch("https://privet-mobile-app.onrender.com" + adress, {
+            method: "GET",
+            headers: {
+                "Accept": "application" + contentType,
+                "Authorization": "Bearer " + token,
             },
             credentials: 'include',
             // body: badyData,

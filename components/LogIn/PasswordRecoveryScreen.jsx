@@ -8,7 +8,8 @@ import {
     registrationData,
     languageTranslate,
     getJSONFromServer,
-    sendDataToServer
+    sendDataToServer,
+    getUserByEmailFromServer,
 } from '../Utils.jsx';
 import { styles } from '../main.jsx';
 
@@ -19,32 +20,49 @@ const PasswordRecoveryScreen = ({ navigation }) => {
 
     correctEmail = email.includes('@') ? true : false;
 
-    const handlePasswordRecovery = () => {
-        if (correctEmail) {
-            registrationData.email = email;
-            registrationData.isNewPassword = true;
+    const handlePasswordRecovery = async () => {
+        try {
+            if (correctEmail) {
+                registrationData.email = email;
+                registrationData.isNewPassword = true;
 
-            const randomCode = Math.floor(1000 + Math.random() * 9000);
-            registrationData.randomCode = randomCode;
+                let response1 = await getUserByEmailFromServer("/auth/get-user/" + email, "/json");
+                let response2 = await sendDataToServer(email, "/send-verification-token/" + email, "/json");
 
-            //send registrationData on backend
-            //get userEmailInBD: true/false, user: IS/Buddy
+                console.log('response1:', response1);
+                console.log('response1:', response1);
 
-            let userEmailInBD = 'true';
-            let user = 'Buddy';
+                if (response1.detail) {
+                    console.log('нет такой почты')
+                }
+                else {
 
-            registrationData.user = user;
+                    const randomCode = Math.floor(1000 + Math.random() * 9000);
+                    registrationData.randomCode = randomCode;
 
-            console.log('---------registration-Data---------');
-            console.log(registrationData);
+                    //send registrationData on backend
+                    //get userEmailInBD: true/false, user: IS/Buddy
+
+                    let userEmailInBD = 'true';
+                    let user = 'Buddy';
+
+                    registrationData.user = user;
+
+                    console.log('---------registration-Data---------');
+                    console.log(registrationData);
 
 
-            if (userEmailInBD == 'true') {
-                navigation.navigate('EmailScreen');
+                    if (userEmailInBD == 'true') {
+                        navigation.navigate('EmailScreen');
+                    }
+                    else {
+                        console.log('no user in bd');
+                    }
+                }
             }
-            else {
-                console.log('no user in bd');
-            }
+        }
+        catch (e) {
+            console.log(e);
         }
     };
 

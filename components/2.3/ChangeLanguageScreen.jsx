@@ -6,7 +6,8 @@ import {
     registrationData,
     languageTranslate,
     getJSONFromServer,
-    sendJSONToServer
+    sendJSONToServer,
+    userData,
 } from '../Utils.jsx';
 import { styles } from '../main.jsx';
 
@@ -29,7 +30,7 @@ const ChangeLanguageScreen = ({ navigation }) => {
         console.log('-', registrationData.language);
 
         //проверка на IS/Buddy
-        if (registrationData.user == 'IS') {
+        if (userData.user == 1) {
             navigation.navigate('LoadingSettingISScreen');
         }
         else {

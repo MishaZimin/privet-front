@@ -10,6 +10,7 @@ import {
     languageTranslate,
     getDataFromServer,
     sendDataToServer,
+    getTokenToServer,
 
     userData,
     sendRequest,
@@ -32,9 +33,6 @@ const LogInForm = ({ navigation }) => {
             LogInData.email = email;
             LogInData.password = password;
 
-            userData.email = email;
-            userData.user = 'IS';
-
             console.log('----------LogIn-Data---------');
 
             try {
@@ -47,32 +45,34 @@ const LogInForm = ({ navigation }) => {
                     'client_secret': "",
                 };
 
-                // Выполнение первого запроса
                 const response1 = await sendDataToServer(data1, "/login", "/x-www-form-urlencoded");
-                console.log('Response from server 1:', response1);
+                console.log('Response from server 1:', response1.access_token);
 
                 if (response1.detail) {
                     Alert.alert('ошибка где-то');
                 } else if (response1.access_token) {
-                    // Сохранение токена в AsyncStorage и выполнение следующего запроса
                     await AsyncStorage.setItem('access_token', response1.access_token);
 
-                    // Выполнение второго запроса
-
+                    const dataUserBD = await getTokenToServer(response1.access_token, "/auth/me", "/json");
+                    console.log("dataUserBD:", dataUserBD);
 
                     userData.access_token = response1.access_token;
+                    userData.user = dataUserBD.role_id;
+                    userData.email = dataUserBD.email;
+                    userData.id = dataUserBD.id;
 
-                    let userInBD = true;
-                    let userType = 1;
-                    userData.user = userType;
+                    console.log("userData:", userData);
 
-                    if (userInBD) {
-                        switch (userType) {
+                    // Mikhail.zimin.2004@bk.ru
+                    // 11111111
+
+                    if (userData.email) {
+                        switch (userData.user) {
                             case 1:
-                                navigation.navigate('StudentsScreen');
+                                navigation.navigate('LoadingSettingISScreen');
                                 break;
                             case 2:
-                                navigation.navigate('BuddysScreen');
+                                navigation.navigate('LoadingSettingBuddyScreen');
                                 break;
                         }
                     } else {

@@ -13,22 +13,22 @@ import { styles } from '../main.jsx';
 
 
 const BuddysScreen = ({ navigation }) => {
-    const handleStudentProfile = () => {
-        navigation.navigate('StudentProfileScreen');
+    const handleBuddyProfile = () => {
+        navigation.navigate('BuddyProfileScreen');
     };
     const handleToDoList = () => {
         // navigation.navigate('RegistrationForm');
         navigation.navigate('ToDoListScreen');
 
     };
-    const handleRoute = () => {
+    const handleAllArrivals = () => {
         // navigation.navigate('RegistrationForm');
-        navigation.navigate('RouteScreen');
+        navigation.navigate('AllArrivalsScreen');
 
     };
-    const handleInfo = () => {
+    const handleBuddysStudents = () => {
         // navigation.navigate('RegistrationForm');
-        navigation.navigate('InfoScreen');
+        navigation.navigate('BuddysStudentsScreen');
 
     };
     const handleMessenager = () => {
@@ -44,12 +44,12 @@ const BuddysScreen = ({ navigation }) => {
                 <View style={styles.buttons}>
                     <TouchableOpacity
                         style={styles.button}
-                        title="handleStudentProfile"
-                        onPress={handleStudentProfile}>
+                        title="handleBuddyProfile"
+                        onPress={handleBuddyProfile}>
                         <Text style={styles.textButton}>
                             {languageTranslate(
                                 registrationData.language,
-                                'StudentProfile',
+                                'Student Profile',
                                 'Профиль')}
                         </Text>
                     </TouchableOpacity>
@@ -60,29 +60,29 @@ const BuddysScreen = ({ navigation }) => {
                         <Text style={styles.textButton}>
                             {languageTranslate(
                                 registrationData.language,
-                                'ToDoList',
+                                'To Do List',
                                 'Список задач')}
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
-                        title="handleRoute"
-                        onPress={handleRoute}>
+                        title="handleAllArrivals"
+                        onPress={handleAllArrivals}>
                         <Text style={styles.textButton}>
                             {languageTranslate(
                                 registrationData.language,
-                                'Route',
-                                'Маршрут')}
+                                'All Arrivals',
+                                'Все приезды')}
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
-                        title="handleInfo"
-                        onPress={handleInfo}>
+                        title="handleBuddysStudents"
+                        onPress={handleBuddysStudents}>
                         <Text style={styles.textButton}>
                             {languageTranslate(
                                 registrationData.language,
-                                'Info',
+                                'Buddys Students',
                                 'Информация')}
                         </Text>
                     </TouchableOpacity>

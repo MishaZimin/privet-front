@@ -33,34 +33,47 @@ const EmailScreen = ({ navigation }) => {
 
             console.log("Response:", response.detail);
 
-            // let isCorrectToken = (response.detail == "Token is incorrect") ? false : true;
-            let isCorrectToken = true;
+            let isCorrectToken = (response.detail == "Token is incorrect") ? false : true;
+
 
             console.log("isCorrectToken:", isCorrectToken);
 
             if (isCorrectToken) {
                 console.log('код верный');
 
-                const data1 = {
-                    'grant_type': "",
-                    'username': registrationData.email,
-                    'password': registrationData.password,
-                    'scope': "",
-                    'client_id': "",
-                    'client_secret': "",
-                };
-
-                console.log("data1: ", data1);
-
-                // Выполнение первого запроса
-                const response1 = await sendDataToServer(data1, "/login", "/x-www-form-urlencoded");
-                console.log('Response from server 1:', response1);
-
-                if (registrationData.user === 1) {
-                    registrationData.isNewPassword ? navigation.navigate('SetNewPasswordScreen') : navigation.navigate('LoadingSettingISScreen');
+                if (registrationData.isNewPassword) {
+                    console.log('jfksldjfsklj');
+                    navigation.navigate('SetNewPasswordScreen')
                 }
-                if (registrationData.user === 2) {
-                    registrationData.isNewPassword ? navigation.navigate('SetNewPasswordScreen') : navigation.navigate('LoadingSettingBuddyScreen');
+                else {
+
+
+                    const data1 = {
+                        'grant_type': "",
+                        'username': registrationData.email,
+                        'password': registrationData.password,
+                        'scope': "",
+                        'client_id': "",
+                        'client_secret': "",
+                    };
+
+                    console.log("data1: ", data1);
+
+                    // Выполнение первого запроса
+                    const response1 = await sendDataToServer(data1, "/login", "/x-www-form-urlencoded");
+                    console.log('Response from server 1:', response1);
+
+                    // switch (registrationData.user) {
+                    //     case 1: registrationData.isNewPassword ? navigation.navigate('SetNewPasswordScreen') : navigation.navigate('LoadingSettingISScreen');
+                    //     case 2: registrationData.isNewPassword ? navigation.navigate('SetNewPasswordScreen') : navigation.navigate('LoadingSettingBuddyScreen');
+                    // }
+
+                    if (registrationData.user === 1) {
+                        registrationData.isNewPassword ? navigation.navigate('SetNewPasswordScreen') : navigation.navigate('LoadingSettingISScreen');
+                    }
+                    if (registrationData.user === 2) {
+                        registrationData.isNewPassword ? navigation.navigate('SetNewPasswordScreen') : navigation.navigate('LoadingSettingBuddyScreen');
+                    }
                 }
             } else {
                 console.log('код неверный');

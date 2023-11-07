@@ -17,11 +17,11 @@ const SettingScreen = ({ navigation }) => {
     const [university, setName] = useState('');
 
     const handleLogOut = () => {
-        if (registrationData.user == 'IS') {
+        if (registrationData.user == 1) {
             navigation.navigate('RegistrationISScreen');
         }
         else {
-            navigation.navigate('RegistrationBuddyScreen');
+            navigation.navigate('RegistrationISScreen');
 
         }
     };

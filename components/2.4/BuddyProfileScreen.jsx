@@ -12,25 +12,28 @@ import {
     sendJSONToServer,
     userData,
 } from '../Utils.jsx';
+
 import { styles } from '../main.jsx';
 
-const StudentProfileScreen = ({ navigation }) => {
-    const [fullName, setFullName] = useState(userData.fullName);
-    const [citizenship, setCitizenship] = useState(userData.citizenship);
-    const [sex, setSex] = useState(userData.sex);
-    const [birthDate, setBirthDate] = useState(userData.birdthDate);
+const BuddyProfileScreen = ({ navigation }) => {
+    const [city, setCity] = useState();
 
-    const [phone, setPhone] = useState(userData.phone);
+    const [fullName, setFullName] = useState();
+
+    const [sex, setSex] = useState();
+    const [birthDate, setBirthDate] = useState();
+
+    const [phone, setPhone] = useState();
     const [email, setEmail] = useState(userData.email);
-    const [telegram, setTelegram] = useState(userData.telegram);
-    const [whatsApp, setWhatsApp] = useState(userData.whatsApp);
-    const [vk, setVk] = useState(userData.vk);
+    const [telegram, setTelegram] = useState();
+    const [whatsApp, setWhatsApp] = useState();
+    const [vk, setVk] = useState();
 
-    const [nativeLanguage, setNativeLanguage] = useState(userData.nativeLanguage);
-    const [otherLanguage, setOtherLanguage] = useState(userData.otherLanguage);
-    const [university, setUniversity] = useState(userData.university);
-    const [escortIsPaid, setEscortIsPaid] = useState(userData.escortIsPaid);
-    const [profileType, setProfileType] = (userData.user == 1) ? useState("Student") : useState("Buddy");;
+    const [nativeLanguage, setNativeLanguage] = useState();
+    const [otherLanguage, setOtherLanguage] = useState();
+    const [university, setUniversity] = useState();
+    const [profileType, setProfileType] = (userData.user == 1) ? useState("Sudent") : useState("Buddy");
+    const [buddyStatus, setBuddyStatus] = useState();
 
     const handleNotifications = () => {
         console.log('уведомления');
@@ -40,12 +43,11 @@ const StudentProfileScreen = ({ navigation }) => {
     };
     const handleSave = () => {
         userData.fullName = fullName;
-        userData.citizenship = citizenship;
         userData.sex = sex;
         userData.birdthDate = birthDate;
 
         userData.phone = phone;
-        userData.email = email;
+        // userData.email = email;
         userData.telegram = telegram;
         userData.whatsApp = whatsApp;
         userData.vk = vk;
@@ -53,8 +55,8 @@ const StudentProfileScreen = ({ navigation }) => {
         userData.nativeLanguage = nativeLanguage;
         userData.otherLanguage = otherLanguage;
         userData.university = university;
-        userData.escortIsPaid = escortIsPaid;
-        userData.profileType = profileType;
+        // userData.profileType = profileType;
+
         console.log(userData.profileType);
 
         console.log(userData);
@@ -68,9 +70,10 @@ const StudentProfileScreen = ({ navigation }) => {
     return (
         <ScrollView style={styles.main}>
             <View style={styles.form}>
-                <Text style={styles.textHeader}>2.3.1 Student Profile</Text>
+                <Text style={styles.textHeader}>2.4.1 Buddy Profile</Text>
 
                 <View style={styles.buttons}>
+
                     <TouchableOpacity
                         style={styles.button}
                         onPress={handleSettings}>
@@ -95,17 +98,10 @@ const StudentProfileScreen = ({ navigation }) => {
 
                 <View style={styles.textInputs}>
 
-                    <TextInput
-                        style={styles.textInput}
-                        placeholder="Full Name"
-                        value={fullName}
-                        onChangeText={text => setFullName(text)}
-                    />
-
                     <RNPickerSelect
                         placeholder={{
-                            label: 'Citizenship',
-                            value: 'Citizenship',
+                            label: 'University',
+                            value: 'University',
                         }}
                         style={{
                             inputIOS: {
@@ -127,14 +123,31 @@ const StudentProfileScreen = ({ navigation }) => {
                                 borderColor: 'grey',
                             },
                         }}
-                        value={citizenship}
-                        onValueChange={(value) => setCitizenship(value)}
+                        value={university}
+
+                        onValueChange={(value) => setUniversity(value)}
                         items={[
-                            { label: 'Contry1', value: 'Contry1' },
-                            { label: 'Contry2', value: 'Contry2' },
-                            { label: 'Contry3', value: 'Contry3' },
+                            { label: 'Urfu1', value: 'Urfu1' },
+                            { label: 'Urfu2', value: 'Urfu2' },
+                            { label: 'Urfu3', value: 'Urfu3' },
                         ]}
                     />
+
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder="City"
+                        value={city}
+                        onChangeText={text => setCity(text)}
+                    />
+
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder="Full Name"
+                        value={fullName}
+                        onChangeText={text => setFullName(text)}
+                    />
+
+
                     <RNPickerSelect
                         placeholder={{
                             label: 'Sex',
@@ -217,46 +230,7 @@ const StudentProfileScreen = ({ navigation }) => {
                         value={otherLanguage}
                         onChangeText={text => setOtherLanguage(text)}
                     />
-                    <RNPickerSelect
-                        placeholder={{
-                            label: 'University',
-                            value: 'University',
-                        }}
-                        style={{
-                            inputIOS: {
-                                width: '100%',
-                                padding: '5%',
-                                marginTop: '10%',
 
-                                borderWidth: 1,
-                                borderRadius: 40,
-                                borderColor: 'grey',
-                            },
-                            inputAndroid: {
-                                width: '100%',
-                                padding: '5%',
-                                marginTop: '10%',
-
-                                borderWidth: 1,
-                                borderRadius: 40,
-                                borderColor: 'grey',
-                            },
-                        }}
-                        value={university}
-
-                        onValueChange={(value) => setUniversity(value)}
-                        items={[
-                            { label: 'Urfu1', value: 'Urfu1' },
-                            { label: 'Urfu2', value: 'Urfu2' },
-                            { label: 'Urfu3', value: 'Urfu3' },
-                        ]}
-                    />
-                    <TextInput
-                        style={styles.textInput}
-                        placeholder="Escort Is Paid"
-                        value={escortIsPaid}
-                        onChangeText={text => setEscortIsPaid(text)}
-                    />
                     <TextInput
                         style={styles.textInput}
                         placeholder={String(registrationData.user)}
@@ -264,6 +238,15 @@ const StudentProfileScreen = ({ navigation }) => {
                         editable={false}
 
                         onChangeText={text => setProfileType(text)}
+                    />
+
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder={"Buddy Status"}
+                        value={buddyStatus}
+                        editable={false}
+
+                        onChangeText={text => setBuddyStatus(text)}
                     />
                 </View>
 
@@ -284,4 +267,4 @@ const StudentProfileScreen = ({ navigation }) => {
     );
 };
 
-export default StudentProfileScreen;
+export default BuddyProfileScreen;

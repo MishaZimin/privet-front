@@ -40,7 +40,7 @@ const RegistrationBuddySreen = ({ navigation }) => {
     userData.otherLanguage = '';
     userData.university = '';
     userData.escortIsPaid = '';
-    userData.profileType = '';
+    userData.user = '';
 
     correctPassword = (
         password.length > 0
@@ -59,9 +59,9 @@ const RegistrationBuddySreen = ({ navigation }) => {
                 registrationData.user = 2;
                 registrationData.isNewPassword = false;
 
-                userData.university = university;
-                userData.email = email;
-                userData.user = 2;
+                // userData.university = university;
+                // userData.email = email;
+                // userData.user = 2;
 
 
                 try {

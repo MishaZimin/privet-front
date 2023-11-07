@@ -38,7 +38,7 @@ const RegistrationISScreen = ({ navigation }) => {
     userData.otherLanguage = '';
     userData.university = '';
     userData.escortIsPaid = '';
-    userData.profileType = '';
+    userData.profileType = 1;
 
     correctEmail = email.split('@').length === 2 ? true : false;
     correctPassword = (
@@ -66,9 +66,9 @@ const RegistrationISScreen = ({ navigation }) => {
                 registrationData.user = 1;
                 registrationData.isNewPassword = false;
 
-                userData.university = university;
-                userData.email = email;
-                userData.user = 1;
+                // userData.university = university;
+                // userData.email = email;
+                // userData.user = 1;
 
                 // //send registrationData on backend
                 // sendJSONToServer(registrationData);
@@ -89,12 +89,12 @@ const RegistrationISScreen = ({ navigation }) => {
                     };
                     let token = await sendDataToServer(emailData, "/send-verification-token/" + email, "/json");
 
-                    console.log('token', token);
+                    console.log('status token:', token);
 
                     const randomCode = Math.floor(1000 + Math.random() * 9000);
                     registrationData.randomCode = randomCode;
 
-                    console.log(registrationData);
+                    console.log("registration data:", registrationData);
                     navigation.navigate('EmailScreen');
                 }
                 catch (e) {
