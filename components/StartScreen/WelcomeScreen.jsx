@@ -8,6 +8,7 @@ import {
     languageTranslate,
     getJSONFromServer,
     sendJSONToServer,
+    userData,
 } from '../Utils.jsx';
 
 
@@ -34,7 +35,7 @@ const WelcomeScreen = ({ navigation }) => {
 
                     <Text style={styles.textButton}>
                         {languageTranslate(
-                            registrationData.language,
+                            userData.language,
                             'Sign Up',
                             'Зарегистрироваться')}
                     </Text>

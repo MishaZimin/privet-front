@@ -8,10 +8,13 @@ import {
     registrationData,
     languageTranslate,
     getJSONFromServer,
-    sendJSONToServer
+    sendJSONToServer,
+    userData,
 } from '../Utils.jsx';
 
 const LoadingSettingISScreen = ({ navigation }) => {
+
+
     const handleLoading = () => {
         navigation.navigate('StudentsScreen');
     };

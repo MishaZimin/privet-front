@@ -25,11 +25,18 @@ const LogInForm = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    correctPassword = (password.length > 0) ? true : false;
+    correctPassword = (password.length >= 8) ? true : false;
     correctEmail = email.includes('@') ? true : false;
 
     const handleLogIn = async () => {
-        if (correctPassword && correctEmail) {
+
+        if (!correctEmail) {
+            Alert.alert('некорректная почта');
+        }
+        else if (!correctPassword) {
+            Alert.alert('некорректный пароль');
+        }
+        else if (correctPassword && correctEmail) {
             LogInData.email = email;
             LogInData.password = password;
 
@@ -46,22 +53,28 @@ const LogInForm = ({ navigation }) => {
                 };
 
                 const response1 = await sendDataToServer(data1, "/login", "/x-www-form-urlencoded");
-                console.log('Response from server 1:', response1.access_token);
 
-                if (response1.detail) {
-                    Alert.alert('ошибка где-то');
-                } else if (response1.access_token) {
+                if (response1.detail == "Password is incorrect") {
+                    Alert.alert('ошибка в пароле');
+                }
+                else if (response1.detail == "This user does not exist") {
+                    Alert.alert('ошибка в почте');
+                }
+                else if (response1.access_token) {
                     await AsyncStorage.setItem('access_token', response1.access_token);
 
                     const dataUserBD = await getTokenToServer(response1.access_token, "/auth/me", "/json");
-                    console.log("dataUserBD:", dataUserBD);
 
                     userData.access_token = response1.access_token;
                     userData.user = dataUserBD.role_id;
                     userData.email = dataUserBD.email;
                     userData.id = dataUserBD.id;
 
-                    console.log("userData:", userData);
+                    console.log("--userData--");
+
+                    for (var key in userData) {
+                        console.log(key + ': ' + userData[key]);
+                    }
 
                     // Mikhail.zimin.2004@bk.ru
                     // 11111111
@@ -94,7 +107,7 @@ const LogInForm = ({ navigation }) => {
         <ScrollView style={styles.main}>
             <View style={styles.form}>
                 <Text style={styles.textHeader}>
-                    {languageTranslate(registrationData.language, 'Log In', 'Вход')}
+                    {languageTranslate(userData.language, 'Log In', 'Вход')}
                 </Text>
                 <View style={styles.textInputs}>
                     <TextInput
@@ -119,7 +132,7 @@ const LogInForm = ({ navigation }) => {
                         title="Вход"
                         onPress={handleLogIn}>
                         <Text style={styles.textButton}>
-                            {languageTranslate(registrationData.language, 'Log In', 'Вход')}
+                            {languageTranslate(userData.language, 'Log In', 'Вход')}
 
                         </Text>
                     </TouchableOpacity>
@@ -128,7 +141,7 @@ const LogInForm = ({ navigation }) => {
                         title="Забыли пароль?"
                         onPress={handleForgotPassword}>
                         <Text style={styles.textButton}>
-                            {languageTranslate(registrationData.language, 'Forgot your password?', 'Забыли пароль?')}
+                            {languageTranslate(userData.language, 'Forgot your password?', 'Забыли пароль?')}
 
                         </Text>
                     </TouchableOpacity>

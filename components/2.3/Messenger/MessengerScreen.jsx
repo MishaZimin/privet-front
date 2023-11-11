@@ -1,3 +1,5 @@
+//2.2.3. Регистрация Сопровождающего
+
 
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
@@ -7,12 +9,11 @@ import {
     registrationData,
     languageTranslate,
     getJSONFromServer,
-    sendJSONToServer,
-    userData,
-} from '../Utils.jsx';
-import { styles } from '../main.jsx';
+    sendJSONToServer
+} from '../../Utils.jsx';
+import { styles } from '../../main.jsx';
 
-const AllArrivalsScreen = ({ navigation }) => {
+const MessengerScreen = ({ navigation }) => {
     const [university, setName] = useState('');
 
     const handleRegistration = () => {
@@ -22,12 +23,11 @@ const AllArrivalsScreen = ({ navigation }) => {
         <ScrollView style={styles.main}>
             <View style={styles.form}>
                 <View style={styles.textBlock}>
-                    <Text style={styles.textHeader}>AllArrivalsScreen</Text>
-
+                    <Text style={styles.textHeader}>MessengerScreen</Text>
                 </View>
             </View>
         </ScrollView>
     );
 };
 
-export default AllArrivalsScreen;
+export default MessengerScreen;

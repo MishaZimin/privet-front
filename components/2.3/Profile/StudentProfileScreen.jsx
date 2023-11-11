@@ -4,20 +4,20 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
-import RNPickerSelect from 'react-native-picker-select';
+// import RNPickerSelect from 'react-native-picker-select';
 import {
     registrationData,
     languageTranslate,
     getJSONFromServer,
     sendJSONToServer,
     userData,
-} from '../Utils.jsx';
+} from '../../Utils.jsx';
+import { styles } from '../../main.jsx';
 
-import { styles } from '../main.jsx';
-
-const BuddyProfileScreen = ({ navigation }) => {
-    const [city, setCity] = useState(userData.city);
+const StudentProfileScreen = ({ navigation }) => {
+    // userData.escortIsPaid = false;
     const [fullName, setFullName] = useState(userData.fullName);
+    const [citizenship, setCitizenship] = useState(userData.citizenship);
     const [sex, setSex] = useState(userData.sex);
     const [birthDate, setBirthDate] = useState(userData.birthDate);
 
@@ -30,8 +30,8 @@ const BuddyProfileScreen = ({ navigation }) => {
     const [nativeLanguage, setNativeLanguage] = useState(userData.nativeLanguage);
     const [otherLanguage, setOtherLanguage] = useState(userData.otherLanguage);
     const [university, setUniversity] = useState(userData.university);
-    const [profileType, setProfileType] = (userData.user == 1) ? useState("Sudent") : useState("Buddy");
-    const [buddyStatus, setBuddyStatus] = useState(userData.buddyStatus);
+    const [escortIsPaid, setEscortIsPaid] = (userData.escortIsPaid) ? useState("Yes") : useState("No");
+    const [profileType, setProfileType] = (userData.user == 1) ? useState("Student") : useState("Buddy");
 
     const handleNotifications = () => {
         console.log('уведомления');
@@ -41,9 +41,10 @@ const BuddyProfileScreen = ({ navigation }) => {
     };
     const handleSave = () => {
         userData.fullName = fullName;
+        userData.citizenship = citizenship;
         userData.sex = sex;
         userData.birthDate = birthDate;
-        userData.city = city;
+
         userData.phone = phone;
         userData.email = email;
         userData.telegram = telegram;
@@ -53,6 +54,7 @@ const BuddyProfileScreen = ({ navigation }) => {
         userData.nativeLanguage = nativeLanguage;
         userData.otherLanguage = otherLanguage;
         userData.university = university;
+        userData.escortIsPaid = escortIsPaid;
 
         console.log("--userData--");
 
@@ -66,7 +68,7 @@ const BuddyProfileScreen = ({ navigation }) => {
     return (
         <ScrollView style={styles.main}>
             <View style={styles.form}>
-                <Text style={styles.textHeader}>2.4.1 Buddy Profile</Text>
+                <Text style={styles.textHeader}>2.3.1 Student Profile</Text>
 
                 <View style={styles.buttons}>
                     <TouchableOpacity
@@ -93,10 +95,31 @@ const BuddyProfileScreen = ({ navigation }) => {
 
                 <View style={styles.textInputs}>
 
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder="Full Name"
+                        value={fullName}
+                        onChangeText={text => setFullName(text)}
+                    />
+
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder="Citizenship"
+                        value={citizenship}
+                        onChangeText={text => setCitizenship(text)}
+                    />
+
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder="Sex"
+                        value={sex}
+                        onChangeText={text => setSex(text)}
+                    />
+
                     {/* <RNPickerSelect
                         placeholder={{
-                            label: 'University',
-                            value: 'University',
+                            label: 'Citizenship',
+                            value: 'Citizenship',
                         }}
                         style={{
                             inputIOS: {
@@ -118,37 +141,15 @@ const BuddyProfileScreen = ({ navigation }) => {
                                 borderColor: 'grey',
                             },
                         }}
-                        value={university}
-
-                        onValueChange={(value) => setUniversity(value)}
+                        value={citizenship}
+                        onValueChange={(value) => setCitizenship(value)}
                         items={[
-                            { label: 'Urfu1', value: 'Urfu1' },
-                            { label: 'Urfu2', value: 'Urfu2' },
-                            { label: 'Urfu3', value: 'Urfu3' },
+                            { label: 'Contry1', value: 'Contry1' },
+                            { label: 'Contry2', value: 'Contry2' },
+                            { label: 'Contry3', value: 'Contry3' },
                         ]}
-                    /> */}
-                    <TextInput
-                        style={styles.textInput}
-                        placeholder="University"
-                        value={university}
-                        onChangeText={text => setUniversity(text)}
                     />
-                    <TextInput
-                        style={styles.textInput}
-                        placeholder="City"
-                        value={city}
-                        onChangeText={text => setCity(text)}
-                    />
-
-                    <TextInput
-                        style={styles.textInput}
-                        placeholder="Full Name"
-                        value={fullName}
-                        onChangeText={text => setFullName(text)}
-                    />
-
-
-                    {/* <RNPickerSelect
+                    <RNPickerSelect
                         placeholder={{
                             label: 'Sex',
                             value: 'Sex',
@@ -230,7 +231,54 @@ const BuddyProfileScreen = ({ navigation }) => {
                         value={otherLanguage}
                         onChangeText={text => setOtherLanguage(text)}
                     />
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder="University"
+                        value={university}
+                        onChangeText={text => setUniversity(text)}
+                    />
+                    {/* <RNPickerSelect
+                        placeholder={{
+                            label: 'University',
+                            value: 'University',
+                        }}
+                        style={{
+                            inputIOS: {
+                                width: '100%',
+                                padding: '5%',
+                                marginTop: '10%',
 
+                                borderWidth: 1,
+                                borderRadius: 40,
+                                borderColor: 'grey',
+                            },
+                            inputAndroid: {
+                                width: '100%',
+                                padding: '5%',
+                                marginTop: '10%',
+
+                                borderWidth: 1,
+                                borderRadius: 40,
+                                borderColor: 'grey',
+                            },
+                        }}
+                        value={university}
+
+                        onValueChange={(value) => setUniversity(value)}
+                        items={[
+                            { label: 'Urfu1', value: 'Urfu1' },
+                            { label: 'Urfu2', value: 'Urfu2' },
+                            { label: 'Urfu3', value: 'Urfu3' },
+                        ]}
+                    /> */}
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder="Escort Is Paid"
+                        value={escortIsPaid}
+                        editable={false}
+
+                        onChangeText={text => setEscortIsPaid(text)}
+                    />
                     <TextInput
                         style={styles.textInput}
                         placeholder={String(userData.user)}
@@ -238,15 +286,6 @@ const BuddyProfileScreen = ({ navigation }) => {
                         editable={false}
 
                         onChangeText={text => setProfileType(text)}
-                    />
-
-                    <TextInput
-                        style={styles.textInput}
-                        placeholder={"Buddy Status"}
-                        value={buddyStatus}
-                        editable={false}
-
-                        onChangeText={text => setBuddyStatus(text)}
                     />
                 </View>
 
@@ -267,4 +306,4 @@ const BuddyProfileScreen = ({ navigation }) => {
     );
 };
 
-export default BuddyProfileScreen;
+export default StudentProfileScreen;

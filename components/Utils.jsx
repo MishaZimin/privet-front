@@ -1,16 +1,84 @@
 // import { registerRootComponent } from 'expo';
-export var registrationData = {
-    user: '',
-    language: 'en',
-    university: '',
-    email: '',
-    password: '',
-    passwordConfirm: '',
-    randomCode: '',
-    isNewPassword: false,
-};
+
 
 export var userData = {
+    language: 'en',
+    access_token: '',
+    id: '',
+    photo: '',
+    fullName: '',
+    citizenship: '',
+    city: '',
+    sex: '',
+    birthDate: '',
+    phone: '',
+    email: '',
+    telegram: '',
+    whatsApp: '',
+    vk: '',
+    nativeLanguage: '',
+    otherLanguage: '',
+    university: '',
+    escortIsPaid: false,
+    user: '',
+    buddyStatus: 'No',
+
+    lastBuddy: '',
+    institute: '',
+    studyProgram: '',
+    lastArrivalDate: '',
+    lastVisaExpiration: '',
+    accommodation: '',
+    buddysComment: '',
+};
+
+export var arrivalBookData = {
+    id: '',
+    arrivalDate: '',
+    flightNumber: '',
+    arrivalPoint: '',
+    comment: '',
+    tickets: '',
+
+    fullName: '',
+    sex: '',
+    arrivalTime: '',
+    citizenship: '',
+    phone: '',
+    telegram: '',
+    whatsApp: '',
+    vk: '',
+}
+
+export var StudentData = {
+    language: 'en',
+    access_token: '',
+    id: '',
+
+    photo: '',
+    university: '',
+    city: '',
+    fullName: '',
+    birdthDate: '',
+    phone: '',
+    email: '',
+    telegram: '',
+    whatsApp: '',
+    vk: '',
+    nativeLanguage: '',
+    otherLanguage: '',
+    user: '',
+
+    institute: '',
+    studyProgram: '',
+    lastArrivalExpiration: '',
+    lastVisaExpiration: '',
+    accommodation: '',
+    buddysComment: '',
+}
+
+export var BuddyData = {
+    language: 'en',
     access_token: '',
     id: '',
     photo: '',
@@ -27,9 +95,10 @@ export var userData = {
     otherLanguage: '',
     university: '',
     escortIsPaid: '',
-    profileType: '',
     user: '',
-};
+    buddyStatus: '',
+}
+
 
 export var LogInData = {
     user: '',
@@ -38,8 +107,18 @@ export var LogInData = {
     password: '',
 }
 
-export var initialTasks = [
-    { id: 1, text: 'Встреча в аэропорту', completed: false },
+export var registrationData = {
+    user: '',
+    language: 'en',
+    university: '',
+    email: '',
+    password: '',
+    passwordConfirm: '',
+    isNewPassword: false,
+};
+
+export var initialTasksData = [
+    { id: 1, text: 'Встреча в аэропорту', completed: false, deadline: '\nDeadline: 11.11.2023 4:30 pm' },
     { id: 2, text: 'Оплата и заселение в хостел', completed: false },
     { id: 3, text: 'Прохождение медосмотра', completed: false },
     { id: 4, text: 'Оформление сим-карты', completed: false },
@@ -50,9 +129,9 @@ export var initialTasks = [
     { id: 9, text: 'Оформление страховки', completed: false },
     { id: 10, text: 'Оформление документов на общежитие', completed: false },
     { id: 11, text: 'Оформление пропуска / студенческого билета', completed: false },
-    { id: 12, text: 'Прохождение медосвидетельствования', completed: false },
-    { id: 13, text: 'Продление визы', completed: false },
-    { id: 14, text: 'Прохождение дактилоскопии', completed: false }
+    { id: 12, text: 'Прохождение медосвидетельствования', completed: false, deadline: '\nDeadline: 11.11.2023 4:30 pm' },
+    { id: 13, text: 'Продление визы', completed: false, deadline: '\nDeadline: 11.11.2023 4:30 pm' },
+    { id: 14, text: 'Прохождение дактилоскопии', completed: false, deadline: '\nDeadline: 11.11.2023 4:30 pm' }
 ];
 
 export var initialInfo = [

@@ -8,10 +8,12 @@ import {
     registrationData,
     languageTranslate,
     getJSONFromServer,
-    sendJSONToServer
+    sendJSONToServer,
+    userData,
 } from '../Utils.jsx';
 
 const LoadingSettingBuddyScreen = ({ navigation }) => {
+
     const handleLoading = () => {
         navigation.navigate('BuddysScreen');
     };

@@ -5,7 +5,8 @@ import {
     registrationData,
     languageTranslate,
     getDataFromServer,
-    sendDataToServer
+    sendDataToServer,
+    userData,
 } from '../Utils.jsx';
 import { styles } from '../main.jsx';
 
@@ -40,14 +41,16 @@ const EmailScreen = ({ navigation }) => {
 
             if (isCorrectToken) {
                 console.log('код верный');
+                Alert.alert('код верный');
+
+                userData.email = registrationData.email;
+                userData.language = registrationData.language;
+                userData.user = registrationData.user;
 
                 if (registrationData.isNewPassword) {
-                    console.log('jfksldjfsklj');
                     navigation.navigate('SetNewPasswordScreen')
                 }
                 else {
-
-
                     const data1 = {
                         'grant_type': "",
                         'username': registrationData.email,
@@ -63,20 +66,23 @@ const EmailScreen = ({ navigation }) => {
                     const response1 = await sendDataToServer(data1, "/login", "/x-www-form-urlencoded");
                     console.log('Response from server 1:', response1);
 
-                    // switch (registrationData.user) {
-                    //     case 1: registrationData.isNewPassword ? navigation.navigate('SetNewPasswordScreen') : navigation.navigate('LoadingSettingISScreen');
-                    //     case 2: registrationData.isNewPassword ? navigation.navigate('SetNewPasswordScreen') : navigation.navigate('LoadingSettingBuddyScreen');
-                    // }
+                    await AsyncStorage.setItem('access_token', response1.access_token);
 
-                    if (registrationData.user === 1) {
-                        registrationData.isNewPassword ? navigation.navigate('SetNewPasswordScreen') : navigation.navigate('LoadingSettingISScreen');
+                    switch (registrationData.user) {
+                        case 1: navigation.navigate('LoadingSettingISScreen');
+                        case 2: navigation.navigate('LoadingSettingBuddyScreen');
                     }
-                    if (registrationData.user === 2) {
-                        registrationData.isNewPassword ? navigation.navigate('SetNewPasswordScreen') : navigation.navigate('LoadingSettingBuddyScreen');
-                    }
+
+                    // if (registrationData.user === 1) {
+                    //     navigation.navigate('LoadingSettingISScreen');
+                    // }
+                    // if (registrationData.user === 2) {
+                    //     navigation.navigate('LoadingSettingBuddyScreen');
+                    // }
                 }
             } else {
                 console.log('код неверный');
+                Alert.alert('код неверный');
             }
 
             console.log('user:', registrationData.user);
@@ -89,12 +95,12 @@ const EmailScreen = ({ navigation }) => {
 
     const handleNotEmailCode = () => {
         Alert.alert(languageTranslate(
-            registrationData.language,
+            userData.language,
             'Did not get the email?',
             'Не получили письмо?'), '', [
             {
                 text: languageTranslate(
-                    registrationData.language,
+                    userData.language,
                     'Send the code again',
                     'Отправить код еще раз'),
 
@@ -102,14 +108,14 @@ const EmailScreen = ({ navigation }) => {
             },
             {
                 text: languageTranslate(
-                    registrationData.language,
+                    userData.language,
                     'Contact support',
                     'Связаться с поддержкой'),
                 onPress: () => contactSupport(),
             },
             {
                 text: languageTranslate(
-                    registrationData.language,
+                    userData.language,
                     'Close',
                     'Закрыть'),
                 onPress: () => console.log('Закрыть Pressed'),
@@ -118,21 +124,12 @@ const EmailScreen = ({ navigation }) => {
         ]);
     }
 
-    const sendCodeAgain = () => {
-        //send "sendCodeAgain" on backend
-        //get randomCode from backend
-
-        const randomCode = Math.floor(1000 + Math.random() * 9000);
-        registrationData.randomCode = randomCode;
-
-        console.log(registrationData.randomCode)
+    const sendCodeAgain = async () => {
+        sendDataToServer(0, "/send-verification-token/" + registrationData.email, "/json");
     };
 
     const contactSupport = () => {
-        console.log('Связаться с поддержкой');
         navigation.navigate('SupportScreen');
-
-
     }
 
     return (
@@ -140,13 +137,13 @@ const EmailScreen = ({ navigation }) => {
             <View style={styles.form}>
                 <Text style={styles.text}>
                     {languageTranslate(
-                        registrationData.language,
+                        userData.language,
                         'We have sent a confirmation code to your email',
                         'Мы отправили код подтверждения на вашу электронную почту')}
                 </Text>
                 <Text style={styles.text}>
                     {languageTranslate(
-                        registrationData.language,
+                        userData.language,
                         'Enter the code in the field below:',
                         'Введите код в поле ниже:')}
                 </Text>
@@ -166,7 +163,7 @@ const EmailScreen = ({ navigation }) => {
                         onPress={handleEmailScreen}>
                         <Text style={styles.textButton}>
                             {languageTranslate(
-                                registrationData.language,
+                                userData.language,
                                 'Next',
                                 'Далее')}
                         </Text>
@@ -177,7 +174,7 @@ const EmailScreen = ({ navigation }) => {
                         onPress={handleNotEmailCode}>
                         <Text style={styles.textButton}>
                             {languageTranslate(
-                                registrationData.language,
+                                userData.language,
                                 'Did not get the email?',
                                 'Не получили письмо?')}
                         </Text>

@@ -12,22 +12,30 @@ import StudentsScreen from './components/2.3/StudentsScreen.jsx';
 import BuddysScreen from './components/2.4/BuddysScreen.jsx';
 import PasswordRecoveryScreen from './components/LogIn/PasswordRecoveryScreen.jsx';
 import SetNewPasswordScreen from './components/LogIn/SetNewPassword.jsx';
-import StudentProfileScreen from './components/2.3/StudentProfileScreen.jsx';
+import StudentProfileScreen from './components/2.3/Profile/StudentProfileScreen.jsx';
 
 import AllArrivalsScreen from './components/2.4/AllArrivalsScreen.jsx';
 import BuddysStudentsScreen from './components/2.4/BuddysStudentsScreen.jsx';
 
 import BuddyProfileScreen from './components/2.4/BuddyProfileScreen.jsx';
 
-import ToDoListScreen from './components/2.3/ToDoListScreen.jsx';
-import RouteScreen from './components/2.3/RouteScreen.jsx';
-import InfoScreen from './components/2.3/InfoScreen.jsx';
-import MessengerScreen from './components/2.3/MessengerScreen.jsx';
-import ChangeLanguageScreen from './components/2.3/ChangeLanguageScreen.jsx';
-import SettingScreen from './components/2.3/SettingScreen.jsx';
+import ToDoListScreen from './components/2.3/ToDoList/ToDoListScreen.jsx';
+import RouteScreen from './components/2.3/Route/RouteScreen.jsx';
+import InfoScreen from './components/2.3/Info/InfoScreen.jsx';
+import MessengerScreen from './components/2.3/Messenger/MessengerScreen.jsx';
+import ChangeLanguageScreen from './components/2.3/Profile/ChangeLanguageScreen.jsx';
+import SettingScreen from './components/2.3/Profile/SettingScreen.jsx';
 import LoadingSettingISScreen from './components/2.3/LoadingSettingISScreen.jsx';
 import LoadingSettingBuddyScreen from './components/2.4/LoadingSettingBuddyScreen.jsx';
 import SupportScreen from './components/Registration/SupportScreen.jsx';
+
+import BuddyProfileForIS from './components/2.4/BuddyProfileForIS.jsx'
+import StudentProfileForBuddy from './components/2.3/Profile/StudentProfileForBuddy.jsx'
+import PymentScreen from './components/2.3/ToDoList/PymentScreen.jsx';
+import ArrivalBookingScreen from './components/2.3/ToDoList/ArrivalBookingScreen.jsx';
+
+import ArrivalSubmitted from './components/2.3/ToDoList/ArrivalSubmitted.jsx';
+
 
 
 // import NotGetEmail from './components/Registration/EmailScreen/NotGetEmail.jsx';
@@ -70,6 +78,15 @@ function App() {
 
                 <Stack.Screen name="BuddysStudentsScreen" component={BuddysStudentsScreen} />
                 <Stack.Screen name="SupportScreen" component={SupportScreen} />
+
+
+                <Stack.Screen name="BuddyProfileForIS" component={BuddyProfileForIS} />
+                <Stack.Screen name="StudentProfileForBuddy" component={StudentProfileForBuddy} />
+                <Stack.Screen name="PymentScreen" component={PymentScreen} />
+                <Stack.Screen name="ArrivalBookingScreen" component={ArrivalBookingScreen} />
+
+                <Stack.Screen name="ArrivalSubmitted" component={ArrivalSubmitted} />
+
 
 
 

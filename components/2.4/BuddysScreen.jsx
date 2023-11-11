@@ -7,7 +7,8 @@ import {
     registrationData,
     languageTranslate,
     getJSONFromServer,
-    sendJSONToServer
+    sendJSONToServer,
+    userData,
 } from '../Utils.jsx';
 import { styles } from '../main.jsx';
 
@@ -36,6 +37,12 @@ const BuddysScreen = ({ navigation }) => {
         navigation.navigate('MessengerScreen');
 
     };
+    const handleProfileForIS = () => {
+        // navigation.navigate('RegistrationForm');
+        navigation.navigate('BuddyProfileForIS');
+
+    };
+
 
     return (
         <ScrollView style={styles.main}>
@@ -48,8 +55,8 @@ const BuddysScreen = ({ navigation }) => {
                         onPress={handleBuddyProfile}>
                         <Text style={styles.textButton}>
                             {languageTranslate(
-                                registrationData.language,
-                                'Student Profile',
+                                userData.language,
+                                'Buddy Profile',
                                 'Профиль')}
                         </Text>
                     </TouchableOpacity>
@@ -59,7 +66,7 @@ const BuddysScreen = ({ navigation }) => {
                         onPress={handleToDoList}>
                         <Text style={styles.textButton}>
                             {languageTranslate(
-                                registrationData.language,
+                                userData.language,
                                 'To Do List',
                                 'Список задач')}
                         </Text>
@@ -70,7 +77,7 @@ const BuddysScreen = ({ navigation }) => {
                         onPress={handleAllArrivals}>
                         <Text style={styles.textButton}>
                             {languageTranslate(
-                                registrationData.language,
+                                userData.language,
                                 'All Arrivals',
                                 'Все приезды')}
                         </Text>
@@ -81,9 +88,9 @@ const BuddysScreen = ({ navigation }) => {
                         onPress={handleBuddysStudents}>
                         <Text style={styles.textButton}>
                             {languageTranslate(
-                                registrationData.language,
+                                userData.language,
                                 'Buddys Students',
-                                'Информация')}
+                                'Студенты сопровождающего')}
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -92,11 +99,23 @@ const BuddysScreen = ({ navigation }) => {
                         onPress={handleMessenager}>
                         <Text style={styles.textButton}>
                             {languageTranslate(
-                                registrationData.language,
+                                userData.language,
                                 'Messenager',
                                 'Мессенджер')}
                         </Text>
                     </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.button}
+                        title="handleProfileForIS"
+                        onPress={handleProfileForIS}>
+                        <Text style={styles.textButton}>
+                            {languageTranslate(
+                                userData.language,
+                                'ProfileForIS',
+                                'Профиль сопр для студента')}
+                        </Text>
+                    </TouchableOpacity>
+
                 </View>
             </View>
         </ScrollView>

@@ -10,6 +10,7 @@ import {
     getJSONFromServer,
     sendDataToServer,
     getUserByEmailFromServer,
+    userData,
 } from '../Utils.jsx';
 import { styles } from '../main.jsx';
 
@@ -36,9 +37,6 @@ const PasswordRecoveryScreen = ({ navigation }) => {
                     console.log('нет такой почты')
                 }
                 else {
-
-                    const randomCode = Math.floor(1000 + Math.random() * 9000);
-                    registrationData.randomCode = randomCode;
 
                     //send registrationData on backend
                     //get userEmailInBD: true/false, user: IS/Buddy
@@ -74,7 +72,7 @@ const PasswordRecoveryScreen = ({ navigation }) => {
         <ScrollView style={styles.main}>
             <View style={styles.form}>
                 <Text style={styles.textHeader}>
-                    {languageTranslate(registrationData.language, 'Password recovery screen', 'Экран восстановления пароля')}
+                    {languageTranslate(userData.language, 'Password recovery screen', 'Экран восстановления пароля')}
                 </Text>
                 <View style={styles.textInputs}>
                     <TextInput

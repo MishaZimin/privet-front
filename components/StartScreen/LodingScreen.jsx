@@ -10,24 +10,35 @@ import {
     registrationData,
     languageTranslate,
     getJSONFromServer,
-    sendJSONToServer
+    sendJSONToServer,
+    userData,
+    getTokenToServer,
 } from '../Utils.jsx';
 
 const LoadingScreen = ({ navigation }) => {
-    const handleLoading = async () => {
+
+
+    setTimeout(async () => {
         try {
-            await AsyncStorage.setItem('access_token', '');
+            // await AsyncStorage.setItem('access_token', '');
             const accessToken = await AsyncStorage.getItem('access_token');
+
             if (accessToken !== null) {
-                console.log('Access token: ', accessToken)
+                console.log('Access token: ', accessToken);
+                const dataUserBD = await getTokenToServer(accessToken, "/auth/me", "/json");
 
-                let userType = 1;
+                userData.access_token = accessToken;
+                userData.user = dataUserBD.role_id;
+                userData.email = dataUserBD.email;
+                userData.id = dataUserBD.id;
+                console.log('userData: ', userData);
 
-                if (userType == 1) {
+
+                if (userData.user == 1) {
                     navigation.navigate('LoadingSettingISScreen');
 
                 }
-                else if (userType == 2) {
+                else if (userData.user == 2) {
                     navigation.navigate('LoadingSettingBuddyScreen');
                 }
                 else {
@@ -41,8 +52,7 @@ const LoadingScreen = ({ navigation }) => {
         } catch (error) {
             // Обработайте ошибку чтения
         }
-    };
-
+    }, 1000);
     // setTimeout(() => {
 
     //     navigation.navigate('LanguageSelectionScreen');
@@ -55,13 +65,13 @@ const LoadingScreen = ({ navigation }) => {
                 {/* <Image
                     style={styles.img}
                     source={require('./img/d29e31c59a395ddf644fea8cc04fb79b.jpg')} /> */}
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     style={styles.button}
                     title="loading..."
                     onPress={handleLoading}
                 >
                     <Text style={styles.textButton}>skip</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </View>
     );

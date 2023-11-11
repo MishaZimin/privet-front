@@ -11,6 +11,7 @@ import {
     getJSONFromServer,
     sendDataToServer,
     sendChangePasswordToServer,
+    userData,
 } from '../Utils.jsx';
 
 
@@ -67,7 +68,7 @@ const SetNewPasswordScreen = ({ navigation }) => {
             <View style={styles.form}>
                 <Text style={styles.textHeader}>
                     {languageTranslate(
-                        registrationData.language,
+                        userData.language,
                         'Setting a new password',
                         'Установка нового пароля')}
                 </Text>
@@ -96,7 +97,7 @@ const SetNewPasswordScreen = ({ navigation }) => {
                     onPress={handleSetNewPassword}>
                     <Text style={styles.textButton}>
                         {languageTranslate(
-                            registrationData.language,
+                            userData.language,
                             'Ready',
                             'Готово')}
                     </Text>

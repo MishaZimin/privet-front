@@ -15,7 +15,7 @@ import {
 
 import { styles } from '../main.jsx';
 
-const BuddyProfileScreen = ({ navigation }) => {
+const BuddyProfileForIS = ({ navigation }) => {
     const [city, setCity] = useState(userData.city);
     const [fullName, setFullName] = useState(userData.fullName);
     const [sex, setSex] = useState(userData.sex);
@@ -42,8 +42,8 @@ const BuddyProfileScreen = ({ navigation }) => {
     const handleSave = () => {
         userData.fullName = fullName;
         userData.sex = sex;
-        userData.birthDate = birthDate;
-        userData.city = city;
+        userData.birdthDate = birthDate;
+
         userData.phone = phone;
         userData.email = email;
         userData.telegram = telegram;
@@ -61,35 +61,15 @@ const BuddyProfileScreen = ({ navigation }) => {
         }
 
         // запрос с userData на бэк
+
     };
 
     return (
         <ScrollView style={styles.main}>
             <View style={styles.form}>
-                <Text style={styles.textHeader}>2.4.1 Buddy Profile</Text>
+                <Text style={styles.textHeader}>Buddy Profile For Student</Text>
 
-                <View style={styles.buttons}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={handleSettings}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(
-                                userData.language,
-                                'Settings',
-                                'Настройки')}
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={handleNotifications}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(
-                                userData.language,
-                                'Notifications',
-                                'Уведомдления')}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+
 
                 <View style={styles.textInputs}>
 
@@ -127,16 +107,22 @@ const BuddyProfileScreen = ({ navigation }) => {
                             { label: 'Urfu3', value: 'Urfu3' },
                         ]}
                     /> */}
+
                     <TextInput
                         style={styles.textInput}
                         placeholder="University"
                         value={university}
+                        editable={false}
+
                         onChangeText={text => setUniversity(text)}
                     />
+
                     <TextInput
                         style={styles.textInput}
                         placeholder="City"
                         value={city}
+                        editable={false}
+
                         onChangeText={text => setCity(text)}
                     />
 
@@ -144,6 +130,8 @@ const BuddyProfileScreen = ({ navigation }) => {
                         style={styles.textInput}
                         placeholder="Full Name"
                         value={fullName}
+                        editable={false}
+
                         onChangeText={text => setFullName(text)}
                     />
 
@@ -184,12 +172,16 @@ const BuddyProfileScreen = ({ navigation }) => {
                         style={styles.textInput}
                         placeholder="Birth Date"
                         value={birthDate}
+                        editable={false}
+
                         onChangeText={text => setBirthDate(text)}
                     />
                     <TextInput
                         style={styles.textInput}
                         placeholder="Phone"
                         value={phone}
+                        editable={false}
+
                         onChangeText={text => setPhone(text)}
                     />
                     <TextInput
@@ -204,30 +196,40 @@ const BuddyProfileScreen = ({ navigation }) => {
                         style={styles.textInput}
                         placeholder="Telegram"
                         value={telegram}
+                        editable={false}
+
                         onChangeText={text => setTelegram(text)}
                     />
                     <TextInput
                         style={styles.textInput}
                         placeholder="WhatsApp"
                         value={whatsApp}
+                        editable={false}
+
                         onChangeText={text => setWhatsApp(text)}
                     />
                     <TextInput
                         style={styles.textInput}
                         placeholder="VK"
                         value={vk}
+                        editable={false}
+
                         onChangeText={text => setVk(text)}
                     />
                     <TextInput
                         style={styles.textInput}
                         placeholder="Native Language"
                         value={nativeLanguage}
+                        editable={false}
+
                         onChangeText={text => setNativeLanguage(text)}
                     />
                     <TextInput
                         style={styles.textInput}
                         placeholder="Other Language and Levels"
                         value={otherLanguage}
+                        editable={false}
+
                         onChangeText={text => setOtherLanguage(text)}
                     />
 
@@ -250,21 +252,10 @@ const BuddyProfileScreen = ({ navigation }) => {
                     />
                 </View>
 
-                <View style={styles.buttons}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={handleSave}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(
-                                userData.language,
-                                'Save',
-                                'Сохранить')}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+
             </View>
         </ScrollView>
     );
 };
 
-export default BuddyProfileScreen;
+export default BuddyProfileForIS;

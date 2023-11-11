@@ -18,7 +18,7 @@ let correctPassword = true;
 let correctEmail = true;
 
 const RegistrationISScreen = ({ navigation }) => {
-    const [university, setName] = useState('');
+    // const [university, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -26,7 +26,7 @@ const RegistrationISScreen = ({ navigation }) => {
     userData.fullName = '';
     userData.citizenship = '';
     userData.sex = '';
-    userData.birdthDate = '';
+    userData.birthDate = '';
 
     userData.phone = '';
     userData.email = '';
@@ -38,7 +38,6 @@ const RegistrationISScreen = ({ navigation }) => {
     userData.otherLanguage = '';
     userData.university = '';
     userData.escortIsPaid = '';
-    userData.profileType = 1;
 
     correctEmail = email.split('@').length === 2 ? true : false;
     correctPassword = (
@@ -57,21 +56,14 @@ const RegistrationISScreen = ({ navigation }) => {
         }
         else if (correctPassword && correctEmail) {
             if (password === passwordConfirm) {
-                console.log('----------IS-Data---------');
+                console.log('--------IS-Registration---------');
 
-                registrationData.university = university;
+                // registrationData.university = university;
                 registrationData.email = email;
                 registrationData.password = password;
                 registrationData.passwordConfirm = passwordConfirm;
                 registrationData.user = 1;
                 registrationData.isNewPassword = false;
-
-                // userData.university = university;
-                // userData.email = email;
-                // userData.user = 1;
-
-                // //send registrationData on backend
-                // sendJSONToServer(registrationData);
 
                 try {
                     const data = {
@@ -81,20 +73,13 @@ const RegistrationISScreen = ({ navigation }) => {
                     };
 
                     await sendDataToServer(data, "/register", "/json");
-                    // //get userInBD from backend
-                    // var data = getJSONFromServer();
+                    await sendDataToServer(0, "/send-verification-token/" + email, "/json");
 
-                    const emailData = {
-                        "email": email,
-                    };
-                    let token = await sendDataToServer(emailData, "/send-verification-token/" + email, "/json");
+                    console.log("--registration data--");
+                    for (var key in registrationData) {
+                        console.log(key + ': ' + registrationData[key]);
+                    }
 
-                    console.log('status token:', token);
-
-                    const randomCode = Math.floor(1000 + Math.random() * 9000);
-                    registrationData.randomCode = randomCode;
-
-                    console.log("registration data:", registrationData);
                     navigation.navigate('EmailScreen');
                 }
                 catch (e) {
@@ -105,7 +90,6 @@ const RegistrationISScreen = ({ navigation }) => {
     };
 
     const handleLogIn = () => {
-        console.log('handleLogIn');
         navigation.navigate('LogInForm');
     };
 
@@ -118,12 +102,12 @@ const RegistrationISScreen = ({ navigation }) => {
             <View style={styles.form}>
                 <Text style={styles.textHeader}>
                     {languageTranslate(
-                        registrationData.language,
+                        userData.language,
                         'Sign Up',
                         'Регистрация ИС')}
                 </Text>
                 <View style={styles.textInputs}>
-                    <RNPickerSelect
+                    {/* <RNPickerSelect
                         placeholder={{
                             label: 'University',
                             value: 'University',
@@ -154,7 +138,7 @@ const RegistrationISScreen = ({ navigation }) => {
                             { label: 'Urfu2', value: 'Urfu2' },
                             { label: 'Urfu3', value: 'Urfu3' },
                         ]}
-                    />
+                    /> */}
                     <TextInput
                         style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
                         placeholder="Email"
@@ -183,7 +167,7 @@ const RegistrationISScreen = ({ navigation }) => {
                         onPress={handleRegistration}>
                         <Text style={styles.textButton}>
                             {languageTranslate(
-                                registrationData.language,
+                                userData.language,
                                 'Registration',
                                 'Зарегистрироваться')}
                         </Text>
@@ -194,7 +178,7 @@ const RegistrationISScreen = ({ navigation }) => {
                         onPress={handleBuddy}>
                         <Text style={styles.textButton}>
                             {languageTranslate(
-                                registrationData.language,
+                                userData.language,
                                 'I am a Buddy',
                                 'Я Сопровождающий')}
                         </Text>
@@ -205,7 +189,7 @@ const RegistrationISScreen = ({ navigation }) => {
                         onPress={handleLogIn}>
                         <Text style={styles.textButton}>
                             {languageTranslate(
-                                registrationData.language,
+                                userData.language,
                                 'Log In',
                                 'Войти')}
                         </Text>

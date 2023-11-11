@@ -8,17 +8,17 @@ import {
     getJSONFromServer,
     sendJSONToServer,
     userData,
-} from '../Utils.jsx';
-import { styles } from '../main.jsx';
+} from '../../Utils.jsx';
+import { styles } from '../../main.jsx';
 
 
-
-const LanguageSelectionScreen = ({ navigation }) => {
+const ChangeLanguageScreen = ({ navigation }) => {
     const [selectedLanguage, setSelectedLanguage] = useState(userData.language);
 
     const handleLanguageChange = (language) => {
         setSelectedLanguage(language);
-
+        console.log('--------------------');
+        console.log(language);
         userData.language = language;
 
     };
@@ -26,13 +26,20 @@ const LanguageSelectionScreen = ({ navigation }) => {
     const handleContinue = () => {
         console.log('selctor language:', userData.language);
 
-        navigation.navigate('WelcomeScreen');
+        //проверка на IS/Buddy
+        if (userData.user == 1) {
+            navigation.navigate('LoadingSettingISScreen');
+        }
+        else {
+            navigation.navigate('LoadingSettingBuddyScreen');
+
+        }
     };
 
     return (
         <View style={styles.main}>
             <View style={styles.form}>
-                <Text style={styles.textHeader}>Language Choice</Text>
+                <Text style={styles.textHeader}>Change Language Screen Settings</Text>
 
                 <View style={styles.buttons}>
                     <TouchableOpacity
@@ -84,4 +91,4 @@ export const languageStyles = StyleSheet.create({
 
 });
 
-export default LanguageSelectionScreen;
+export default ChangeLanguageScreen;

@@ -28,7 +28,7 @@ const RegistrationBuddySreen = ({ navigation }) => {
     userData.fullName = '';
     userData.citizenship = '';
     userData.sex = '';
-    userData.birdthDate = '';
+    userData.birthDate = '';
 
     userData.phone = '';
     userData.email = '';
@@ -59,11 +59,6 @@ const RegistrationBuddySreen = ({ navigation }) => {
                 registrationData.user = 2;
                 registrationData.isNewPassword = false;
 
-                // userData.university = university;
-                // userData.email = email;
-                // userData.user = 2;
-
-
                 try {
                     const data = {
                         "email": email,
@@ -75,17 +70,14 @@ const RegistrationBuddySreen = ({ navigation }) => {
                     // //get userInBD from backend
                     // var data = getJSONFromServer();
 
-                    const emailData = {
-                        "email": email,
-                    };
-                    let token = await sendDataToServer(emailData, "/send-verification-token/" + email, "/json");
+                    await sendDataToServer(0, "/send-verification-token/" + email, "/json");
 
-                    console.log('token', token);
+                    console.log("--registration data--");
 
-                    const randomCode = Math.floor(1000 + Math.random() * 9000);
-                    registrationData.randomCode = randomCode;
+                    for (var key in registrationData) {
+                        console.log(key + ': ' + registrationData[key]);
+                    }
 
-                    console.log(registrationData);
                     navigation.navigate('EmailScreen');
                 }
                 catch (e) {
@@ -103,7 +95,7 @@ const RegistrationBuddySreen = ({ navigation }) => {
             <View style={styles.form}>
                 <Text style={styles.textHeader}>
                     {languageTranslate(
-                        registrationData.language,
+                        userData.language,
                         'Registration Buddy',
                         'Регистрация Сопровождающего')}
                 </Text>
@@ -168,7 +160,7 @@ const RegistrationBuddySreen = ({ navigation }) => {
                         onPress={handleRegistration}>
                         <Text style={styles.textButton}>
                             {languageTranslate(
-                                registrationData.language,
+                                userData.language,
                                 'Registration',
                                 'Зарегистрироваться')}
                         </Text>

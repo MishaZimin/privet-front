@@ -8,7 +8,8 @@ import {
     registrationData,
     languageTranslate,
     getJSONFromServer,
-    sendJSONToServer
+    sendJSONToServer,
+    userData,
 } from '../Utils.jsx';
 
 
@@ -23,7 +24,7 @@ const SupportScreen = ({ navigation }) => {
                 <View style={styles.textBlock}>
                     <Text style={styles.textHeader}>
                         {languageTranslate(
-                            registrationData.language,
+                            userData.language,
                             'Support phone',
                             'Телефон поддержки')}
                     </Text>
@@ -39,7 +40,7 @@ const SupportScreen = ({ navigation }) => {
                     onPress={handleRegister}>
                     <Text style={styles.textButton}>
                         {languageTranslate(
-                            registrationData.language,
+                            userData.language,
                             'Back',
                             'Назад')}
                     </Text>

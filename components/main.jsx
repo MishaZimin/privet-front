@@ -9,9 +9,9 @@ export const styles = StyleSheet.create({
     form: {
         display: 'flex',
         flex: 1,
-        width: '85%',
-        margin: '7.5%',
-        padding: '10%',
+        width: '90%',
+        margin: '5%',
+        padding: '7%',
 
         alignItems: 'center',
 
@@ -34,6 +34,31 @@ export const styles = StyleSheet.create({
         borderRadius: 40,
 
         justifyContent: 'start',
+    },
+
+    toDoList: {
+        backgroundColor: 'rgba(225, 225, 225, 1)',
+        padding: '10%',
+
+        borderRadius: 30,
+    },
+
+    progress: {
+        marginTop: '10%',
+        paddingBottom: '10%',
+        fontSize: 20,
+    },
+
+    taskItem: {
+        padding: '5%',
+        marginTop: '5%',
+        backgroundColor: 'rgba(235, 235, 235, 1)',
+        padding: '10%',
+        borderRadius: 20,
+    },
+
+    deadline: {
+        color: 'red',
     },
 
     textHeader: {

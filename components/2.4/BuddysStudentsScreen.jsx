@@ -22,7 +22,6 @@ const BuddysStudentsScreen = ({ navigation }) => {
             <View style={styles.form}>
                 <View style={styles.textBlock}>
                     <Text style={styles.textHeader}>BuddysStudentsScreen</Text>
-
                 </View>
             </View>
         </ScrollView>
