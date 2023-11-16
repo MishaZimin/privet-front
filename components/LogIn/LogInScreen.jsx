@@ -110,17 +110,27 @@ const LogInForm = ({ navigation }) => {
                     {languageTranslate(userData.language, 'Log In', 'Вход')}
                 </Text>
                 <View style={styles.textInputs}>
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Email',
+                            'Email')}</Text>
                     <TextInput
                         style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
 
-                        placeholder="Email"
+                        placeholder=""
                         value={email}
                         onChangeText={text => setEmail(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Password',
+                            'Пароль')}</Text>
                     <TextInput
                         style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
 
-                        placeholder="Password"
+                        placeholder=""
                         secureTextEntry
                         value={password}
                         onChangeText={text => setPassword(text)}

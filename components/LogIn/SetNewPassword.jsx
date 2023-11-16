@@ -73,6 +73,11 @@ const SetNewPasswordScreen = ({ navigation }) => {
                         'Установка нового пароля')}
                 </Text>
                 <View style={styles.textInputs}>
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Password',
+                            'Пароль')}</Text>
                     <TextInput
                         style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
 
@@ -81,10 +86,15 @@ const SetNewPasswordScreen = ({ navigation }) => {
                         value={password}
                         onChangeText={text => setPassword(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Password confirm',
+                            'Подтверждение пароля')}</Text>
                     <TextInput
                         style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
 
-                        placeholder="Password confirm"
+                        placeholder=""
                         secureTextEntry
                         value={passwordConfirm}
                         onChangeText={text => setPasswordConfirm(text)}

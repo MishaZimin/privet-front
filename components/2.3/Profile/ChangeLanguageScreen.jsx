@@ -32,14 +32,18 @@ const ChangeLanguageScreen = ({ navigation }) => {
         }
         else {
             navigation.navigate('LoadingSettingBuddyScreen');
-
         }
     };
 
     return (
         <View style={styles.main}>
             <View style={styles.form}>
-                <Text style={styles.textHeader}>Change Language Screen Settings</Text>
+                <Text style={styles.textHeader}>
+                    {languageTranslate(
+                        userData.language,
+                        'Chainge Language',
+                        'Сменить язык')}
+                </Text>
 
                 <View style={styles.buttons}>
                     <TouchableOpacity
@@ -56,7 +60,11 @@ const ChangeLanguageScreen = ({ navigation }) => {
                 <TouchableOpacity
                     style={styles.button}
                     onPress={handleContinue}>
-                    <Text style={languageStyles.buttonText}>Next</Text>
+                    <Text style={languageStyles.buttonText}>
+                        {languageTranslate(
+                            userData.language,
+                            'Next',
+                            'Далее')}</Text>
                 </TouchableOpacity>
             </View>
         </View>

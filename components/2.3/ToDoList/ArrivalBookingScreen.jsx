@@ -37,7 +37,7 @@ const ArrivalBookingScreen = ({ navigation }) => {
 
 
     const handleSave = () => {
-        arrivalBookData.id = 'id1234';
+        arrivalBookData.id = '4563';
         arrivalBookData.arrivalDate = arrivalDate;
         arrivalBookData.flightNumber = flightNumber;
         arrivalBookData.arrivalPoint = arrivalPoint;
@@ -66,94 +66,156 @@ const ArrivalBookingScreen = ({ navigation }) => {
         <ScrollView style={styles.main}>
             <View style={styles.form}>
                 <View style={styles.textBlock}>
-                    <Text style={styles.textHeader}>Arrival Booking</Text>
+                    <Text style={styles.textHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Arrival Booking',
+                            'Регистрация приезда')}</Text>
                 </View>
 
                 <View style={styles.textInputs}>
-
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Full Name',
+                            'Полное имя')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Full Name"
+                        placeholder=""
                         value={fullName}
                         onChangeText={text => setFullName(text)}
                     />
-
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Sex',
+                            'Пол')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Sex"
+                        placeholder=""
                         value={sex}
                         onChangeText={text => setSex(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Arrival Date',
+                            'Дата приезда')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Arrival Date"
+                        placeholder=""
                         value={arrivalDate}
                         onChangeText={text => setArrivalDate(text)}
                     />
-
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Arrival Time',
+                            'Время приезда')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Arrival Time"
+                        placeholder=""
                         value={arrivalTime}
                         onChangeText={text => setArrivalTime(text)}
                     />
-
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Flight Number',
+                            'Номер рейса')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Flight Number"
+                        placeholder=""
                         value={flightNumber}
                         onChangeText={text => setFlightNumber(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Arrival Point',
+                            'Пункт прибытия')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Arrival Point"
+                        placeholder=""
                         value={arrivalPoint}
                         onChangeText={text => setArrivalPoint(text)}
                     />
-
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Citizenship',
+                            'Гражданство')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Citizenship"
+                        placeholder=""
                         value={citizenship}
                         onChangeText={text => setCitizenship(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Phone',
+                            'Телефон')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Phone"
+                        placeholder="+"
                         value={phone}
                         onChangeText={text => setPhone(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Telegram',
+                            'Telegram')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Telegram"
+                        placeholder="@"
                         value={telegram}
                         onChangeText={text => setTelegram(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'WhatsApp',
+                            'WhatsApp')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="WhatsApp"
+                        placeholder="+"
                         value={whatsApp}
                         onChangeText={text => setWhatsApp(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'VK',
+                            'VK')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="VK"
+                        placeholder="@"
                         value={vk}
                         onChangeText={text => setVk(text)}
                     />
 
-
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Comment',
+                            'Комментарий')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder={'Comment'}
+                        placeholder={''}
                         value={comment}
 
                         onChangeText={text => setComment(text)}
                     />
-
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Tickets',
+                            'Билеты')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder={'Tickets'}
+                        placeholder={''}
                         value={tickets}
 
                         onChangeText={text => setTickets(text)}

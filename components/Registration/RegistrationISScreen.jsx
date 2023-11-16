@@ -1,7 +1,7 @@
 //2.2.3. Регистрация ИС
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
 import {
@@ -47,12 +47,26 @@ const RegistrationISScreen = ({ navigation }) => {
     const handleRegistration = async () => {
         if (!correctEmail) {
             console.log('uncorrect email');
+            Alert.alert(languageTranslate(
+                userData.language,
+                'Uncorrect Email',
+                'Некорректный Email'));
         }
-        else if (password.length < 4) {
-            console.log('password < 4');
+        else if (password.length < 8) {
+            console.log('password < 8');
+            Alert.alert(languageTranslate(
+                userData.language,
+                'Password < 8',
+                'Пароль < 8'));
+
         }
         else if (!correctPassword) {
             console.log('passwords not match');
+            Alert.alert(languageTranslate(
+                userData.language,
+                'Passwords not match',
+                'Пароли не совпадают'));
+
         }
         else if (correctPassword && correctEmail) {
             if (password === passwordConfirm) {
@@ -107,55 +121,38 @@ const RegistrationISScreen = ({ navigation }) => {
                         'Регистрация ИС')}
                 </Text>
                 <View style={styles.textInputs}>
-                    {/* <RNPickerSelect
-                        placeholder={{
-                            label: 'University',
-                            value: 'University',
-                        }}
-                        style={{
-                            inputIOS: {
-                                width: '100%',
-                                padding: '5%',
-                                marginTop: '10%',
-
-                                borderWidth: 1,
-                                borderRadius: 40,
-                                borderColor: 'grey',
-                            },
-                            inputAndroid: {
-                                width: '100%',
-                                padding: '5%',
-                                marginTop: '10%',
-
-                                borderWidth: 1,
-                                borderRadius: 40,
-                                borderColor: 'grey',
-                            },
-                        }}
-                        onValueChange={(value) => setName(value)}
-                        items={[
-                            { label: 'Urfu1', value: 'Urfu1' },
-                            { label: 'Urfu2', value: 'Urfu2' },
-                            { label: 'Urfu3', value: 'Urfu3' },
-                        ]}
-                    /> */}
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Email',
+                            'Email')}</Text>
                     <TextInput
                         style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
-                        placeholder="Email"
+                        placeholder=""
                         value={email}
                         onChangeText={text => setEmail(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Password',
+                            'Пароль')}</Text>
                     <TextInput
                         style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
                         secureTextEntry
-                        placeholder="Password"
+                        placeholder=""
                         value={password}
                         onChangeText={text => setPassword(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Password confirm',
+                            'Подтверждение пароля')}</Text>
                     <TextInput
                         style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
                         secureTextEntry
-                        placeholder="Password confirm"
+                        placeholder=""
                         value={passwordConfirm}
                         onChangeText={text => setPasswordConfirm(text)}
                     />

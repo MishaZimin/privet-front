@@ -117,6 +117,12 @@ export var registrationData = {
     isNewPassword: false,
 };
 
+export var buddysStudents = [
+    { arrivalID: '#1', photo: 'photo1', studentFullName: 'name1', studenCizenship: 'China' },
+    { arrivalID: '#2', photo: 'photo2', studentFullName: 'name2', studenCizenship: 'UK' },
+    { arrivalID: '#3', photo: 'photo3', studentFullName: 'name3', studenCizenship: 'KZ' },
+];
+
 export var initialTasksData = [
     { id: 1, text: 'Встреча в аэропорту', completed: false, deadline: '\nDeadline: 11.11.2023 4:30 pm' },
     { id: 2, text: 'Оплата и заселение в хостел', completed: false },

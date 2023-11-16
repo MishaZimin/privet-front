@@ -73,166 +73,154 @@ const BuddyProfileForIS = ({ navigation }) => {
 
                 <View style={styles.textInputs}>
 
-                    {/* <RNPickerSelect
-                        placeholder={{
-                            label: 'University',
-                            value: 'University',
-                        }}
-                        style={{
-                            inputIOS: {
-                                width: '100%',
-                                padding: '5%',
-                                marginTop: '10%',
-
-                                borderWidth: 1,
-                                borderRadius: 40,
-                                borderColor: 'grey',
-                            },
-                            inputAndroid: {
-                                width: '100%',
-                                padding: '5%',
-                                marginTop: '10%',
-
-                                borderWidth: 1,
-                                borderRadius: 40,
-                                borderColor: 'grey',
-                            },
-                        }}
-                        value={university}
-
-                        onValueChange={(value) => setUniversity(value)}
-                        items={[
-                            { label: 'Urfu1', value: 'Urfu1' },
-                            { label: 'Urfu2', value: 'Urfu2' },
-                            { label: 'Urfu3', value: 'Urfu3' },
-                        ]}
-                    /> */}
-
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'University',
+                            'Университет')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="University"
+                        placeholder=""
                         value={university}
                         editable={false}
 
                         onChangeText={text => setUniversity(text)}
                     />
-
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'City',
+                            'Город')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="City"
+                        placeholder=""
                         value={city}
                         editable={false}
 
                         onChangeText={text => setCity(text)}
                     />
-
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Full Name',
+                            'Полное Имя')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Full Name"
+                        placeholder=""
                         value={fullName}
                         editable={false}
 
                         onChangeText={text => setFullName(text)}
                     />
-
-
-                    {/* <RNPickerSelect
-                        placeholder={{
-                            label: 'Sex',
-                            value: 'Sex',
-                        }}
-                        style={{
-                            inputIOS: {
-                                width: '100%',
-                                padding: '5%',
-                                marginTop: '10%',
-
-                                borderWidth: 1,
-                                borderRadius: 40,
-                                borderColor: 'grey',
-                            },
-                            inputAndroid: {
-                                width: '100%',
-                                padding: '5%',
-                                marginTop: '10%',
-
-                                borderWidth: 1,
-                                borderRadius: 40,
-                                borderColor: 'grey',
-                            },
-                        }}
-                        value={sex}
-                        onValueChange={(value) => setSex(value)}
-                        items={[
-                            { label: 'Man', value: 'Man' },
-                            { label: 'Woman', value: 'Woman' },
-                        ]}
-                    /> */}
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Birth Date',
+                            'Дата Рождения')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Birth Date"
+                        placeholder=""
                         value={birthDate}
                         editable={false}
 
                         onChangeText={text => setBirthDate(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Phone',
+                            'Телефон')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Phone"
+                        placeholder="+"
                         value={phone}
                         editable={false}
 
                         onChangeText={text => setPhone(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Email',
+                            'Email')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Email"
+                        placeholder=""
                         value={email}
                         editable={false}
 
                         onChangeText={text => setEmail(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Telegram',
+                            'Telegram')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Telegram"
+                        placeholder="@"
                         value={telegram}
                         editable={false}
 
                         onChangeText={text => setTelegram(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'WhatsApp',
+                            'WhatsApp')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="WhatsApp"
+                        placeholder="+"
                         value={whatsApp}
                         editable={false}
 
                         onChangeText={text => setWhatsApp(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'VK',
+                            'VK')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="VK"
+                        placeholder="@"
                         value={vk}
                         editable={false}
 
                         onChangeText={text => setVk(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Native Language',
+                            'Родной язык')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Native Language"
+                        placeholder=""
                         value={nativeLanguage}
                         editable={false}
 
                         onChangeText={text => setNativeLanguage(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Other Language and Levels',
+                            'Другие языки и уровень владения ими')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Other Language and Levels"
+                        placeholder=""
                         value={otherLanguage}
                         editable={false}
 
                         onChangeText={text => setOtherLanguage(text)}
                     />
-
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Profile type',
+                            'Тип профиля')}</Text>
                     <TextInput
                         style={styles.textInput}
                         placeholder={String(userData.user)}
@@ -241,7 +229,11 @@ const BuddyProfileForIS = ({ navigation }) => {
 
                         onChangeText={text => setProfileType(text)}
                     />
-
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Buddy Status',
+                            'Статус Сопровождающего')}</Text>
                     <TextInput
                         style={styles.textInput}
                         placeholder={"Buddy Status"}
@@ -251,6 +243,16 @@ const BuddyProfileForIS = ({ navigation }) => {
                         onChangeText={text => setBuddyStatus(text)}
                     />
                 </View>
+
+                {/* <TextInput
+                        style={styles.textInput}
+                        placeholder={"Buddy Status"}
+                        value={buddyStatus}
+                        editable={false}
+
+                        onChangeText={text => setBuddyStatus(text)}
+                    />
+                </View> */}
 
 
             </View>

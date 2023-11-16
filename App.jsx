@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LanguageSelectionScreen from './components/StartScreen/LanguageSelectionScreen.jsx';
@@ -13,13 +14,11 @@ import BuddysScreen from './components/2.4/BuddysScreen.jsx';
 import PasswordRecoveryScreen from './components/LogIn/PasswordRecoveryScreen.jsx';
 import SetNewPasswordScreen from './components/LogIn/SetNewPassword.jsx';
 import StudentProfileScreen from './components/2.3/Profile/StudentProfileScreen.jsx';
-
 import AllArrivalsScreen from './components/2.4/AllArrivalsScreen.jsx';
 import BuddysStudentsScreen from './components/2.4/BuddysStudentsScreen.jsx';
-
 import BuddyProfileScreen from './components/2.4/BuddyProfileScreen.jsx';
-
-import ToDoListScreen from './components/2.3/ToDoList/ToDoListScreen.jsx';
+import ToDoListISScreen from './components/2.3/ToDoList/ToDoListISScreen.jsx';
+import ToDoListBuddyScreen from './components/2.4/ToDoList/ToDoListBuddyScreen.jsx';
 import RouteScreen from './components/2.3/Route/RouteScreen.jsx';
 import InfoScreen from './components/2.3/Info/InfoScreen.jsx';
 import MessengerScreen from './components/2.3/Messenger/MessengerScreen.jsx';
@@ -28,30 +27,20 @@ import SettingScreen from './components/2.3/Profile/SettingScreen.jsx';
 import LoadingSettingISScreen from './components/2.3/LoadingSettingISScreen.jsx';
 import LoadingSettingBuddyScreen from './components/2.4/LoadingSettingBuddyScreen.jsx';
 import SupportScreen from './components/Registration/SupportScreen.jsx';
-
 import BuddyProfileForIS from './components/2.4/BuddyProfileForIS.jsx'
 import StudentProfileForBuddy from './components/2.3/Profile/StudentProfileForBuddy.jsx'
-import PymentScreen from './components/2.3/ToDoList/PymentScreen.jsx';
+import PaymentScreen from './components/2.3/ToDoList/PaymentScreen.jsx';
 import ArrivalBookingScreen from './components/2.3/ToDoList/ArrivalBookingScreen.jsx';
-
 import ArrivalSubmitted from './components/2.3/ToDoList/ArrivalSubmitted.jsx';
-
-
-
-// import NotGetEmail from './components/Registration/EmailScreen/NotGetEmail.jsx';
-
+import ArrivalBuddy from './components/2.4/ArrivalBuddy.jsx';
 
 const Stack = createNativeStackNavigator();
 
 function App() {
-
     return (
         <NavigationContainer >
-
             <Stack.Navigator initialRouteName="Privet" >
                 <Stack.Screen name="LoadingScreen" component={LoadingScreen} />
-
-
                 <Stack.Screen name="LogInForm" component={LogInForm} />
                 <Stack.Screen name="LanguageSelectionScreen" component={LanguageSelectionScreen} />
                 <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
@@ -66,30 +55,22 @@ function App() {
                 <Stack.Screen name="SetNewPasswordScreen" component={SetNewPasswordScreen} />
                 <Stack.Screen name="StudentProfileScreen" component={StudentProfileScreen} />
                 <Stack.Screen name="BuddyProfileScreen" component={BuddyProfileScreen} />
-
-                <Stack.Screen name="ToDoListScreen" component={ToDoListScreen} />
+                <Stack.Screen name="ToDoListISScreen" component={ToDoListISScreen} />
+                <Stack.Screen name="ToDoListBuddyScreen" component={ToDoListBuddyScreen} />
                 <Stack.Screen name="RouteScreen" component={RouteScreen} />
                 <Stack.Screen name="InfoScreen" component={InfoScreen} />
                 <Stack.Screen name="MessengerScreen" component={MessengerScreen} />
                 <Stack.Screen name="ChangeLanguageScreen" component={ChangeLanguageScreen} />
                 <Stack.Screen name="SettingScreen" component={SettingScreen} />
-
                 <Stack.Screen name="AllArrivalsScreen" component={AllArrivalsScreen} />
-
                 <Stack.Screen name="BuddysStudentsScreen" component={BuddysStudentsScreen} />
                 <Stack.Screen name="SupportScreen" component={SupportScreen} />
-
-
                 <Stack.Screen name="BuddyProfileForIS" component={BuddyProfileForIS} />
                 <Stack.Screen name="StudentProfileForBuddy" component={StudentProfileForBuddy} />
-                <Stack.Screen name="PymentScreen" component={PymentScreen} />
+                <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
                 <Stack.Screen name="ArrivalBookingScreen" component={ArrivalBookingScreen} />
-
                 <Stack.Screen name="ArrivalSubmitted" component={ArrivalSubmitted} />
-
-
-
-
+                <Stack.Screen name="ArrivalBuddy" component={ArrivalBuddy} />
             </Stack.Navigator>
         </NavigationContainer>
     );

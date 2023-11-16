@@ -14,7 +14,7 @@ import { styles } from '../main.jsx';
 
 let correctEmail = true;
 
-const EmailScreen = ({ navigation }) => {
+const AddArrivalMember = ({ navigation }) => {
     const [emailCode, setEmailCode] = useState('');
 
     correctEmail = emailCode.length === 4 ? true : false;
@@ -72,13 +72,6 @@ const EmailScreen = ({ navigation }) => {
                         case 1: navigation.navigate('LoadingSettingISScreen');
                         case 2: navigation.navigate('LoadingSettingBuddyScreen');
                     }
-
-                    // if (registrationData.user === 1) {
-                    //     navigation.navigate('LoadingSettingISScreen');
-                    // }
-                    // if (registrationData.user === 2) {
-                    //     navigation.navigate('LoadingSettingBuddyScreen');
-                    // }
                 }
             } else {
                 console.log('код неверный');
@@ -93,44 +86,9 @@ const EmailScreen = ({ navigation }) => {
         }
     };
 
-    const handleNotEmailCode = () => {
-        Alert.alert(languageTranslate(
-            userData.language,
-            'Did not get the email?',
-            'Не получили письмо?'), '', [
-            {
-                text: languageTranslate(
-                    userData.language,
-                    'Send the code again',
-                    'Отправить код еще раз'),
 
-                onPress: () => sendCodeAgain(),
-            },
-            {
-                text: languageTranslate(
-                    userData.language,
-                    'Contact support',
-                    'Связаться с поддержкой'),
-                onPress: () => contactSupport(),
-            },
-            {
-                text: languageTranslate(
-                    userData.language,
-                    'Close',
-                    'Закрыть'),
-                onPress: () => console.log('Закрыть Pressed'),
-                style: 'cancel',
-            },
-        ]);
-    }
 
-    const sendCodeAgain = async () => {
-        sendDataToServer(0, "/send-verification-token/" + registrationData.email, "/json");
-    };
 
-    const contactSupport = () => {
-        navigation.navigate('SupportScreen');
-    }
 
     return (
         <ScrollView style={styles.main}>
@@ -173,22 +131,10 @@ const EmailScreen = ({ navigation }) => {
                                 'Далее')}
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        title="Не получили письмо?"
-                        onPress={handleNotEmailCode}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(
-                                userData.language,
-                                'Did not get the email?',
-                                'Не получили письмо?')}
-                        </Text>
-                    </TouchableOpacity>
-
                 </View>
             </View>
         </ScrollView>
     );
 };
 
-export default EmailScreen;
+export default AddArrivalMember;

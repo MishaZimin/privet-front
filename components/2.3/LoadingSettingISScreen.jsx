@@ -26,7 +26,11 @@ const LoadingSettingISScreen = ({ navigation }) => {
     return (
         <View style={styles.main}>
             <View style={styles.form}>
-                <Text style={styles.textHeader}>Loading...LoadingSettingISScreen</Text>
+                <Text style={styles.textHeader}>
+                    {languageTranslate(
+                        userData.language,
+                        'Loading...',
+                        'Загрузка...')}</Text>
                 <TouchableOpacity
                     style={styles.button}
                     title="loading..."

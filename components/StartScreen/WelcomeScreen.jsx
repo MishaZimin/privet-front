@@ -10,6 +10,7 @@ import {
     sendJSONToServer,
     userData,
 } from '../Utils.jsx';
+import UniversalButton from '../button.jsx';
 
 
 const WelcomeScreen = ({ navigation }) => {
@@ -21,13 +22,13 @@ const WelcomeScreen = ({ navigation }) => {
         <View style={styles.main}>
             <View style={styles.form}>
                 <View style={styles.textBlock}>
-                    <Text style={styles.textHeader}>Privet</Text>
+                    <Text style={styles.textHeader}>Privet👋</Text>
 
                 </View>
 
-                <Image
+                {/* <Image
                     style={styles.img}
-                    source={require('./img/d29e31c59a395ddf644fea8cc04fb79b.jpg')} />
+                    source={require('./img/d29e31c59a395ddf644fea8cc04fb79b.jpg')} /> */}
                 <TouchableOpacity
                     style={styles.button}
                     title="2-3 sec"

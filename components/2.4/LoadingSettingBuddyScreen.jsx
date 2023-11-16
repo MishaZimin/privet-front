@@ -25,7 +25,7 @@ const LoadingSettingBuddyScreen = ({ navigation }) => {
     return (
         <View style={styles.main}>
             <View style={styles.form}>
-                <Text style={styles.textHeader}>Loading...LoadingSettingBuddyScreen</Text>
+                <Text style={styles.textHeader}>Loading...</Text>
                 <TouchableOpacity
                     style={styles.button}
                     title="loading..."

@@ -18,29 +18,19 @@ const BuddysScreen = ({ navigation }) => {
         navigation.navigate('BuddyProfileScreen');
     };
     const handleToDoList = () => {
-        // navigation.navigate('RegistrationForm');
-        navigation.navigate('ToDoListScreen');
-
+        navigation.navigate('ToDoListBuddyScreen');
     };
     const handleAllArrivals = () => {
-        // navigation.navigate('RegistrationForm');
         navigation.navigate('AllArrivalsScreen');
-
     };
     const handleBuddysStudents = () => {
-        // navigation.navigate('RegistrationForm');
         navigation.navigate('BuddysStudentsScreen');
-
     };
     const handleMessenager = () => {
-        // navigation.navigate('RegistrationForm');
         navigation.navigate('MessengerScreen');
-
     };
     const handleProfileForIS = () => {
-        // navigation.navigate('RegistrationForm');
         navigation.navigate('BuddyProfileForIS');
-
     };
 
 

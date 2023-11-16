@@ -100,54 +100,37 @@ const RegistrationBuddySreen = ({ navigation }) => {
                         'Регистрация Сопровождающего')}
                 </Text>
                 <View style={styles.textInputs}>
-                    <RNPickerSelect
-                        placeholder={{
-                            label: 'University',
-                            value: 'University',
-                        }}
-                        style={{
-                            inputIOS: {
-                                width: '100%',
-                                padding: '5%',
-                                marginTop: '10%',
-
-                                borderWidth: 1,
-                                borderRadius: 40,
-                                borderColor: 'grey',
-                            },
-                            inputAndroid: {
-                                width: '100%',
-                                padding: '5%',
-                                marginTop: '10%',
-
-                                borderWidth: 1,
-                                borderRadius: 40,
-                                borderColor: 'grey',
-                            },
-                        }}
-                        onValueChange={(value) => setName(value)}
-                        items={[
-                            { label: 'Urfu1', value: 'Urfu1' },
-                            { label: 'Urfu2', value: 'Urfu2' },
-                            { label: 'Urfu3', value: 'Urfu3' },
-                        ]}
-                    />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Email',
+                            'Email')}</Text>
                     <TextInput
                         style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
-                        placeholder="Email"
+                        placeholder=""
                         value={email}
                         onChangeText={text => setEmail(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Password',
+                            'Пароль')}</Text>
                     <TextInput
                         style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
-                        placeholder="Password"
+                        placeholder=""
                         secureTextEntry
                         value={password}
                         onChangeText={text => setPassword(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Password confirm',
+                            'Подтверждение пароля')}</Text>
                     <TextInput
                         style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
-                        placeholder="Password confirm"
+                        placeholder=""
                         secureTextEntry
                         value={passwordConfirm}
                         onChangeText={text => setPasswordConfirm(text)}

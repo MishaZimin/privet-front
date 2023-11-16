@@ -15,43 +15,33 @@ import { styles } from '../main.jsx';
 
 const StudentsScreen = ({ navigation }) => {
 
-
     const handleStudentProfile = () => {
-        // const dataUserBD = await getDataFromServer("/users/me", "/json");
-        // console.log("dataUserBD:", dataUserBD);
         navigation.navigate('StudentProfileScreen');
     };
     const handleToDoList = () => {
-        // navigation.navigate('RegistrationForm');
-        navigation.navigate('ToDoListScreen');
-
+        navigation.navigate('ToDoListISScreen');
     };
     const handleRoute = () => {
-        // navigation.navigate('RegistrationForm');
         navigation.navigate('RouteScreen');
-
     };
     const handleInfo = () => {
-        // navigation.navigate('RegistrationForm');
         navigation.navigate('InfoScreen');
-
     };
     const handleMessenager = () => {
-        // navigation.navigate('RegistrationForm');
         navigation.navigate('MessengerScreen');
-
     };
     const handleStudentProfileForBuddy = () => {
-        // navigation.navigate('RegistrationForm');
         navigation.navigate('StudentProfileForBuddy');
-
     };
-
 
     return (
         <ScrollView style={styles.main}>
             <View style={styles.form}>
-                <Text>2.3. Экраны и функционал для Иностранного Студента (ИС)</Text>
+                <Text>
+                    {languageTranslate(
+                        userData.language,
+                        '2.3. Screens and functionality for an International Student (IS)',
+                        '2.3. Экраны и функционал для Иностранного Студента (ИС)')}</Text>
                 <View style={styles.buttons}>
                     <TouchableOpacity
                         style={styles.button}
@@ -60,8 +50,8 @@ const StudentsScreen = ({ navigation }) => {
                         <Text style={styles.textButton}>
                             {languageTranslate(
                                 userData.language,
-                                'StudentProfile',
-                                'Профиль')}
+                                'Student Profile',
+                                'Профиль Студента')}
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -71,7 +61,7 @@ const StudentsScreen = ({ navigation }) => {
                         <Text style={styles.textButton}>
                             {languageTranslate(
                                 userData.language,
-                                'ToDoList',
+                                'To Do List',
                                 'Список задач')}
                         </Text>
                     </TouchableOpacity>
@@ -116,25 +106,14 @@ const StudentsScreen = ({ navigation }) => {
                         <Text style={styles.textButton}>
                             {languageTranslate(
                                 userData.language,
-                                'StudentProfileForBuddy',
-                                'StudentProfileForBuddy')}
+                                'Student profile for Buddy',
+                                'Профиль студента для сопровождающего')}
                         </Text>
                     </TouchableOpacity>
-
                 </View>
             </View>
-
-
         </ScrollView>
     );
 };
-
-// export const styles = StyleSheet.create({
-//     main: {
-//         flex: 1,
-//         marginTop: 10,
-//         alignItems: 'center',
-//     },
-// });
 
 export default StudentsScreen;

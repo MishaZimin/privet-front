@@ -12,13 +12,10 @@ export const styles = StyleSheet.create({
         width: '90%',
         margin: '5%',
         padding: '7%',
-
         alignItems: 'center',
-
         backgroundColor: 'rgba(235, 235, 235, 1)',
         borderRadius: 30,
         justifyContent: 'space-between',
-
         shadowColor: 'black',
         shadowOffset: { width: 5, height: 5 },
         shadowOpacity: 0.2,
@@ -28,24 +25,21 @@ export const styles = StyleSheet.create({
     textInputs: {
         flex: 1,
         width: '100%',
-        padding: '10%',
-
-        alignItems: 'center',
+        padding: '5%',
         borderRadius: 40,
-
         justifyContent: 'start',
     },
 
     toDoList: {
         backgroundColor: 'rgba(225, 225, 225, 1)',
         padding: '10%',
-
+        marginBottom: '10%',
         borderRadius: 30,
     },
 
     progress: {
-        marginTop: '10%',
-        paddingBottom: '10%',
+        marginTop: '5%',
+        paddingBottom: '3%',
         fontSize: 20,
     },
 
@@ -62,6 +56,7 @@ export const styles = StyleSheet.create({
     },
 
     textHeader: {
+        marginTop: '10%',
         paddingBottom: '10%',
         fontSize: 20,
     },
@@ -70,25 +65,33 @@ export const styles = StyleSheet.create({
         width: '100%',
     },
 
+    text1: {
+        padding: '1%',
+        width: '100%',
+    },
+
     textInput: {
         width: '100%',
         padding: '5%',
-        marginTop: '10%',
-
+        marginTop: '0%',
         borderWidth: 1,
         borderRadius: 40,
-
         borderColor: 'grey',
+    },
+
+    inputHeader: {
+        marginTop: '10%',
+        textAlign: 'left',
+        marginLeft: '5%',
+        marginBottom: '1%',
     },
 
     unCorrectTextInput: {
         width: '100%',
         padding: '5%',
-        marginTop: '10%',
-
+        marginTop: '0%',
         borderWidth: 1,
         borderRadius: 40,
-
         borderColor: 'red',
     },
 
@@ -100,12 +103,9 @@ export const styles = StyleSheet.create({
     button: {
         padding: '5%',
         margin: '2%',
-
         alignItems: 'center',
-
         backgroundColor: 'white',
         borderRadius: 40,
-
         shadowColor: 'grey',
         shadowOffset: { width: 2, height: 2 },
         shadowOpacity: 0.1,
@@ -120,4 +120,12 @@ export const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
     },
+
+    buddysStudents: {
+        backgroundColor: 'rgba(225, 225, 225, 1)',
+        padding: '10%',
+        marginBottom: '10%',
+        borderRadius: 30,
+        width: '100%',
+    }
 });

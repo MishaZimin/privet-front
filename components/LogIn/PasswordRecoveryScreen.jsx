@@ -72,13 +72,21 @@ const PasswordRecoveryScreen = ({ navigation }) => {
         <ScrollView style={styles.main}>
             <View style={styles.form}>
                 <Text style={styles.textHeader}>
-                    {languageTranslate(userData.language, 'Password recovery screen', 'Экран восстановления пароля')}
+                    {languageTranslate(
+                        userData.language,
+                        'Password recovery screen',
+                        'Экран восстановления пароля')}
                 </Text>
                 <View style={styles.textInputs}>
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Email',
+                            'Email')}</Text>
                     <TextInput
                         style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
 
-                        placeholder="Email"
+                        placeholder=""
                         value={email}
                         onChangeText={text => setEmail(text)}
                     />
@@ -90,7 +98,10 @@ const PasswordRecoveryScreen = ({ navigation }) => {
                     title="Далее"
                     onPress={handlePasswordRecovery}>
                     <Text style={styles.textButton}>
-                        {languageTranslate(registrationData.language, 'Next', 'Далее')}
+                        {languageTranslate(
+                            registrationData.language,
+                            'Next',
+                            'Далее')}
                     </Text>
                 </TouchableOpacity>
             </View>

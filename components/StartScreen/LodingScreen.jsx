@@ -61,7 +61,13 @@ const LoadingScreen = ({ navigation }) => {
     return (
         <View style={styles.main}>
             <View style={styles.form}>
-                <Text style={styles.textHeader}>Loading...</Text>
+                <Text style={styles.textHeader}>
+
+                    {languageTranslate(
+                        userData.language,
+                        'Loading...',
+                        'Загрузка...')}
+                </Text>
                 {/* <Image
                     style={styles.img}
                     source={require('./img/d29e31c59a395ddf644fea8cc04fb79b.jpg')} /> */}

@@ -54,7 +54,7 @@ const StudentProfileScreen = ({ navigation }) => {
         userData.nativeLanguage = nativeLanguage;
         userData.otherLanguage = otherLanguage;
         userData.university = university;
-        userData.escortIsPaid = escortIsPaid;
+        // userData.escortIsPaid = escortIsPaid;
 
         console.log("--userData--");
 
@@ -68,9 +68,16 @@ const StudentProfileScreen = ({ navigation }) => {
     return (
         <ScrollView style={styles.main}>
             <View style={styles.form}>
-                <Text style={styles.textHeader}>2.3.1 Student Profile</Text>
+                <Text style={styles.textHeader}>
+                    {languageTranslate(
+                        userData.language,
+                        'Student Profile',
+                        'Профиль Студента')}
+
+                </Text>
 
                 <View style={styles.buttons}>
+
                     <TouchableOpacity
                         style={styles.button}
                         onPress={handleSettings}>
@@ -88,111 +95,75 @@ const StudentProfileScreen = ({ navigation }) => {
                             {languageTranslate(
                                 userData.language,
                                 'Notifications',
-                                'Уведомдления')}
+                                'Уведомления')}
                         </Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.textInputs}>
-
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Full Name',
+                            'Полное имя')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Full Name"
+                        placeholder=""
                         value={fullName}
                         onChangeText={text => setFullName(text)}
                     />
-
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Citizenship',
+                            'Гражданство')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Citizenship"
+                        placeholder=""
                         value={citizenship}
                         onChangeText={text => setCitizenship(text)}
                     />
 
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Sex',
+                            'Пол')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Sex"
+                        placeholder=""
                         value={sex}
                         onChangeText={text => setSex(text)}
                     />
 
-                    {/* <RNPickerSelect
-                        placeholder={{
-                            label: 'Citizenship',
-                            value: 'Citizenship',
-                        }}
-                        style={{
-                            inputIOS: {
-                                width: '100%',
-                                padding: '5%',
-                                marginTop: '10%',
 
-                                borderWidth: 1,
-                                borderRadius: 40,
-                                borderColor: 'grey',
-                            },
-                            inputAndroid: {
-                                width: '100%',
-                                padding: '5%',
-                                marginTop: '10%',
-
-                                borderWidth: 1,
-                                borderRadius: 40,
-                                borderColor: 'grey',
-                            },
-                        }}
-                        value={citizenship}
-                        onValueChange={(value) => setCitizenship(value)}
-                        items={[
-                            { label: 'Contry1', value: 'Contry1' },
-                            { label: 'Contry2', value: 'Contry2' },
-                            { label: 'Contry3', value: 'Contry3' },
-                        ]}
-                    />
-                    <RNPickerSelect
-                        placeholder={{
-                            label: 'Sex',
-                            value: 'Sex',
-                        }}
-                        style={{
-                            inputIOS: {
-                                width: '100%',
-                                padding: '5%',
-                                marginTop: '10%',
-
-                                borderWidth: 1,
-                                borderRadius: 40,
-                                borderColor: 'grey',
-                            },
-                            inputAndroid: {
-                                width: '100%',
-                                padding: '5%',
-                                marginTop: '10%',
-
-                                borderWidth: 1,
-                                borderRadius: 40,
-                                borderColor: 'grey',
-                            },
-                        }}
-                        value={sex}
-                        onValueChange={(value) => setSex(value)}
-                        items={[
-                            { label: 'Man', value: 'Man' },
-                            { label: 'Woman', value: 'Woman' },
-                        ]}
-                    /> */}
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Birth Date',
+                            'Дата Рождения')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Birth Date"
+                        placeholder=""
                         value={birthDate}
                         onChangeText={text => setBirthDate(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Phone',
+                            'Телефон')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Phone"
+                        placeholder="+"
                         value={phone}
                         onChangeText={text => setPhone(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Email',
+                            'Email')}</Text>
                     <TextInput
                         style={styles.textInput}
                         placeholder="Email"
@@ -201,84 +172,92 @@ const StudentProfileScreen = ({ navigation }) => {
 
                         onChangeText={text => setEmail(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Telegram',
+                            'Telegram')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Telegram"
+                        placeholder="@"
                         value={telegram}
                         onChangeText={text => setTelegram(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'WhatsApp',
+                            'WhatsApp')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="WhatsApp"
+                        placeholder="+"
                         value={whatsApp}
                         onChangeText={text => setWhatsApp(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'VK',
+                            'VK')}</Text>
                     <TextInput
+
                         style={styles.textInput}
-                        placeholder="VK"
+                        placeholder="@"
                         value={vk}
                         onChangeText={text => setVk(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Native Language',
+                            'Родной язык ИС')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Native Language"
+                        placeholder=""
                         value={nativeLanguage}
                         onChangeText={text => setNativeLanguage(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Other Language and Levels',
+                            'Другие языки и уровень владения ими')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Other Language and Levels"
+                        placeholder=""
                         value={otherLanguage}
                         onChangeText={text => setOtherLanguage(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'University',
+                            'Университет')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="University"
+                        placeholder=""
                         value={university}
                         onChangeText={text => setUniversity(text)}
                     />
-                    {/* <RNPickerSelect
-                        placeholder={{
-                            label: 'University',
-                            value: 'University',
-                        }}
-                        style={{
-                            inputIOS: {
-                                width: '100%',
-                                padding: '5%',
-                                marginTop: '10%',
 
-                                borderWidth: 1,
-                                borderRadius: 40,
-                                borderColor: 'grey',
-                            },
-                            inputAndroid: {
-                                width: '100%',
-                                padding: '5%',
-                                marginTop: '10%',
-
-                                borderWidth: 1,
-                                borderRadius: 40,
-                                borderColor: 'grey',
-                            },
-                        }}
-                        value={university}
-
-                        onValueChange={(value) => setUniversity(value)}
-                        items={[
-                            { label: 'Urfu1', value: 'Urfu1' },
-                            { label: 'Urfu2', value: 'Urfu2' },
-                            { label: 'Urfu3', value: 'Urfu3' },
-                        ]}
-                    /> */}
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Escort Is Paid',
+                            'Статус оплаты сопровождения')}</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Escort Is Paid"
+                        placeholder=""
                         value={escortIsPaid}
                         editable={false}
 
                         onChangeText={text => setEscortIsPaid(text)}
                     />
+                    <Text style={styles.inputHeader}>
+                        {languageTranslate(
+                            userData.language,
+                            'Profile Type',
+                            'Тип Профиля')}</Text>
                     <TextInput
                         style={styles.textInput}
                         placeholder={String(userData.user)}
