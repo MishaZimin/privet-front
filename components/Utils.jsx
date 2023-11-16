@@ -195,6 +195,27 @@ export const sendChangePasswordToServer = async (data, adress, contentType) => {
     }
 }
 
+export const sendChangeProfileToServer = async (data, adress, contentType, token) => {
+    try {
+        const res = await fetch("https://privet-mobile-app.onrender.com" + adress, {
+            method: "POST",
+            headers: {
+                "Accept": "application" + contentType,
+                "Content-Type": "application" + contentType,
+                "Authorization": "Bearer " + token,
+            },
+            credentials: 'include',
+            body: JSON.stringify(data),
+        });
+        const responseData = await res.json();
+        console.log(adress, responseData);
+        return responseData;
+    } catch (err) {
+        console.log(adress, err);
+        throw err;
+    }
+}
+
 export const sendDataToServer = async (data, adress, contentType) => {
     let bodyData = (contentType == "/json") ? JSON.stringify(data) : new URLSearchParams(data).toString();
 
@@ -259,8 +280,6 @@ export const getDataFromServer = async (adress, contentType) => {
 }
 
 export const getTokenToServer = async (token, adress, contentType) => {
-    // let badyData = (contentType == "/json") ? JSON.stringify(data) : new URLSearchParams(data).toString();
-
     try {
         const res = await fetch("https://privet-mobile-app.onrender.com" + adress, {
             method: "GET",
@@ -268,8 +287,6 @@ export const getTokenToServer = async (token, adress, contentType) => {
                 "Accept": "application" + contentType,
                 "Authorization": "Bearer " + token,
             },
-            credentials: 'include',
-            // body: badyData,
         });
         const responseData = await res.json();
         console.log(adress, responseData);

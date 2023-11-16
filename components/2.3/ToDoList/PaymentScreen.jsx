@@ -25,7 +25,7 @@ const PaymentScreen = ({ navigation }) => {
             'Payment successful',
             'Оплата прошла успешно'));
 
-        navigation.navigate('ToDoListScreen');
+        navigation.navigate('ToDoListISScreen');
 
     };
 

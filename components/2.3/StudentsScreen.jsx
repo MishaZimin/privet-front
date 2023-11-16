@@ -3,19 +3,52 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {
     registrationData,
     languageTranslate,
     getDataFromServer,
     sendJSONToServer,
     userData,
+    getTokenToServer,
 } from '../Utils.jsx';
 import { styles } from '../main.jsx';
 
 
 const StudentsScreen = ({ navigation }) => {
 
-    const handleStudentProfile = () => {
+    const handleStudentProfile = async () => {
+
+        const accessToken = await AsyncStorage.getItem('access_token');
+        const response = await getTokenToServer(accessToken, "/users/me/profile", "/json");
+        // console.log('-----', response);
+
+        // for (var key in response) {
+        //     console.log(key + ': ' + response[key]);
+        // }
+
+        userData.fullName = response.profile_info.full_name;
+        userData.citizenship = response.profile_info.citizenship;
+        userData.sex = response.profile_info.sex;
+        userData.birthDate = response.profile_info.birthdate;
+
+        userData.phone = response.contacts.phone;
+        userData.email = response.contacts.email;
+        userData.telegram = response.contacts.telegram;
+        userData.whatsApp = response.contacts.whatsapp;
+        userData.vk = response.contacts.vk;
+
+        userData.nativeLanguage = response.profile_info.nativeLanguage;
+        userData.otherLanguage = response.contacts.other_languages;
+        userData.university = response.profile_info.university;
+        userData.escortIsPaid = response.profile_info.escort_paid;
+
+        userData.id = response.contacts.user_id;
+
+        // console.log('-----', userData);
+
+
         navigation.navigate('StudentProfileScreen');
     };
     const handleToDoList = () => {

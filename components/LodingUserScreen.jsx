@@ -78,3 +78,8 @@
 
 
 // export default LoadingSettingBuddyScreen;
+
+//2.2.3. Регистрация Сопровождающего
+
+
+

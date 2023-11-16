@@ -5,16 +5,20 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 // import RNPickerSelect from 'react-native-picker-select';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {
     registrationData,
     languageTranslate,
     getJSONFromServer,
     sendJSONToServer,
+    sendChangeProfileToServer,
     userData,
 } from '../../Utils.jsx';
 import { styles } from '../../main.jsx';
 
 const StudentProfileScreen = ({ navigation }) => {
+    console.log("user data:", userData);
     // userData.escortIsPaid = false;
     const [fullName, setFullName] = useState(userData.fullName);
     const [citizenship, setCitizenship] = useState(userData.citizenship);
@@ -39,28 +43,58 @@ const StudentProfileScreen = ({ navigation }) => {
     const handleSettings = () => {
         navigation.navigate('SettingScreen');
     };
-    const handleSave = () => {
-        userData.fullName = fullName;
-        userData.citizenship = citizenship;
-        userData.sex = sex;
-        userData.birthDate = birthDate;
+    const handleSave = async () => {
+        const data = {
+            "full_name": fullName,
+            "citizenship": citizenship == '' ? null : citizenship,
+            "city": null,
+            "sex": sex == '' ? null : sex,
+            "birthdate": birthDate == '' ? null : birthDate,
+            "phone": phone == '' ? null : phone,
+            "telegram": telegram == '' ? null : telegram,
+            "whatsapp": whatsApp == '' ? null : whatsApp,
+            "vk": vk == '' ? null : vk,
+            "native_language": null,
+            "other_languages_ids": [],
+            "university": university == '' ? null : university
+            // "full_name": fullName,
+            // "citizenship": null,
+            // "city": null,
+            // "sex": null,
+            // "birthdate": null,
+            // "phone": null,
+            // "telegram": null,
+            // "whatsapp": null,
+            // "vk": null,
+            // "native_language": null,
+            // "other_languages_ids": null,
+            // "university": null
+        };
+        console.log("_+_+_+_+", data);
+        const accessToken = await AsyncStorage.getItem('access_token');
+        await sendChangeProfileToServer(data, "/users/me/profile/change", "/json", accessToken);
 
-        userData.phone = phone;
-        userData.email = email;
-        userData.telegram = telegram;
-        userData.whatsApp = whatsApp;
-        userData.vk = vk;
+        // userData.fullName = fullName;
+        // userData.citizenship = citizenship;
+        // userData.sex = sex;
+        // userData.birthDate = birthDate;
 
-        userData.nativeLanguage = nativeLanguage;
-        userData.otherLanguage = otherLanguage;
-        userData.university = university;
+        // userData.phone = phone;
+        // userData.email = email;
+        // userData.telegram = telegram;
+        // userData.whatsApp = whatsApp;
+        // userData.vk = vk;
+
+        // userData.nativeLanguage = nativeLanguage;
+        // userData.otherLanguage = otherLanguage;
+        // userData.university = university;
         // userData.escortIsPaid = escortIsPaid;
 
-        console.log("--userData--");
+        // console.log("--userData--");
 
-        for (var key in userData) {
-            console.log(key + ': ' + userData[key]);
-        }
+        // for (var key in userData) {
+        //     console.log(key + ': ' + userData[key]);
+        // }
 
         // запрос с userData на бэк
     };
