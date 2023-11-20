@@ -46,20 +46,21 @@ function App() {
 
                 <Stack.Screen name="LoadingScreen" component={LoadingScreen} />
                 <Stack.Screen name="LanguageSelectionScreen" component={LanguageSelectionScreen} />
+                <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
 
                 <Stack.Screen name="LoadingSettingISScreen" component={LoadingSettingISScreen} />
                 <Stack.Screen name="LoadingSettingBuddyScreen" component={LoadingSettingBuddyScreen} />
-
-                <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
 
                 <Stack.Screen name="LogInForm" component={LogInForm} />
                 <Stack.Screen name="RegistrationISScreen" component={RegistrationISScreen} />
                 <Stack.Screen name="RegistrationBuddyScreen" component={RegistrationBuddyScreen} />
                 <Stack.Screen name="EmailScreen" component={EmailScreen} />
-                <Stack.Screen name="StudentsScreen" component={StudentsScreen} />
-                <Stack.Screen name="BuddysScreen" component={BuddysScreen} />
                 <Stack.Screen name="PasswordRecoveryScreen" component={PasswordRecoveryScreen} />
                 <Stack.Screen name="SetNewPasswordScreen" component={SetNewPasswordScreen} />
+                <Stack.Screen name="SupportScreen" component={SupportScreen} />
+
+                <Stack.Screen name="StudentsScreen" component={StudentsScreen} />
+                <Stack.Screen name="BuddysScreen" component={BuddysScreen} />
                 <Stack.Screen name="StudentProfileScreen" component={StudentProfileScreen} />
                 <Stack.Screen name="BuddyProfileScreen" component={BuddyProfileScreen} />
                 <Stack.Screen name="ToDoListISScreen" component={ToDoListISScreen} />
@@ -71,7 +72,6 @@ function App() {
                 <Stack.Screen name="SettingScreen" component={SettingScreen} />
                 <Stack.Screen name="AllArrivalsScreen" component={AllArrivalsScreen} />
                 <Stack.Screen name="BuddysStudentsScreen" component={BuddysStudentsScreen} />
-                <Stack.Screen name="SupportScreen" component={SupportScreen} />
                 <Stack.Screen name="BuddyProfileForIS" component={BuddyProfileForIS} />
                 <Stack.Screen name="StudentProfileForBuddy" component={StudentProfileForBuddy} />
                 <Stack.Screen name="PaymentScreen" component={PaymentScreen} />

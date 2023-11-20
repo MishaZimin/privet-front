@@ -1,14 +1,14 @@
 //2.2.1. Выбор языка
 
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import {
     registrationData,
     languageTranslate,
     getJSONFromServer,
     sendJSONToServer,
     userData,
-} from '../../utils.jsx';
+} from '../../Utils.jsx';
 import { styles } from '../../main.jsx';
 
 

@@ -13,7 +13,7 @@ import {
     sendJSONToServer,
     userData,
     getTokenToServer,
-} from './utils.jsx';
+} from './Utils.jsx';
 
 const LoadingScreen = ({ navigation }) => {
 
@@ -53,10 +53,6 @@ const LoadingScreen = ({ navigation }) => {
             // Обработайте ошибку чтения
         }
     }, 1000);
-    // setTimeout(() => {
-
-    //     navigation.navigate('LanguageSelectionScreen');
-    // }, 2000);
 
     return (
         <View style={styles.main}>

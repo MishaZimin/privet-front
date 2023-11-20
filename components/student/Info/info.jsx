@@ -1,7 +1,7 @@
 
 
 import React, { Component, useState } from 'react';
-import { View, Text, Button, FlatList, TouchableOpacity, AsyncStorage } from 'react-native';
+import { View, Text, Button, FlatList, TouchableOpacity, AsyncStorage, SafeAreaView } from 'react-native';
 import {
     LogInData,
     registrationData,
@@ -9,7 +9,7 @@ import {
     getJSONFromServer,
     sendJSONToServer,
     initialInfo,
-} from '../../utils.jsx';
+} from '../../Utils.jsx';
 import { styles } from '../../main.jsx';
 
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Button, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { StyleSheet, View, Text, Button, TextInput, TouchableOpacity, ScrollView, Alert, SafeAreaView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import {
     registrationData,
@@ -91,49 +91,51 @@ const AddArrivalMember = ({ navigation }) => {
 
 
     return (
-        <ScrollView style={styles.main}>
-            <View style={styles.form}>
-                <Text style={styles.text}>
-                    {languageTranslate(
-                        userData.language,
-                        'We have sent a confirmation code to your email',
-                        'Мы отправили код подтверждения на вашу электронную почту')}
-                </Text>
-                <Text style={styles.text}>
-                    {languageTranslate(
-                        userData.language,
-                        'Enter the code in the field below:',
-                        'Введите код в поле ниже:')}
-                </Text>
-                <View style={styles.textInputs}>
-                    <Text style={styles.inputHeader}>
+        <SafeAreaView style={styles.main}>
+            <ScrollView style={styles.main}>
+                <View style={styles.form}>
+                    <Text style={styles.text}>
                         {languageTranslate(
                             userData.language,
-                            'Confirmation code',
-                            'Код подтверждения')}</Text>
-                    <TextInput
-                        style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
-                        placeholder=""
-                        secureTextEntry
-                        value={emailCode}
-                        onChangeText={text => setEmailCode(text)} />
-
-                </View>
-                <View style={styles.buttons}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        title="Далее"
-                        onPress={handleEmailScreen}>
-                        <Text style={styles.textButton}>
+                            'We have sent a confirmation code to your email',
+                            'Мы отправили код подтверждения на вашу электронную почту')}
+                    </Text>
+                    <Text style={styles.text}>
+                        {languageTranslate(
+                            userData.language,
+                            'Enter the code in the field below:',
+                            'Введите код в поле ниже:')}
+                    </Text>
+                    <View style={styles.textInputs}>
+                        <Text style={styles.inputHeader}>
                             {languageTranslate(
                                 userData.language,
-                                'Next',
-                                'Далее')}
-                        </Text>
-                    </TouchableOpacity>
+                                'Confirmation code',
+                                'Код подтверждения')}</Text>
+                        <TextInput
+                            style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
+                            placeholder=""
+                            secureTextEntry
+                            value={emailCode}
+                            onChangeText={text => setEmailCode(text)} />
+
+                    </View>
+                    <View style={styles.buttons}>
+                        <TouchableOpacity
+                            style={styles.button}
+                            title="Далее"
+                            onPress={handleEmailScreen}>
+                            <Text style={styles.textButton}>
+                                {languageTranslate(
+                                    userData.language,
+                                    'Next',
+                                    'Далее')}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 

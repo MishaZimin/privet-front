@@ -1,7 +1,7 @@
 //2.2.3. Регистрация ИС
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, Alert, SafeAreaView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
 import {
@@ -10,7 +10,7 @@ import {
     getJSONFromServer,
     sendDataToServer,
     userData,
-} from '../utils.jsx';
+} from '../Utils.jsx';
 import { styles } from '../main.jsx';
 
 

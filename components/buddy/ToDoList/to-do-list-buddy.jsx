@@ -2,7 +2,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
 import {
@@ -15,7 +15,7 @@ import {
     arrivalBookData,
     myArrivals,
 
-} from '../../utils.jsx';
+} from '../../Utils.jsx';
 import { styles } from '../../main.jsx';
 import * as Progress from 'react-native-progress';
 
@@ -94,15 +94,15 @@ const ToDoListBuddyScreen = ({ navigation }) => {
                             <Text style={styles.textButton}>
                                 {languageTranslate(
                                     userData.language,
-                                    'Fill Info About {Student Full Name}',
-                                    'Заполнить информацию о {Полное Имя Студента}')}
+                                    'Fill Info About: ' + arrivalBookData.fullName,
+                                    'Заполнить информацию о ' + arrivalBookData.fullName)}
                             </Text>
                         </TouchableOpacity>
-                        <Text style={styles.inputHeader}>
+                        {/* <Text style={styles.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 '',
-                                '')}</Text>
+                                '')}</Text> */}
                         <Text style={styles.textHeader}>
                             {languageTranslate(
                                 userData.language,

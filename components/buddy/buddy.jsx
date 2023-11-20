@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
 import {
@@ -10,7 +10,7 @@ import {
     sendJSONToServer,
     userData,
     getTokenToServer,
-} from '../utils.jsx';
+} from '../Utils.jsx';
 import { styles } from '../main.jsx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -46,98 +46,109 @@ const BuddysScreen = ({ navigation }) => {
 
         navigation.navigate('BuddyProfileScreen');
     };
+
     const handleToDoList = () => {
         navigation.navigate('ToDoListBuddyScreen');
     };
+
     const handleAllArrivals = () => {
         navigation.navigate('AllArrivalsScreen');
     };
+
     const handleBuddysStudents = () => {
         navigation.navigate('BuddysStudentsScreen');
     };
+
     const handleMessenager = () => {
         navigation.navigate('MessengerScreen');
     };
+
     const handleProfileForIS = () => {
         navigation.navigate('BuddyProfileForIS');
     };
 
-
     return (
-        <ScrollView style={styles.main}>
-            <View style={styles.form}>
-                <Text>2.4. Экраны и функционал для Сопровождающего (Сопровождающего, Бадди)</Text>
-                <View style={styles.buttons}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        title="handleBuddyProfile"
-                        onPress={handleBuddyProfile}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(
-                                userData.language,
-                                'Buddy Profile',
-                                'Профиль')}
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        title="handleToDoList"
-                        onPress={handleToDoList}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(
-                                userData.language,
-                                'To Do List',
-                                'Список задач')}
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        title="handleAllArrivals"
-                        onPress={handleAllArrivals}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(
-                                userData.language,
-                                'All Arrivals',
-                                'Все приезды')}
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        title="handleBuddysStudents"
-                        onPress={handleBuddysStudents}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(
-                                userData.language,
-                                'Buddys Students',
-                                'Студенты сопровождающего')}
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        title="Messenager"
-                        onPress={handleMessenager}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(
-                                userData.language,
-                                'Messenager',
-                                'Мессенджер')}
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        title="handleProfileForIS"
-                        onPress={handleProfileForIS}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(
-                                userData.language,
-                                'ProfileForIS',
-                                'Профиль сопр для студента')}
-                        </Text>
-                    </TouchableOpacity>
+        <SafeAreaView style={styles.main}>
+            <ScrollView style={styles.main}>
+                <View style={styles.form}>
+                    <Text>
+                        {languageTranslate(
+                            userData.language,
+                            'Screens and functionality for the Attendant (Attendant, Buddy)',
+                            'Экраны и функционал для Сопровождающего (Сопровождающего, Бадди)')}
+                    </Text>
+                    <View style={styles.buttons}>
+                        <TouchableOpacity
+                            style={styles.button}
+                            title="handleBuddyProfile"
+                            onPress={handleBuddyProfile}>
+                            <Text style={styles.textButton}>
+                                {languageTranslate(
+                                    userData.language,
+                                    'Buddy Profile',
+                                    'Профиль')}
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            title="handleToDoList"
+                            onPress={handleToDoList}>
+                            <Text style={styles.textButton}>
+                                {languageTranslate(
+                                    userData.language,
+                                    'To Do List',
+                                    'Список задач')}
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            title="handleAllArrivals"
+                            onPress={handleAllArrivals}>
+                            <Text style={styles.textButton}>
+                                {languageTranslate(
+                                    userData.language,
+                                    'All Arrivals',
+                                    'Все приезды')}
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            title="handleBuddysStudents"
+                            onPress={handleBuddysStudents}>
+                            <Text style={styles.textButton}>
+                                {languageTranslate(
+                                    userData.language,
+                                    'Buddys Students',
+                                    'Студенты сопровождающего')}
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            title="Messenager"
+                            onPress={handleMessenager}>
+                            <Text style={styles.textButton}>
+                                {languageTranslate(
+                                    userData.language,
+                                    'Messenager',
+                                    'Мессенджер')}
+                            </Text>
+                        </TouchableOpacity>
+                        {/* <TouchableOpacity
+                            style={styles.button}
+                            title="handleProfileForIS"
+                            onPress={handleProfileForIS}>
+                            <Text style={styles.textButton}>
+                                {languageTranslate(
+                                    userData.language,
+                                    'ProfileForIS',
+                                    'Профиль сопр для студента')}
+                            </Text>
+                        </TouchableOpacity> */}
 
+                    </View>
                 </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 

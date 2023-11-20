@@ -1,7 +1,7 @@
 //2.2.2. Приветственный экран
 
 import React from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity, Image, Alert, SafeAreaView } from 'react-native';
 import { styles } from '../../main.jsx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -13,7 +13,7 @@ import {
     sendJSONToServer,
     userData,
     getTokenToServer,
-} from '../../utils.jsx';
+} from '../../Utils.jsx';
 
 const PaymentScreen = ({ navigation }) => {
 
@@ -30,30 +30,32 @@ const PaymentScreen = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.main}>
-            <View style={styles.form}>
-                <Text style={styles.textHeader}>
-                    {languageTranslate(
-                        userData.language,
-                        'Pyment',
-                        'Оплата')}
-                </Text>
-                {/* <Image
-                    style={styles.img}
-                    source={require('./img/d29e31c59a395ddf644fea8cc04fb79b.jpg')} /> */}
-                <TouchableOpacity
-                    style={styles.button}
-                    title="loading..."
-                    onPress={handlePay}
-                >
-                    <Text style={styles.textButton}>
+        <SafeAreaView style={styles.main}>
+            <View style={styles.main}>
+                <View style={styles.form}>
+                    <Text style={styles.textHeader}>
                         {languageTranslate(
                             userData.language,
-                            'Pay For Escort',
-                            'Оплатить услуги сопровождения')}</Text>
-                </TouchableOpacity>
+                            'Pyment',
+                            'Оплата')}
+                    </Text>
+                    {/* <Image
+                    style={styles.img}
+                    source={require('./img/d29e31c59a395ddf644fea8cc04fb79b.jpg')} /> */}
+                    <TouchableOpacity
+                        style={styles.button}
+                        title="loading..."
+                        onPress={handlePay}
+                    >
+                        <Text style={styles.textButton}>
+                            {languageTranslate(
+                                userData.language,
+                                'Pay For Escort',
+                                'Оплатить услуги сопровождения')}</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-        </View>
+        </SafeAreaView>
     );
 };
 

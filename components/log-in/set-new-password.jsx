@@ -1,7 +1,7 @@
 //2.2.3. Регистрация ИС
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 // import { getJSONFromServer, sendJSONToServer } from './serverUtils.js';
 import {
@@ -12,7 +12,7 @@ import {
     sendDataToServer,
     sendChangePasswordToServer,
     userData,
-} from '../utils.jsx';
+} from '../Utils.jsx';
 
 
 import { styles } from '../main.jsx';

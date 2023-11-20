@@ -1,7 +1,7 @@
 //2.2.2. Приветственный экран
 
 import React from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 import { styles } from './main.jsx';
 import {
     LogInData,
@@ -10,7 +10,7 @@ import {
     getJSONFromServer,
     sendJSONToServer,
     userData,
-} from './utils.jsx';
+} from './Utils.jsx';
 
 const LoadingSettingISScreen = ({ navigation }) => {
 

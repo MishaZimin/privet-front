@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     main: {
         flex: 1,
-        backgroundColor: 'rgb(255, 255, 255)',
+        backgroundColor: 'rgb(235, 235, 235)',
     },
 
     form: {
@@ -127,5 +127,10 @@ export const styles = StyleSheet.create({
         marginBottom: '10%',
         borderRadius: 30,
         width: '100%',
+        borderRadius: 40,
+        shadowColor: 'grey',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
     }
 });

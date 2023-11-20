@@ -2,7 +2,7 @@
 
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
 import {
@@ -11,7 +11,7 @@ import {
     getJSONFromServer,
     sendJSONToServer,
     userData,
-} from '../utils.jsx';
+} from '../Utils.jsx';
 import { styles } from '../main.jsx';
 
 const BuddyProfileForIS = ({ navigation }) => {
@@ -35,11 +35,7 @@ const BuddyProfileForIS = ({ navigation }) => {
         <ScrollView style={styles.main}>
             <View style={styles.form}>
                 <Text style={styles.textHeader}>Buddy Profile For Student</Text>
-
-
-
                 <View style={styles.textInputs}>
-
                     <Text style={styles.inputHeader}>
                         {languageTranslate(
                             userData.language,

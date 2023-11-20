@@ -1,7 +1,7 @@
 //2.2.3. Регистрация Сопровождающего
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, Alert, SafeAreaView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
@@ -14,7 +14,7 @@ import {
 
     userData,
     sendRequest,
-} from '../utils.jsx';
+} from '../Utils.jsx';
 import { styles } from '../main.jsx';
 
 

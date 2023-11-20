@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Button, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { StyleSheet, View, Text, Button, TextInput, TouchableOpacity, ScrollView, Alert, SafeAreaView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -9,7 +9,7 @@ import {
     getDataFromServer,
     sendDataToServer,
     userData,
-} from '../utils.jsx';
+} from '../Utils.jsx';
 import { styles } from '../main.jsx';
 
 let correctEmail = true;

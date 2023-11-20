@@ -2,7 +2,7 @@
 
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
 import {
@@ -10,7 +10,7 @@ import {
     languageTranslate,
     getJSONFromServer,
     sendJSONToServer
-} from '../../utils.jsx';
+} from '../../Utils.jsx';
 import { styles } from '../../main.jsx';
 
 const MessengerScreen = ({ navigation }) => {

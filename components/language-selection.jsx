@@ -8,7 +8,7 @@ import {
     getJSONFromServer,
     sendJSONToServer,
     userData,
-} from './utils.jsx';
+} from './Utils.jsx';
 import { styles } from './main.jsx';
 
 

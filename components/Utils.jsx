@@ -33,22 +33,30 @@ export var userData = {
 };
 
 export var arrivalBookData = {
-    id: '',
-    arrivalDate: '',
-    flightNumber: '',
-    arrivalPoint: '',
-    comment: '',
-    tickets: '',
+    id: '123',
+    arrivalDate: '01.01.2023',
+    flightNumber: '11111',
+    arrivalPoint: '2222',
+    comment: 'comment',
+    tickets: '№4324',
 
-    fullName: '',
-    sex: '',
-    arrivalTime: '',
-    citizenship: '',
-    phone: '',
-    telegram: '',
-    whatsApp: '',
-    vk: '',
-}
+    fullName: 'name student',
+    sex: 1,
+    arrivalTime: '3:30 am',
+    citizenship: 'china',
+    phone: '+78689548962',
+    telegram: '@tg-student',
+    whatsApp: '+78689548962',
+    vk: '@vk-student',
+
+    countBuddy: 1,
+    maxBuddy: 2,
+};
+
+export var allArrivalBuddy = [{
+    photo: '',
+    fullName: 'buddy 1',
+}];
 
 export var StudentData = {
     language: 'en',
@@ -117,11 +125,20 @@ export var registrationData = {
     isNewPassword: false,
 };
 
-export var buddysStudents = [
-    { arrivalID: '#1', photo: 'photo1', studentFullName: 'name1', studenCizenship: 'China' },
-    { arrivalID: '#2', photo: 'photo2', studentFullName: 'name2', studenCizenship: 'UK' },
-    { arrivalID: '#3', photo: 'photo3', studentFullName: 'name3', studenCizenship: 'KZ' },
-];
+export var allArrivals = [];
+
+export var myArrivals = [];
+
+export var allarrivalBookArr = [];
+
+
+// export var buddysStudents = [
+//     { arrivalID: '#1', photo: 'photo1', studentFullName: 'name1', studenCizenship: 'China' },
+//     { arrivalID: '#2', photo: 'photo2', studentFullName: 'name2', studenCizenship: 'UK' },
+//     { arrivalID: '#3', photo: 'photo3', studentFullName: 'name3', studenCizenship: 'KZ' },
+// ];
+
+export var buddysStudents = [];
 
 export var initialTasksData = [
     { id: 1, text: 'Встреча в аэропорту', completed: false, deadline: '\nDeadline: 11.11.2023 4:30 pm' },
@@ -238,8 +255,6 @@ export const sendDataToServer = async (data, adress, contentType) => {
 }
 
 export const getUserByEmailFromServer = async (adress, contentType) => {
-    // let badyData = (contentType == "/json") ? JSON.stringify(data) : new URLSearchParams(data).toString();
-
     try {
         const res = await fetch("https://privet-mobile-app.onrender.com" + adress, {
             method: "GET",
@@ -247,7 +262,6 @@ export const getUserByEmailFromServer = async (adress, contentType) => {
                 "Content-Type": "application" + contentType,
             },
             credentials: 'include',
-            // body: badyData,
         });
         const responseData = await res.json();
         console.log(adress, responseData);
@@ -259,8 +273,6 @@ export const getUserByEmailFromServer = async (adress, contentType) => {
 }
 
 export const getDataFromServer = async (adress, contentType) => {
-    // let badyData = (contentType == "/json") ? JSON.stringify(data) : new URLSearchParams(data).toString();
-
     try {
         const res = await fetch("https://privet-mobile-app.onrender.com" + adress, {
             method: "GET",

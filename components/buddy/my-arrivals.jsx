@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
 import {
@@ -11,13 +11,13 @@ import {
     userData,
     arrivalBookData,
     myArrivals,
-} from '../utils.jsx';
+} from '../Utils.jsx';
 import { styles } from '../main.jsx';
 
 const MyArrivals = ({ navigation }) => {
     const [university, setName] = useState('');
     console.log(arrivalBookData);
-    console.log(myArrivals);
+    console.log('myArrivals', myArrivals);
 
 
     const handleArrivalBuddy = () => {

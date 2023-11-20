@@ -1,7 +1,7 @@
 //2.2.3. Регистрация Сопровождающего
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import {
     LogInData,
@@ -11,7 +11,7 @@ import {
     sendDataToServer,
     getUserByEmailFromServer,
     userData,
-} from '../utils.jsx';
+} from '../Utils.jsx';
 import { styles } from '../main.jsx';
 
 let correctEmail = false;

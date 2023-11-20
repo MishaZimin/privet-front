@@ -1,7 +1,7 @@
 //2.2.2. Приветственный экран
 
 import React from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 import { styles } from './main.jsx';
 import {
     registrationData,
@@ -9,7 +9,7 @@ import {
     getJSONFromServer,
     sendJSONToServer,
     userData,
-} from './utils.jsx';
+} from './Utils.jsx';
 
 
 const WelcomeScreen = ({ navigation }) => {
@@ -18,30 +18,31 @@ const WelcomeScreen = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.main}>
-            <View style={styles.form}>
-                <View style={styles.textBlock}>
-                    <Text style={styles.textHeader}>Privet👋</Text>
+        <SafeAreaView>
+            <View style={styles.main}>
+                <View style={styles.form}>
+                    <View style={styles.textBlock}>
+                        <Text style={styles.textHeader}>Privet👋</Text>
+                    </View>
 
-                </View>
-
-                {/* <Image
+                    {/* <Image
                     style={styles.img}
                     source={require('./img/d29e31c59a395ddf644fea8cc04fb79b.jpg')} /> */}
-                <TouchableOpacity
-                    style={styles.button}
-                    title="2-3 sec"
-                    onPress={handleRegister}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        title="2-3 sec"
+                        onPress={handleRegister}>
 
-                    <Text style={styles.textButton}>
-                        {languageTranslate(
-                            userData.language,
-                            'Sign Up',
-                            'Зарегистрироваться')}
-                    </Text>
-                </TouchableOpacity>
+                        <Text style={styles.textButton}>
+                            {languageTranslate(
+                                userData.language,
+                                'Sign Up',
+                                'Зарегистрироваться')}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-        </View>
+        </SafeAreaView>
     );
 };
 

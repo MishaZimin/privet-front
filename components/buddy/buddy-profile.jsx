@@ -2,7 +2,7 @@
 
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
 import {
@@ -12,7 +12,7 @@ import {
     sendJSONToServer,
     userData,
     sendChangeProfileToServer,
-} from '../utils.jsx';
+} from '../Utils.jsx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { styles } from '../main.jsx';
