@@ -1,8 +1,9 @@
 //2.2.3. Регистрация Сопровождающего
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, Alert, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { useRoute } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
     LogInData,
@@ -16,7 +17,7 @@ import {
     sendRequest,
 } from '../Utils.jsx';
 import { styles } from '../main.jsx';
-
+import BackButton from '../back-button.jsx';
 
 let correctPassword = false;
 let correctEmail = false;
@@ -104,60 +105,62 @@ const LogInForm = ({ navigation }) => {
     };
 
     return (
-        <ScrollView style={styles.main}>
-            <View style={styles.form}>
-                <Text style={styles.textHeader}>
-                    {languageTranslate(userData.language, 'Log In', 'Вход')}
-                </Text>
-                <View style={styles.textInputs}>
-                    <Text style={styles.inputHeader}>
-                        {languageTranslate(
-                            userData.language,
-                            'Email',
-                            'Email')}</Text>
-                    <TextInput
-                        style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
+        <SafeAreaView style={styles.main}>
+            <ScrollView style={styles.main}>
+                <View style={styles.form}>
+                    <BackButton />
+                    <Text style={styles.textHeader}>
+                        {languageTranslate(userData.language, 'Log In', 'Вход')}
+                    </Text>
+                    <View style={styles.textInputs}>
+                        <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                'Email',
+                                'Email')}</Text>
+                        <TextInput
+                            style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
 
-                        placeholder=""
-                        value={email}
-                        onChangeText={text => setEmail(text)}
-                    />
-                    <Text style={styles.inputHeader}>
-                        {languageTranslate(
-                            userData.language,
-                            'Password',
-                            'Пароль')}</Text>
-                    <TextInput
-                        style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
+                            placeholder=""
+                            value={email}
+                            onChangeText={text => setEmail(text)}
+                        />
+                        <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                'Password',
+                                'Пароль')}</Text>
+                        <TextInput
+                            style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
 
-                        placeholder=""
-                        secureTextEntry
-                        value={password}
-                        onChangeText={text => setPassword(text)}
-                    />
+                            placeholder=""
+                            secureTextEntry
+                            value={password}
+                            onChangeText={text => setPassword(text)}
+                        />
+                    </View>
+                    <View style={styles.buttons}>
+                        <TouchableOpacity
+                            style={styles.button}
+                            title="Вход"
+                            onPress={handleLogIn}>
+                            <Text style={styles.textButton}>
+                                {languageTranslate(userData.language, 'Log In', 'Вход')}
+
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            title="Забыли пароль?"
+                            onPress={handleForgotPassword}>
+                            <Text style={styles.textButton}>
+                                {languageTranslate(userData.language, 'Forgot your password?', 'Забыли пароль?')}
+
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={styles.buttons}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        title="Вход"
-                        onPress={handleLogIn}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(userData.language, 'Log In', 'Вход')}
-
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        title="Забыли пароль?"
-                        onPress={handleForgotPassword}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(userData.language, 'Forgot your password?', 'Забыли пароль?')}
-
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        </ScrollView>
+            </ScrollView></SafeAreaView>
     );
 };
 

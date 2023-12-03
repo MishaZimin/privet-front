@@ -2,8 +2,9 @@
 
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context'
 import RNPickerSelect from 'react-native-picker-select';
 import {
     registrationData,
@@ -14,6 +15,7 @@ import {
 } from '../../Utils.jsx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from '../../main.jsx';
+import BackButton from '../../back-button.jsx';
 
 const SettingScreen = ({ navigation }) => {
     const handleLogOut = async () => {
@@ -33,37 +35,39 @@ const SettingScreen = ({ navigation }) => {
     };
 
     return (
-        <ScrollView style={styles.main}>
-            <View style={styles.form}>
-                <Text style={styles.textHeader}>{languageTranslate(
-                    userData.language,
-                    'Settings',
-                    'Настройки')}</Text>
+        <SafeAreaView style={styles.main}>
+            <ScrollView style={styles.main}>
+                <View style={styles.form}>
+                    <BackButton />
+                    <Text style={styles.textHeader}>{languageTranslate(
+                        userData.language,
+                        'Settings',
+                        'Настройки')}</Text>
 
-                <View style={styles.buttons}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={handleLogOut}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(
-                                userData.language,
-                                'Log Out',
-                                'Выход из аккаунта')}
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={handleChangeLanguage}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(
-                                userData.language,
-                                'Change Language',
-                                'Сменить язык')}
-                        </Text>
-                    </TouchableOpacity>
+                    <View style={styles.buttons}>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={handleLogOut}>
+                            <Text style={styles.textButton}>
+                                {languageTranslate(
+                                    userData.language,
+                                    'Log Out',
+                                    'Выход из аккаунта')}
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={handleChangeLanguage}>
+                            <Text style={styles.textButton}>
+                                {languageTranslate(
+                                    userData.language,
+                                    'Change Language',
+                                    'Сменить язык')}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
-        </ScrollView>
+            </ScrollView></SafeAreaView>
     );
 };
 

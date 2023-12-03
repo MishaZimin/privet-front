@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Button, TextInput, TouchableOpacity, ScrollView, Alert, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, Button, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { useRoute } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
@@ -11,6 +12,7 @@ import {
     userData,
 } from '../Utils.jsx';
 import { styles } from '../main.jsx';
+import BackButton from '../back-button.jsx';
 
 let correctEmail = true;
 
@@ -126,60 +128,62 @@ const EmailScreen = ({ navigation }) => {
     }
 
     return (
-        <ScrollView style={styles.main}>
-            <View style={styles.form}>
-                <Text style={styles.text}>
-                    {languageTranslate(
-                        userData.language,
-                        'We have sent a confirmation code to your email',
-                        'Мы отправили код подтверждения на вашу электронную почту')}
-                </Text>
-                <Text style={styles.text}>
-                    {languageTranslate(
-                        userData.language,
-                        'Enter the code in the field below:',
-                        'Введите код в поле ниже:')}
-                </Text>
-                <View style={styles.textInputs}>
-                    <Text style={styles.inputHeader}>
+        <SafeAreaView style={styles.main}>
+            <ScrollView style={styles.main}>
+                <View style={styles.form}>
+                    <BackButton />
+                    <Text style={styles.text}>
                         {languageTranslate(
                             userData.language,
-                            'Confirmation code',
-                            'Код подтверждения')}</Text>
-                    <TextInput
-                        style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
-                        placeholder=""
-                        secureTextEntry
-                        value={emailCode}
-                        onChangeText={text => setEmailCode(text)} />
+                            'We have sent a confirmation code to your email',
+                            'Мы отправили код подтверждения на вашу электронную почту')}
+                    </Text>
+                    <Text style={styles.text}>
+                        {languageTranslate(
+                            userData.language,
+                            'Enter the code in the field below:',
+                            'Введите код в поле ниже:')}
+                    </Text>
+                    <View style={styles.textInputs}>
+                        <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                'Confirmation code',
+                                'Код подтверждения')}</Text>
+                        <TextInput
+                            style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
+                            placeholder=""
+                            secureTextEntry
+                            value={emailCode}
+                            onChangeText={text => setEmailCode(text)} />
 
+                    </View>
+                    <View style={styles.buttons}>
+                        <TouchableOpacity
+                            style={styles.button}
+                            title="Далее"
+                            onPress={handleEmailScreen}>
+                            <Text style={styles.textButton}>
+                                {languageTranslate(
+                                    userData.language,
+                                    'Next',
+                                    'Далее')}
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            title="Не получили письмо?"
+                            onPress={handleNotEmailCode}>
+                            <Text style={styles.textButton}>
+                                {languageTranslate(
+                                    userData.language,
+                                    'Did not get the email?',
+                                    'Не получили письмо?')}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={styles.buttons}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        title="Далее"
-                        onPress={handleEmailScreen}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(
-                                userData.language,
-                                'Next',
-                                'Далее')}
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        title="Не получили письмо?"
-                        onPress={handleNotEmailCode}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(
-                                userData.language,
-                                'Did not get the email?',
-                                'Не получили письмо?')}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        </ScrollView>
+            </ScrollView></SafeAreaView>
     );
 };
 

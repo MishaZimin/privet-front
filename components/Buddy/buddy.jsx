@@ -1,32 +1,37 @@
 
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
-import { useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useRoute } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import {
     registrationData,
     languageTranslate,
-    getDataFromServer,
+    getJSONFromServer,
     sendJSONToServer,
     userData,
     getTokenToServer,
 } from '../Utils.jsx';
 import { styles } from '../main.jsx';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import BackButton from '../back-button.jsx';
 
 
-const StudentsScreen = ({ navigation }) => {
-    const handleStudentProfile = async () => {
+const BuddysScreen = ({ navigation }) => {
+    const handleBuddyProfile = async () => {
         const accessToken = await AsyncStorage.getItem('access_token');
         const response = await getTokenToServer(accessToken, "/users/me/profile", "/json");
+        // console.log('-----', response);
 
+        // for (var key in response) {
+        //     console.log(key + ': ' + response[key]);
+        // }
+
+        userData.university = response.profile_info.university;
+        userData.city = response.profile_info.city;
         userData.fullName = response.profile_info.full_name;
-        userData.citizenship = response.profile_info.citizenship;
-        userData.sex = response.profile_info.sex;
         userData.birthDate = response.profile_info.birthdate;
+
 
         userData.phone = response.contacts.phone;
         userData.email = response.contacts.email;
@@ -34,29 +39,34 @@ const StudentsScreen = ({ navigation }) => {
         userData.whatsApp = response.contacts.whatsapp;
         userData.vk = response.contacts.vk;
 
-        userData.nativeLanguage = response.profile_info.native_language;
+        userData.nativeLanguage = response.profile_info.nativeLanguage;
         userData.otherLanguage = response.contacts.other_languages;
-        userData.university = response.profile_info.university;
-        userData.escortIsPaid = response.profile_info.escort_paid;
+
+        userData.buddyStatus = response.profile_info.buddy_status;
 
         userData.id = response.contacts.user_id;
 
-        navigation.navigate('StudentProfileScreen');
+        navigation.navigate('BuddyProfileScreen');
     };
+
     const handleToDoList = () => {
-        navigation.navigate('ToDoListISScreen');
+        navigation.navigate('ToDoListBuddyScreen');
     };
-    const handleRoute = () => {
-        navigation.navigate('RouteScreen');
+
+    const handleAllArrivals = () => {
+        navigation.navigate('AllArrivalsScreen');
     };
-    const handleInfo = () => {
-        navigation.navigate('InfoScreen');
+
+    const handleBuddysStudents = () => {
+        navigation.navigate('BuddysStudentsScreen');
     };
+
     const handleMessenager = () => {
         navigation.navigate('MessengerScreen');
     };
-    const handleStudentProfileForBuddy = () => {
-        navigation.navigate('StudentProfileForBuddy');
+
+    const handleProfileForIS = () => {
+        navigation.navigate('BuddyProfileForIS');
     };
 
     return (
@@ -67,18 +77,19 @@ const StudentsScreen = ({ navigation }) => {
                     <Text>
                         {languageTranslate(
                             userData.language,
-                            '2.3. Screens and functionality for an International Student (IS)',
-                            '2.3. Экраны и функционал для Иностранного Студента (ИС)')}</Text>
+                            'Screens and functionality for the Attendant (Attendant, Buddy)',
+                            'Экраны и функционал для Сопровождающего (Сопровождающего, Бадди)')}
+                    </Text>
                     <View style={styles.buttons}>
                         <TouchableOpacity
                             style={styles.button}
-                            title="handleStudentProfile"
-                            onPress={handleStudentProfile}>
+                            title="handleBuddyProfile"
+                            onPress={handleBuddyProfile}>
                             <Text style={styles.textButton}>
                                 {languageTranslate(
                                     userData.language,
-                                    'Student Profile',
-                                    'Профиль Студента')}
+                                    'Buddy Profile',
+                                    'Профиль')}
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
@@ -94,24 +105,24 @@ const StudentsScreen = ({ navigation }) => {
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button}
-                            title="handleRoute"
-                            onPress={handleRoute}>
+                            title="handleAllArrivals"
+                            onPress={handleAllArrivals}>
                             <Text style={styles.textButton}>
                                 {languageTranslate(
                                     userData.language,
-                                    'Route',
-                                    'Маршрут')}
+                                    'All Arrivals',
+                                    'Все приезды')}
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button}
-                            title="handleInfo"
-                            onPress={handleInfo}>
+                            title="handleBuddysStudents"
+                            onPress={handleBuddysStudents}>
                             <Text style={styles.textButton}>
                                 {languageTranslate(
                                     userData.language,
-                                    'Info',
-                                    'Информация')}
+                                    'Buddys Students',
+                                    'Студенты сопровождающего')}
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
@@ -125,18 +136,18 @@ const StudentsScreen = ({ navigation }) => {
                                     'Мессенджер')}
                             </Text>
                         </TouchableOpacity>
-
                         {/* <TouchableOpacity
                             style={styles.button}
-                            title="StudentProfileForBuddy"
-                            onPress={handleStudentProfileForBuddy}>
+                            title="handleProfileForIS"
+                            onPress={handleProfileForIS}>
                             <Text style={styles.textButton}>
                                 {languageTranslate(
                                     userData.language,
-                                    'Student profile for Buddy',
-                                    'Профиль студента для сопровождающего')}
+                                    'ProfileForIS',
+                                    'Профиль сопр для студента')}
                             </Text>
                         </TouchableOpacity> */}
+
                     </View>
                 </View>
             </ScrollView>
@@ -144,4 +155,12 @@ const StudentsScreen = ({ navigation }) => {
     );
 };
 
-export default StudentsScreen;
+// export const styles = StyleSheet.create({
+//     main: {
+//         flex: 1,
+//         marginTop: 10,
+//         alignItems: 'center',
+//     },
+// });
+
+export default BuddysScreen;

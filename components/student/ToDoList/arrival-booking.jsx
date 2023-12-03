@@ -2,8 +2,9 @@
 
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, Alert, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { useRoute } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context'
 import RNPickerSelect from 'react-native-picker-select';
 import {
     registrationData,
@@ -14,6 +15,7 @@ import {
     arrivalBookData,
 } from '../../Utils.jsx';
 import { styles } from '../../main.jsx';
+import BackButton from '../../back-button.jsx';
 
 const ArrivalBookingScreen = ({ navigation }) => {
     const [fullName, setFullName] = useState(userData.fullName);
@@ -46,6 +48,7 @@ const ArrivalBookingScreen = ({ navigation }) => {
         arrivalBookData.fullName = fullName;
         arrivalBookData.sex = sex;
         arrivalBookData.arrivalTime = arrivalTime;
+        arrivalBookData.arrivalDateTime = arrivalDate + arrivalTime;
         arrivalBookData.citizenship = citizenship;
         arrivalBookData.phone = phone;
         arrivalBookData.telegram = telegram;
@@ -66,6 +69,7 @@ const ArrivalBookingScreen = ({ navigation }) => {
         <SafeAreaView style={styles.main}>
             <ScrollView style={styles.main}>
                 <View style={styles.form}>
+                    <BackButton />
                     <View style={styles.textBlock}>
                         <Text style={styles.textHeader}>
                             {languageTranslate(

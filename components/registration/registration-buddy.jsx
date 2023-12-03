@@ -2,8 +2,9 @@
 
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context'
 import RNPickerSelect from 'react-native-picker-select';
 import {
     registrationData,
@@ -13,6 +14,7 @@ import {
     userData,
 } from '../Utils.jsx';
 import { styles } from '../main.jsx';
+import BackButton from '../back-button.jsx';
 
 
 
@@ -91,66 +93,68 @@ const RegistrationBuddySreen = ({ navigation }) => {
     };
 
     return (
-        <ScrollView style={styles.main}>
-            <View style={styles.form}>
-                <Text style={styles.textHeader}>
-                    {languageTranslate(
-                        userData.language,
-                        'Registration Buddy',
-                        'Регистрация Сопровождающего')}
-                </Text>
-                <View style={styles.textInputs}>
-                    <Text style={styles.inputHeader}>
+        <SafeAreaView style={styles.main}>
+            <ScrollView style={styles.main}>
+                <View style={styles.form}>
+                    <BackButton />
+                    <Text style={styles.textHeader}>
                         {languageTranslate(
                             userData.language,
-                            'Email',
-                            'Email')}</Text>
-                    <TextInput
-                        style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
-                        placeholder=""
-                        value={email}
-                        onChangeText={text => setEmail(text)}
-                    />
-                    <Text style={styles.inputHeader}>
-                        {languageTranslate(
-                            userData.language,
-                            'Password',
-                            'Пароль')}</Text>
-                    <TextInput
-                        style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
-                        placeholder=""
-                        secureTextEntry
-                        value={password}
-                        onChangeText={text => setPassword(text)}
-                    />
-                    <Text style={styles.inputHeader}>
-                        {languageTranslate(
-                            userData.language,
-                            'Password confirm',
-                            'Подтверждение пароля')}</Text>
-                    <TextInput
-                        style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
-                        placeholder=""
-                        secureTextEntry
-                        value={passwordConfirm}
-                        onChangeText={text => setPasswordConfirm(text)}
-                    />
-                </View>
-                <View style={styles.buttons}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        title="Зарегистрироваться"
-                        onPress={handleRegistration}>
-                        <Text style={styles.textButton}>
+                            'Registration Buddy',
+                            'Регистрация Сопровождающего')}
+                    </Text>
+                    <View style={styles.textInputs}>
+                        <Text style={styles.inputHeader}>
                             {languageTranslate(
                                 userData.language,
-                                'Registration',
-                                'Зарегистрироваться')}
-                        </Text>
-                    </TouchableOpacity>
+                                'Email',
+                                'Email')}</Text>
+                        <TextInput
+                            style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
+                            placeholder=""
+                            value={email}
+                            onChangeText={text => setEmail(text)}
+                        />
+                        <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                'Password',
+                                'Пароль')}</Text>
+                        <TextInput
+                            style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
+                            placeholder=""
+                            secureTextEntry
+                            value={password}
+                            onChangeText={text => setPassword(text)}
+                        />
+                        <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                'Password confirm',
+                                'Подтверждение пароля')}</Text>
+                        <TextInput
+                            style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
+                            placeholder=""
+                            secureTextEntry
+                            value={passwordConfirm}
+                            onChangeText={text => setPasswordConfirm(text)}
+                        />
+                    </View>
+                    <View style={styles.buttons}>
+                        <TouchableOpacity
+                            style={styles.button}
+                            title="Зарегистрироваться"
+                            onPress={handleRegistration}>
+                            <Text style={styles.textButton}>
+                                {languageTranslate(
+                                    userData.language,
+                                    'Registration',
+                                    'Зарегистрироваться')}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
-        </ScrollView>
+            </ScrollView></SafeAreaView>
     );
 };
 

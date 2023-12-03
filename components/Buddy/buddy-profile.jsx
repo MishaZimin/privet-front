@@ -2,31 +2,27 @@
 
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context'
-// import RNPickerSelect from 'react-native-picker-select';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SelectList } from 'react-native-dropdown-select-list'
+import RNPickerSelect from 'react-native-picker-select';
 import {
     registrationData,
     languageTranslate,
     getJSONFromServer,
     sendJSONToServer,
-    sendChangeProfileToServer,
     userData,
-    getUserType,
-    getValueByKey
-} from '../../Utils.jsx';
-import { styles } from '../../main.jsx';
-import BackButton from '../../back-button.jsx';
-import { countriesPicker } from '../../data-picker/citizenship.jsx';
-import { languagePicker } from '../../data-picker/langues.jsx';
+    sendChangeProfileToServer,
+    getUserType
+} from '../Utils.jsx';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import BackButton from '../back-button.jsx';
+import { styles } from '../main.jsx';
 
-const StudentProfileScreen = ({ navigation }) => {
+const BuddyProfileScreen = ({ navigation }) => {
+    const [city, setCity] = useState(userData.city);
     const [fullName, setFullName] = useState(userData.fullName);
-    const [citizenship, setCitizenship] = useState(userData.citizenship);
-    const [sex, setSex] = useState(userData.sex);
+    // const [sex, setSex] = useState(userData.sex);
     const [birthDate, setBirthDate] = useState(userData.birthDate);
 
     const [phone, setPhone] = useState(userData.phone);
@@ -38,35 +34,41 @@ const StudentProfileScreen = ({ navigation }) => {
     const [nativeLanguage, setNativeLanguage] = useState(userData.nativeLanguage);
     const [otherLanguage, setOtherLanguage] = useState(userData.otherLanguage);
     const [university, setUniversity] = useState(userData.university);
-    const [escortIsPaid, setEscortIsPaid] = (userData.escortIsPaid) ? useState("Yes") : useState("No");
-    const [profileType, setProfileType] = useState(getUserType(userData.user));
-
-    const sexPicker = [
-        { key: '1', value: 'Man' },
-        { key: '2', value: 'Woman' },
-    ];
+    const [profileType, setProfileType] = getUserType(userData.user);
+    const [buddyStatus, setBuddyStatus] = userData.buddyStatus ? useState("Yes") : useState("No");
 
     const handleNotifications = () => {
         console.log('уведомления');
     };
-
     const handleSettings = () => {
         navigation.navigate('SettingScreen');
     };
-
     const handleSave = async () => {
-        console.log('---', sex);
+        // userData.fullName = fullName;
+        // // userData.sex = sex;
+        // userData.birthDate = birthDate;
+        // userData.city = city;
+        // userData.phone = phone;
+        // userData.email = email;
+        // userData.telegram = telegram;
+        // userData.whatsApp = whatsApp;
+        // userData.vk = vk;
+
+        // userData.nativeLanguage = nativeLanguage;
+        // userData.otherLanguage = otherLanguage;
+        // userData.university = university;
+
         const data = {
             "full_name": fullName,
-            "citizenship": citizenship == '' ? null : citizenship,
-            "city": null,
-            "sex": sex,
+            "citizenship": null,
+            "city": city == '' ? null : city,
+            "sex": null,
             "birthdate": birthDate == '' ? null : birthDate,
             "phone": phone == '' ? null : phone,
             "telegram": telegram == '' ? null : telegram,
             "whatsapp": whatsApp == '' ? null : whatsApp,
             "vk": vk == '' ? null : vk,
-            "native_language": nativeLanguage,
+            "native_language": null,
             "other_languages_ids": [],
             "university": university == '' ? null : university
         };
@@ -74,20 +76,20 @@ const StudentProfileScreen = ({ navigation }) => {
         const accessToken = await AsyncStorage.getItem('access_token');
         await sendChangeProfileToServer(data, "/users/me/profile/change", "/json", accessToken);
 
-        Alert.alert('профиль сохранен')
+        // запрос с userData на бэк
     };
 
     return (
         <SafeAreaView style={styles.main}>
             <ScrollView style={styles.main}>
+
                 <View style={styles.form}>
                     <BackButton />
                     <Text style={styles.textHeader}>
                         {languageTranslate(
                             userData.language,
-                            'Student Profile',
-                            'Профиль Студента')}
-                    </Text>
+                            'Buddy Profile',
+                            'Профиль Сопровождающего')}</Text>
 
                     <View style={styles.buttons}>
                         <TouchableOpacity
@@ -107,55 +109,46 @@ const StudentProfileScreen = ({ navigation }) => {
                                 {languageTranslate(
                                     userData.language,
                                     'Notifications',
-                                    'Уведомления')}
+                                    'Уведомдления')}
                             </Text>
                         </TouchableOpacity>
                     </View>
 
                     <View style={styles.textInputs}>
+
+                        <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                'University',
+                                'Университет')}</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder=""
+                            value={university}
+                            onChangeText={text => setUniversity(text)}
+                        />
+                        <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                'City',
+                                'Город')}</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder=""
+                            value={city}
+                            onChangeText={text => setCity(text)}
+                        />
                         <Text style={styles.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 'Full Name',
-                                'Полное имя')}</Text>
+                                'Полное Имя')}</Text>
                         <TextInput
                             style={styles.textInput}
                             placeholder=""
                             value={fullName}
                             onChangeText={text => setFullName(text)}
                         />
-                        <Text style={styles.inputHeader}>
-                            {languageTranslate(
-                                userData.language,
-                                'Citizenship',
-                                'Гражданство')}</Text>
-
-                        <SelectList
-                            style={styles.textInput}
-                            data={countriesPicker}
-                            save="key"
-                            placeholder={getValueByKey(userData.citizenship, countriesPicker)}
-                            // defaultOption={{ key: '2', value: 'Spanish' }}
-                            setSelected={(val) => setCitizenship(val)}
-                        />
-
-                        <Text style={styles.inputHeader}>
-                            {languageTranslate(
-                                userData.language,
-                                'Sex',
-                                'Пол')}</Text>
-                        <SelectList
-                            style={styles.picker}
-                            search={false}
-                            // value={sex}
-                            data={sexPicker}
-                            save="key"
-
-                            placeholder="Man"
-                            setSelected={(val) => setSex(val)}
-                        />
-
-
                         <Text style={styles.inputHeader}>
                             {languageTranslate(
                                 userData.language,
@@ -176,12 +169,7 @@ const StudentProfileScreen = ({ navigation }) => {
                             style={styles.textInput}
                             placeholder="+"
                             value={phone}
-                            onChangeText={text => {
-                                if (text.length <= 12) {
-                                    setPhone(text);
-                                }
-                            }}
-                            maxLength={12}
+                            onChangeText={text => setPhone(text)}
                         />
                         <Text style={styles.inputHeader}>
                             {languageTranslate(
@@ -190,7 +178,7 @@ const StudentProfileScreen = ({ navigation }) => {
                                 'Email')}</Text>
                         <TextInput
                             style={styles.textInput}
-                            placeholder="Email"
+                            placeholder=""
                             value={email}
                             editable={false}
 
@@ -205,12 +193,7 @@ const StudentProfileScreen = ({ navigation }) => {
                             style={styles.textInput}
                             placeholder="@"
                             value={telegram}
-                            onChangeText={text => {
-                                if (text.length <= 32) {
-                                    setTelegram(text);
-                                }
-                            }}
-                            maxLength={32}
+                            onChangeText={text => setTelegram(text)}
                         />
                         <Text style={styles.inputHeader}>
                             {languageTranslate(
@@ -221,13 +204,7 @@ const StudentProfileScreen = ({ navigation }) => {
                             style={styles.textInput}
                             placeholder="+"
                             value={whatsApp}
-
-                            onChangeText={text => {
-                                if (text.length <= 12) {
-                                    setWhatsApp(text);
-                                }
-                            }}
-                            maxLength={12}
+                            onChangeText={text => setWhatsApp(text)}
                         />
                         <Text style={styles.inputHeader}>
                             {languageTranslate(
@@ -235,31 +212,21 @@ const StudentProfileScreen = ({ navigation }) => {
                                 'VK',
                                 'VK')}</Text>
                         <TextInput
-
                             style={styles.textInput}
                             placeholder="@"
                             value={vk}
-                            onChangeText={text => {
-                                if (text.length <= 32) {
-                                    setVk(text);
-                                }
-                            }}
-                            maxLength={32}
+                            onChangeText={text => setVk(text)}
                         />
                         <Text style={styles.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 'Native Language',
-                                'Родной язык ИС')}</Text>
-
-
-                        <SelectList
+                                'Родной язык')}</Text>
+                        <TextInput
                             style={styles.textInput}
-                            data={languagePicker}
-                            save="key"
-                            placeholder={getValueByKey(userData.nativeLanguage, languagePicker)}
-                            // defaultOption={{ key: '2', value: 'Spanish' }}
-                            setSelected={(val) => setNativeLanguage(val)}
+                            placeholder=""
+                            value={nativeLanguage}
+                            onChangeText={text => setNativeLanguage(text)}
                         />
                         <Text style={styles.inputHeader}>
                             {languageTranslate(
@@ -275,40 +242,28 @@ const StudentProfileScreen = ({ navigation }) => {
                         <Text style={styles.inputHeader}>
                             {languageTranslate(
                                 userData.language,
-                                'University',
-                                'Университет')}</Text>
+                                'Profile type',
+                                'Тип профиля')}</Text>
                         <TextInput
                             style={styles.textInput}
-                            placeholder=""
-                            value={university}
-                            onChangeText={text => setUniversity(text)}
-                        />
-
-                        <Text style={styles.inputHeader}>
-                            {languageTranslate(
-                                userData.language,
-                                'Escort Is Paid',
-                                'Статус оплаты сопровождения')}</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder=""
-                            value={escortIsPaid}
-                            editable={false}
-
-                            onChangeText={text => setEscortIsPaid(text)}
-                        />
-                        <Text style={styles.inputHeader}>
-                            {languageTranslate(
-                                userData.language,
-                                'Profile Type',
-                                'Тип Профиля')}</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder={getUserType(userData.user)}
+                            placeholder={String(userData.user)}
                             value={profileType}
                             editable={false}
 
                             onChangeText={text => setProfileType(text)}
+                        />
+                        <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                'Buddy Status',
+                                'Статус Сопровождающего')}</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={"Buddy Status"}
+                            value={buddyStatus}
+                            editable={false}
+
+                            onChangeText={text => setBuddyStatus(text)}
                         />
                     </View>
 
@@ -325,10 +280,9 @@ const StudentProfileScreen = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-            </ScrollView></SafeAreaView>
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 
-
-
-export default StudentProfileScreen;
+export default BuddyProfileScreen;

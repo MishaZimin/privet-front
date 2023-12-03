@@ -1,7 +1,8 @@
 //2.2.1. Выбор языка
 
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context'
 import {
     registrationData,
     languageTranslate,
@@ -10,6 +11,8 @@ import {
     userData,
 } from '../../Utils.jsx';
 import { styles } from '../../main.jsx';
+import BackButton from '../../back-button.jsx';
+
 
 
 const ChangeLanguageScreen = ({ navigation }) => {
@@ -22,7 +25,7 @@ const ChangeLanguageScreen = ({ navigation }) => {
         userData.language = language;
 
     };
-
+    console.log('=====', userData);
     const handleContinue = () => {
         console.log('selctor language:', userData.language);
 
@@ -36,38 +39,40 @@ const ChangeLanguageScreen = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.main}>
-            <View style={styles.form}>
-                <Text style={styles.textHeader}>
-                    {languageTranslate(
-                        userData.language,
-                        'Chainge Language',
-                        'Сменить язык')}
-                </Text>
-
-                <View style={styles.buttons}>
-                    <TouchableOpacity
-                        style={[languageStyles.button, selectedLanguage === 'ru' ? languageStyles.selectedButton : {}]}
-                        onPress={() => handleLanguageChange('ru')}>
-                        <Text style={styles.buttonText}>Русский</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[languageStyles.button, selectedLanguage === 'en' ? languageStyles.selectedButton : {}]}
-                        onPress={() => handleLanguageChange('en')}>
-                        <Text style={languageStyles.buttonText}>English</Text>
-                    </TouchableOpacity>
-                </View>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={handleContinue}>
-                    <Text style={languageStyles.buttonText}>
+        <SafeAreaView style={styles.main}>
+            <View style={styles.main}>
+                <View style={styles.form}>
+                    <BackButton />
+                    <Text style={styles.textHeader}>
                         {languageTranslate(
                             userData.language,
-                            'Next',
-                            'Далее')}</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
+                            'Chainge Language',
+                            'Сменить язык')}
+                    </Text>
+
+                    <View style={styles.buttons}>
+                        <TouchableOpacity
+                            style={[languageStyles.button, selectedLanguage === 'ru' ? languageStyles.selectedButton : {}]}
+                            onPress={() => handleLanguageChange('ru')}>
+                            <Text style={styles.buttonText}>Русский</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[languageStyles.button, selectedLanguage === 'en' ? languageStyles.selectedButton : {}]}
+                            onPress={() => handleLanguageChange('en')}>
+                            <Text style={languageStyles.buttonText}>English</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={handleContinue}>
+                        <Text style={languageStyles.buttonText}>
+                            {languageTranslate(
+                                userData.language,
+                                'Next',
+                                'Далее')}</Text>
+                    </TouchableOpacity>
+                </View>
+            </View></SafeAreaView>
     );
 };
 

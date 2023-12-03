@@ -1,8 +1,9 @@
 //2.2.2. Приветственный экран
 
 import React from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity, Image, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { styles } from '../../main.jsx';
+import { SafeAreaView } from 'react-native-safe-area-context'
 import {
     registrationData,
     languageTranslate,
@@ -10,6 +11,7 @@ import {
     sendJSONToServer,
     userData,
 } from '../../Utils.jsx';
+import BackButton from '../../back-button.jsx';
 
 
 const ArrivalSubmitted = ({ navigation }) => {
@@ -25,6 +27,7 @@ const ArrivalSubmitted = ({ navigation }) => {
         <SafeAreaView style={styles.main}>
             <ScrollView style={styles.main}>
                 <View style={styles.form}>
+                    <BackButton />
                     <View style={styles.textBlock}>
                         <Text style={styles.textHeader}>
                             {languageTranslate(

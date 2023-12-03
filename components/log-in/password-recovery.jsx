@@ -1,8 +1,9 @@
 //2.2.3. Регистрация Сопровождающего
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context'
 import {
     LogInData,
     registrationData,
@@ -13,6 +14,7 @@ import {
     userData,
 } from '../Utils.jsx';
 import { styles } from '../main.jsx';
+import BackButton from '../back-button.jsx';
 
 let correctEmail = false;
 
@@ -69,43 +71,45 @@ const PasswordRecoveryScreen = ({ navigation }) => {
     };
 
     return (
-        <ScrollView style={styles.main}>
-            <View style={styles.form}>
-                <Text style={styles.textHeader}>
-                    {languageTranslate(
-                        userData.language,
-                        'Password recovery screen',
-                        'Экран восстановления пароля')}
-                </Text>
-                <View style={styles.textInputs}>
-                    <Text style={styles.inputHeader}>
+        <SafeAreaView style={styles.main}>
+            <ScrollView style={styles.main}>
+                <View style={styles.form}>
+                    <BackButton />
+                    <Text style={styles.textHeader}>
                         {languageTranslate(
                             userData.language,
-                            'Email',
-                            'Email')}</Text>
-                    <TextInput
-                        style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
-
-                        placeholder=""
-                        value={email}
-                        onChangeText={text => setEmail(text)}
-                    />
-                </View>
-
-
-                <TouchableOpacity
-                    style={styles.button}
-                    title="Далее"
-                    onPress={handlePasswordRecovery}>
-                    <Text style={styles.textButton}>
-                        {languageTranslate(
-                            registrationData.language,
-                            'Next',
-                            'Далее')}
+                            'Password recovery screen',
+                            'Экран восстановления пароля')}
                     </Text>
-                </TouchableOpacity>
-            </View>
-        </ScrollView>
+                    <View style={styles.textInputs}>
+                        <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                'Email',
+                                'Email')}</Text>
+                        <TextInput
+                            style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
+
+                            placeholder=""
+                            value={email}
+                            onChangeText={text => setEmail(text)}
+                        />
+                    </View>
+
+
+                    <TouchableOpacity
+                        style={styles.button}
+                        title="Далее"
+                        onPress={handlePasswordRecovery}>
+                        <Text style={styles.textButton}>
+                            {languageTranslate(
+                                registrationData.language,
+                                'Next',
+                                'Далее')}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView></SafeAreaView>
     );
 };
 

@@ -1,8 +1,9 @@
 //2.2.2. Приветственный экран
 
 import React from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity, Image, Alert, SafeAreaView } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import { styles } from '../../main.jsx';
+import { SafeAreaView } from 'react-native-safe-area-context'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
@@ -14,25 +15,27 @@ import {
     userData,
     getTokenToServer,
 } from '../../Utils.jsx';
+import BackButton from '../../back-button.jsx';
 
 const PaymentScreen = ({ navigation }) => {
 
-    const handlePay = () => {
+    const handlePay = async () => {
+
+
         userData.escortIsPaid = true;
 
         Alert.alert(languageTranslate(
             userData.language,
             'Payment successful',
             'Оплата прошла успешно'));
-
         navigation.navigate('ToDoListISScreen');
-
     };
 
     return (
         <SafeAreaView style={styles.main}>
             <View style={styles.main}>
                 <View style={styles.form}>
+                    <BackButton />
                     <Text style={styles.textHeader}>
                         {languageTranslate(
                             userData.language,

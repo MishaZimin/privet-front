@@ -14,14 +14,16 @@ import {
     initialTasksData,
     userData,
     arrivalBookData,
-    getTokenToServer,
+    myArrivals,
+
 } from '../../Utils.jsx';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from '../../main.jsx';
 import * as Progress from 'react-native-progress';
 import BackButton from '../../back-button.jsx';
 
-const ToDoListISScreen = ({ navigation }) => {
+const ToDoListBuddyScreen = ({ navigation }) => {
+    // console.log('myArrivals:', myArrivals);
+
     const [progress, setProgress] = useState(0);
     const [tasks, setTasks] = useState(initialTasksData);
 
@@ -32,39 +34,22 @@ const ToDoListISScreen = ({ navigation }) => {
         setProgress(newProgress);
     };
 
-    // const handleTaskPress = (id) => {
-    //     const updatedTasks = tasks.map((task) =>
-    //         task.id === id ? { ...task, completed: !task.completed } : task
-    //     );
+    const handleTaskPress = (id) => {
+        const updatedTasks = tasks.map((task) =>
+            task.id === id ? { ...task, completed: !task.completed } : task
+        );
 
-    //     initialTasksData[id - 1] = updatedTasks[id - 1];
+        initialTasksData[id - 1] = updatedTasks[id - 1];
 
-    //     setTasks(updatedTasks);
-    // };
+        setTasks(updatedTasks);
+    };
 
-    const handleBookMyArrival = async () => {
+    const handleFillInfo = () => {
         // userData.escortIsPaid = false;
         // arrivalBookData.id = '';
 
-        const accessToken = await AsyncStorage.getItem('access_token');
-        const response = await getTokenToServer(accessToken, "/users/me/profile", "/json");
-        console.log('----', response);
-        console.log('escort_paid', response.profile_info.escort_paid);
+        navigation.navigate('StudentProfileForBuddy');
 
-        if (response.profile_info.escort_paid) {
-            userData.escortIsPaid = true;
-            navigation.navigate('ArrivalBookingScreen');
-        }
-        else {
-            navigation.navigate('PaymentScreen');
-        }
-
-        // if (userData.escortIsPaid) {
-        //     navigation.navigate('ArrivalBookingScreen');
-        // }
-        // else {
-        //     navigation.navigate('PaymentScreen');
-        // }
     }
 
     useEffect(() => {
@@ -85,31 +70,50 @@ const ToDoListISScreen = ({ navigation }) => {
                         </Text>
                     </View>
 
-                    <TouchableOpacity
-                        style={styles.button}
-                        title="BookMyArrival"
-                        onPress={handleBookMyArrival}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(
-                                userData.language,
-                                'Book My Arrival',
-                                'Зарегистрировать приезд')}
-                        </Text>
-                    </TouchableOpacity>
-                    <Text style={styles.inputHeader}>
+                    {/* <TouchableOpacity
+                    style={styles.button}
+                    title="BookMyArrival"
+                    onPress={handleFillInfo}>
+                    <Text style={styles.textButton}>
                         {languageTranslate(
                             userData.language,
-                            '',
-                            '')}</Text>
+                            'Fill Info About {Student Full Name}',
+                            'Заполнить информацию о {Полное Имя Студента}')}
+                    </Text>
+                </TouchableOpacity>
+                <Text style={styles.inputHeader}>
+                    {languageTranslate(
+                        userData.language,
+                        '',
+                        '')}</Text> */}
 
-                    {(userData.escortIsPaid && arrivalBookData.id !== '') ? (
+                    {/* {(userData.escortIsPaid && arrivalBookData.id !== '') ? (
 
-                        <View style={styles.toDoList}>
+                    
+                ) : null} */}
+                    {myArrivals.length > 0 ? myArrivals.map((arrival, index) => (
+                        <View style={styles.toDoList} key={index}>
+                            <TouchableOpacity
+                                style={styles.button}
+                                title="BookMyArrival"
+                                onPress={handleFillInfo}>
+                                <Text style={styles.textButton}>
+                                    {languageTranslate(
+                                        userData.language,
+                                        'Fill Info About: ' + arrival.fullName,
+                                        'Заполнить информацию о ' + arrival.fullName)}
+                                </Text>
+                            </TouchableOpacity>
+                            {/* <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                '',
+                                '')}</Text> */}
                             <Text style={styles.textHeader}>
                                 {languageTranslate(
                                     userData.language,
                                     'Arrival #',
-                                    'Приезд #')}{arrivalBookData.id}</Text>
+                                    'Приезд #')}{arrival.id}</Text>
                             <Text style={styles.progress}>
                                 {languageTranslate(
                                     userData.language,
@@ -120,7 +124,7 @@ const ToDoListISScreen = ({ navigation }) => {
                             {tasks.map((task) => (
                                 <TouchableOpacity
                                     key={task.id}
-                                    // onPress={() => handleTaskPress(task.id)}
+                                    onPress={() => handleTaskPress(task.id)}
                                     style={styles.taskItem}>
 
                                     <Text style={{
@@ -133,11 +137,18 @@ const ToDoListISScreen = ({ navigation }) => {
                                 </TouchableOpacity>
                             ))}
                         </View>
-                    ) : null}
+                    )) : <View>
+                        <Text style={styles.textButton}>
+                            {languageTranslate(
+                                userData.language,
+                                'You have no tasks',
+                                'У вас нет задач')}
+                        </Text>
+                    </View>}
                 </View>
             </ScrollView>
         </SafeAreaView>
     );
 };
 
-export default ToDoListISScreen;
+export default ToDoListBuddyScreen;

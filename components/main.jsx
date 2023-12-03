@@ -1,9 +1,9 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, StatusBar } from 'react-native';
 
 export const styles = StyleSheet.create({
     main: {
         flex: 1,
-        backgroundColor: 'rgb(235, 235, 235)',
+        backgroundColor: 'rgb(245, 245, 245)',
     },
 
     form: {
@@ -11,15 +11,12 @@ export const styles = StyleSheet.create({
         flex: 1,
         width: '90%',
         margin: '5%',
+        marginTop: '0%',
         padding: '7%',
         alignItems: 'center',
         backgroundColor: 'rgba(235, 235, 235, 1)',
         borderRadius: 30,
         justifyContent: 'space-between',
-        shadowColor: 'black',
-        shadowOffset: { width: 5, height: 5 },
-        shadowOpacity: 0.2,
-        shadowRadius: 20,
     },
 
     textInputs: {
@@ -28,6 +25,19 @@ export const styles = StyleSheet.create({
         padding: '5%',
         borderRadius: 40,
         justifyContent: 'start',
+    },
+
+    loading: {
+        display: 'flex',
+        flex: 1,
+        width: '90%',
+        margin: '5%',
+        marginTop: '0%',
+        padding: '7%',
+        alignItems: 'center',
+        backgroundColor: 'rgba(235, 235, 235, 1)',
+        borderRadius: 30,
+        justifyContent: 'center',
     },
 
     toDoList: {
@@ -56,8 +66,8 @@ export const styles = StyleSheet.create({
     },
 
     textHeader: {
-        marginTop: '10%',
-        paddingBottom: '10%',
+        marginTop: '5%',
+        paddingBottom: '15%',
         fontSize: 20,
     },
 
@@ -71,6 +81,15 @@ export const styles = StyleSheet.create({
     },
 
     textInput: {
+        width: '100%',
+        padding: '5%',
+        marginTop: '0%',
+        borderWidth: 1,
+        borderRadius: 40,
+        borderColor: 'grey',
+    },
+
+    picker: {
         width: '100%',
         padding: '5%',
         marginTop: '0%',
@@ -122,15 +141,11 @@ export const styles = StyleSheet.create({
     },
 
     buddysStudents: {
-        backgroundColor: 'rgba(225, 225, 225, 1)',
+        backgroundColor: 'rgba(220, 220, 220, 0.8)',
         padding: '10%',
-        marginBottom: '10%',
+        marginBottom: '5%',
         borderRadius: 30,
         width: '100%',
         borderRadius: 40,
-        shadowColor: 'grey',
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 5,
     }
 });

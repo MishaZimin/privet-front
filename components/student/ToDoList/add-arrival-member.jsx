@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Button, TextInput, TouchableOpacity, ScrollView, Alert, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, Button, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { useRoute } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context'
 import {
     registrationData,
     languageTranslate,
@@ -9,6 +10,7 @@ import {
     userData,
 } from '../Utils.jsx';
 import { styles } from '../main.jsx';
+import BackButton from '../../back-button.jsx';
 
 
 
@@ -94,6 +96,7 @@ const AddArrivalMember = ({ navigation }) => {
         <SafeAreaView style={styles.main}>
             <ScrollView style={styles.main}>
                 <View style={styles.form}>
+                    <BackButton />
                     <Text style={styles.text}>
                         {languageTranslate(
                             userData.language,

@@ -1,6 +1,5 @@
 // import { registerRootComponent } from 'expo';
-
-
+import { SafeAreaView } from 'react-native-safe-area-context'
 export var userData = {
     language: 'en',
     access_token: '',
@@ -35,8 +34,8 @@ export var userData = {
 export var arrivalBookData = {
     id: '123',
     arrivalDate: '01.01.2023',
-    flightNumber: '11111',
-    arrivalPoint: '2222',
+    flightNumber: '111111',
+    arrivalPoint: '22224',
     comment: 'comment',
     tickets: '№4324',
 
@@ -129,7 +128,78 @@ export var allArrivals = [];
 
 export var myArrivals = [];
 
-export var allarrivalBookArr = [];
+export var allarrivalBookArr = [{
+    id: '123',
+    arrivalDate: '01.01.2023',
+    flightNumber: '11111',
+    arrivalPoint: '2222',
+    comment: 'comment',
+    tickets: '№4324',
+
+    fullName: 'name student 1',
+    sex: 1,
+    arrivalTime: '3:30 am',
+    citizenship: 'china',
+    phone: '+786895489622',
+    telegram: '@tg-student-1',
+    whatsApp: '+786895489622',
+    vk: '@vk-student-1',
+
+    countBuddy: 0,
+    maxBuddy: 1,
+
+    buddy: []
+},
+{
+    id: '322',
+    arrivalDate: '04.05.2023',
+    flightNumber: '452343',
+    arrivalPoint: '66554',
+    comment: 'comment',
+    tickets: '№4321',
+
+    fullName: 'name student 2',
+    sex: 2,
+    arrivalTime: '7:40 am',
+    citizenship: 'usa',
+    phone: '+77546676446',
+    telegram: '@tg-student-2',
+    whatsApp: '+775466764446',
+    vk: '@vk-student-2',
+
+    countBuddy: 0,
+    maxBuddy: 2,
+
+    buddy: []
+}];
+
+export var messengerArr = [
+    {
+        photo: 'https://github.com/Gernarav/PRIVET/raw/master/img.png',
+        fullName: 'support ',
+        lastMessage: '',
+        messages: []
+    },
+    {
+        photo: 'https://krasivosti.pro/uploads/posts/2021-08/1630005282_18-krasivosti-pro-p-kapibara-smeshnaya-zhivotnie-krasivo-foto-18.jpg',
+        fullName: 'student 0',
+        lastMessage: '',
+        messages: []
+    },
+    {
+        photo: 'https://gagaru.club/uploads/posts/2023-06/1686243330_gagaru-club-p-kapibara-s-tikvoi-krasivo-instagram-7.jpg',
+        fullName: 'student 1',
+        lastMessage: '',
+        messages: []
+    },
+];
+
+
+export var timliderMessengerArr = [
+    {
+
+    }
+];
 
 
 // export var buddysStudents = [
@@ -173,6 +243,17 @@ export const languageTranslate = (language, en, ru) => {
         case 'en': return en;
         case 'ru': return ru;
     };
+};
+
+export function getUserType(userType) {
+    switch (userType) {
+        case 1:
+            return 'Student';
+        case 2:
+            return 'Buddy';
+        case 3:
+            return 'Teamleader';
+    }
 };
 
 export const getJSONFromServer = async () => {
@@ -306,6 +387,16 @@ export const getTokenToServer = async (token, adress, contentType) => {
     } catch (err) {
         console.log(adress, err);
         throw err;
+    }
+}
+
+export function getValueByKey(number, arr) {
+    const language = arr.find(item => item.key === number);
+    // console.log(number, language);
+    if (language) {
+        return language.value;
+    } else {
+        return "Not chosen";
     }
 }
 

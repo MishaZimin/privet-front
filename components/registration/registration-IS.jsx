@@ -1,8 +1,9 @@
 //2.2.3. Регистрация ИС
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, Alert, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { useRoute } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context'
 import RNPickerSelect from 'react-native-picker-select';
 import {
     registrationData,
@@ -12,6 +13,7 @@ import {
     userData,
 } from '../Utils.jsx';
 import { styles } from '../main.jsx';
+import BackButton from '../back-button.jsx';
 
 
 let correctPassword = true;
@@ -112,88 +114,90 @@ const RegistrationISScreen = ({ navigation }) => {
     };
 
     return (
-        <ScrollView style={styles.main}>
-            <View style={styles.form}>
-                <Text style={styles.textHeader}>
-                    {languageTranslate(
-                        userData.language,
-                        'Sign Up',
-                        'Регистрация ИС')}
-                </Text>
-                <View style={styles.textInputs}>
-                    <Text style={styles.inputHeader}>
+        <SafeAreaView style={styles.main}>
+            <ScrollView style={styles.main}>
+                <View style={styles.form}>
+                    <BackButton />
+                    <Text style={styles.textHeader}>
                         {languageTranslate(
                             userData.language,
-                            'Email',
-                            'Email')}</Text>
-                    <TextInput
-                        style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
-                        placeholder=""
-                        value={email}
-                        onChangeText={text => setEmail(text)}
-                    />
-                    <Text style={styles.inputHeader}>
-                        {languageTranslate(
-                            userData.language,
-                            'Password',
-                            'Пароль')}</Text>
-                    <TextInput
-                        style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
-                        secureTextEntry
-                        placeholder=""
-                        value={password}
-                        onChangeText={text => setPassword(text)}
-                    />
-                    <Text style={styles.inputHeader}>
-                        {languageTranslate(
-                            userData.language,
-                            'Password confirm',
-                            'Подтверждение пароля')}</Text>
-                    <TextInput
-                        style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
-                        secureTextEntry
-                        placeholder=""
-                        value={passwordConfirm}
-                        onChangeText={text => setPasswordConfirm(text)}
-                    />
+                            'Sign Up',
+                            'Регистрация ИС')}
+                    </Text>
+                    <View style={styles.textInputs}>
+                        <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                'Email',
+                                'Email')}</Text>
+                        <TextInput
+                            style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
+                            placeholder=""
+                            value={email}
+                            onChangeText={text => setEmail(text)}
+                        />
+                        <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                'Password',
+                                'Пароль')}</Text>
+                        <TextInput
+                            style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
+                            secureTextEntry
+                            placeholder=""
+                            value={password}
+                            onChangeText={text => setPassword(text)}
+                        />
+                        <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                'Password confirm',
+                                'Подтверждение пароля')}</Text>
+                        <TextInput
+                            style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
+                            secureTextEntry
+                            placeholder=""
+                            value={passwordConfirm}
+                            onChangeText={text => setPasswordConfirm(text)}
+                        />
+                    </View>
+                    <View style={styles.buttons}>
+                        <TouchableOpacity
+                            style={styles.button}
+                            title="Зарегистрироваться"
+                            onPress={handleRegistration}>
+                            <Text style={styles.textButton}>
+                                {languageTranslate(
+                                    userData.language,
+                                    'Registration',
+                                    'Зарегистрироваться')}
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            title="Я Сопровождающий"
+                            onPress={handleBuddy}>
+                            <Text style={styles.textButton}>
+                                {languageTranslate(
+                                    userData.language,
+                                    'I am a Buddy',
+                                    'Я Сопровождающий')}
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            title="Войти"
+                            onPress={handleLogIn}>
+                            <Text style={styles.textButton}>
+                                {languageTranslate(
+                                    userData.language,
+                                    'Log In',
+                                    'Войти')}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={styles.buttons}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        title="Зарегистрироваться"
-                        onPress={handleRegistration}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(
-                                userData.language,
-                                'Registration',
-                                'Зарегистрироваться')}
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        title="Я Сопровождающий"
-                        onPress={handleBuddy}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(
-                                userData.language,
-                                'I am a Buddy',
-                                'Я Сопровождающий')}
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        title="Войти"
-                        onPress={handleLogIn}>
-                        <Text style={styles.textButton}>
-                            {languageTranslate(
-                                userData.language,
-                                'Log In',
-                                'Войти')}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        </ScrollView>
+            </ScrollView></SafeAreaView>
     );
 };
 
