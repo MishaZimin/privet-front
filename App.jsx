@@ -39,6 +39,9 @@ import LanguageSelectionScreen from './components/language-selection.jsx';
 
 import ChatScreen from './components/student/Messenger/chat.jsx';
 
+import AddSecondScreen from './components/student/ToDoList/AddStudent/add-student-2.jsx';
+import AddThirdScreen from './components/student/ToDoList/AddStudent/add-student-3.jsx';
+
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -84,6 +87,10 @@ function App() {
 
 
                 <Stack.Screen name="ChatScreen" component={ChatScreen} />
+
+                <Stack.Screen name="AddSecondScreen" component={AddSecondScreen} />
+                <Stack.Screen name="AddThirdScreen" component={AddThirdScreen} />
+
 
 
             </Stack.Navigator>

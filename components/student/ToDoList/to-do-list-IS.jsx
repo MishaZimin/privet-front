@@ -15,6 +15,7 @@ import {
     userData,
     arrivalBookData,
     getTokenToServer,
+    arrivalBookDataArr,
 } from '../../Utils.jsx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from '../../main.jsx';
@@ -102,14 +103,14 @@ const ToDoListISScreen = ({ navigation }) => {
                             '',
                             '')}</Text>
 
-                    {(userData.escortIsPaid && arrivalBookData.id !== '') ? (
+                    {(userData.escortIsPaid && arrivalBookDataArr.length > 0) ? (
 
                         <View style={styles.toDoList}>
                             <Text style={styles.textHeader}>
                                 {languageTranslate(
                                     userData.language,
                                     'Arrival #',
-                                    'Приезд #')}{arrivalBookData.id}</Text>
+                                    'Приезд #')}{arrivalBookDataArr[0].id}</Text>
                             <Text style={styles.progress}>
                                 {languageTranslate(
                                     userData.language,

@@ -14,15 +14,12 @@ import {
     userData,
     arrivalBookData,
     arrivalBookDataArr,
-    getValueByKey,
-} from '../../Utils.jsx';
-import { styles } from '../../main.jsx';
-import BackButton from '../../back-button.jsx';
-import { countriesPicker } from '../../data-picker/citizenship.jsx';
-import { languagePicker } from '../../data-picker/langues.jsx';
+} from '../../../Utils.jsx';
+import { styles } from '../../../main.jsx';
+import BackButton from '../../../back-button.jsx';
 
-
-const arrivalBookDataFirst = {
+const nameArr = ['Name1', 'Name2'];
+const arrivalBookDataThird = {
     id: '',
     arrivalDate: '',
     flightNumber: '',
@@ -40,102 +37,93 @@ const arrivalBookDataFirst = {
     vk: '',
 };
 
-const ArrivalBookingScreen = ({ navigation }) => {
-    arrivalBookDataArr.length = 0;
-    const [fullName, setFullName] = useState(userData.fullName);
-    const [sex, setSex] = useState(userData.sex);
-
+const AddThirdScreen = ({ navigation, route }) => {
+    const [fullName, setFullName] = useState();
+    const [sex, setSex] = useState();
 
     const [arrivalDate, setArrivalDate] = useState();
     const [arrivalTime, setArrivalTime] = useState();
     const [flightNumber, setFlightNumber] = useState();
-    const [citizenship, setCitizenship] = useState(userData.citizenship);
+    const [citizenship, setCitizenship] = useState();
     const [arrivalPoint, setArrivalPoint] = useState();
 
-    const [phone, setPhone] = useState(userData.phone);
-    const [telegram, setTelegram] = useState(userData.telegram);
-    const [whatsApp, setWhatsApp] = useState(userData.whatsApp);
-    const [vk, setVk] = useState(userData.vk);
+    const [phone, setPhone] = useState();
+    const [telegram, setTelegram] = useState();
+    const [whatsApp, setWhatsApp] = useState();
+    const [vk, setVk] = useState();
 
     const [comment, setComment] = useState();
     const [tickets, setTickets] = useState();
 
+    const [isCorrectName, setIsCorrectName] = useState(false);
+    const [accessToInputs, setaccessToInputs] = useState();
 
+    // console.log('---', isCorrectName);
+    const handleFind = () => {
+        console.log('find', isCorrectName, fullName);
 
-
-    const handlePress = () => {
-        navigation.goBack();
+        if (nameArr.includes(fullName)) {
+            if (true) { // оплата приезда
+                console.log('можно редактировать');
+                setaccessToInputs('студент есть в системе и услуги оплачены');
+                setIsCorrectName(true);
+            }
+            else {
+                setIsCorrectName(false);
+                setaccessToInputs('студент есть в системе, но услуги не оплачены');
+            }
+        }
+        else {
+            setIsCorrectName(false);
+            setaccessToInputs('мы не нашли сдудента');
+        }
     };
 
     const handleSave = () => {
-        arrivalBookDataArr.length = 0;
-        console.log(arrivalBookDataArr)
-        arrivalBookDataFirst.id = '4563';
-        arrivalBookDataFirst.arrivalDate = arrivalDate;
-        arrivalBookDataFirst.flightNumber = flightNumber;
-        arrivalBookDataFirst.arrivalPoint = arrivalPoint;
-        arrivalBookDataFirst.comment = comment;
-        arrivalBookDataFirst.tickets = tickets;
-        arrivalBookDataFirst.fullName = fullName;
-        arrivalBookDataFirst.sex = sex;
-        arrivalBookDataFirst.arrivalTime = arrivalTime;
-        arrivalBookDataFirst.citizenship = citizenship;
-        arrivalBookDataFirst.phone = phone;
-        arrivalBookDataFirst.telegram = telegram;
-        arrivalBookDataFirst.whatsApp = whatsApp;
-        arrivalBookDataFirst.vk = vk;
+        arrivalBookDataArr.length = 2;
 
-        arrivalBookDataArr.push(arrivalBookDataFirst);
+        arrivalBookDataThird.id = '4563';
+        arrivalBookDataThird.arrivalDate = arrivalDate;
+        arrivalBookDataThird.flightNumber = flightNumber;
+        arrivalBookDataThird.arrivalPoint = arrivalPoint;
+        arrivalBookDataThird.comment = comment;
+        arrivalBookDataThird.tickets = tickets;
+        arrivalBookDataThird.fullName = fullName;
+        arrivalBookDataThird.sex = sex;
+        arrivalBookDataThird.arrivalTime = arrivalTime;
+        arrivalBookDataThird.citizenship = citizenship;
+        arrivalBookDataThird.phone = phone;
+        arrivalBookDataThird.telegram = telegram;
+        arrivalBookDataThird.whatsApp = whatsApp;
+        arrivalBookDataThird.vk = vk;
 
-        console.log("--arrivalBookData--");
+        arrivalBookDataArr.push(arrivalBookDataThird);
+        // arrAllStudentsInArrival.splice(1, 0, arr2);
+
+        console.log("--arrivalBookDataArr--");
         console.log(arrivalBookDataArr);
 
-        console.log('Arrival names:', arrivalBookDataArr[0].fullName);
+        console.log('Arrival names:', arrivalBookDataArr[0].fullName, arrivalBookDataArr[1].fullName, arrivalBookDataArr[2].fullName);
 
 
         navigation.navigate('ArrivalSubmitted');
+
     };
 
     const handleAdd = () => {
+        arrivalBookDataArr.length = 2;
+
         console.log('add');
-        arrivalBookDataArr.length = 0;
-
-        arrivalBookDataFirst.id = '4563';
-        arrivalBookDataFirst.arrivalDate = arrivalDate;
-        arrivalBookDataFirst.flightNumber = flightNumber;
-        arrivalBookDataFirst.arrivalPoint = arrivalPoint;
-        arrivalBookDataFirst.comment = comment;
-        arrivalBookDataFirst.tickets = tickets;
-        arrivalBookDataFirst.fullName = fullName;
-        arrivalBookDataFirst.sex = sex;
-        arrivalBookDataFirst.arrivalTime = arrivalTime;
-        arrivalBookDataFirst.citizenship = citizenship;
-        arrivalBookDataFirst.phone = phone;
-        arrivalBookDataFirst.telegram = telegram;
-        arrivalBookDataFirst.whatsApp = whatsApp;
-        arrivalBookDataFirst.vk = vk;
-
-        arrivalBookDataArr.push(arrivalBookDataFirst);
-
-        console.log("--arrivalBookData--");
-
-        for (var key in arrivalBookData) {
-            console.log(key + ': ' + arrivalBookData[key]);
-        }
-
-        console.log('arrival bookeng end', arrivalBookDataArr);
-
-        navigation.navigate('AddSecondScreen');
-
+    };
+    const handleDelete = () => {
+        navigation.goBack();
     };
 
     return (
         <SafeAreaView style={styles.main}>
             <ScrollView style={styles.main}>
                 <View style={styles.form}>
-
                     <BackButton />
-
                     <View style={styles.textBlock}>
                         <Text style={styles.textHeader}>
                             {languageTranslate(
@@ -143,7 +131,6 @@ const ArrivalBookingScreen = ({ navigation }) => {
                                 'Arrival Booking',
                                 'Регистрация приезда')}</Text>
                     </View>
-
                     <View style={styles.textInputs}>
                         <Text style={styles.inputHeader}>
                             {languageTranslate(
@@ -154,8 +141,25 @@ const ArrivalBookingScreen = ({ navigation }) => {
                             style={styles.textInput}
                             placeholder=""
                             value={fullName}
+                            editable={!isCorrectName}
                             onChangeText={text => setFullName(text)}
                         />
+                        <Text style={styles.inputHeader}>
+                            {accessToInputs}</Text><Text></Text>
+
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={handleFind}>
+                            <Text style={styles.textButton}>
+                                {languageTranslate(
+                                    userData.language,
+                                    'Find Student',
+                                    'Найти студента')}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.textInputs}>
+
                         <Text style={styles.inputHeader}>
                             {languageTranslate(
                                 userData.language,
@@ -165,6 +169,7 @@ const ArrivalBookingScreen = ({ navigation }) => {
                             style={styles.textInput}
                             placeholder=""
                             value={sex}
+                            editable={isCorrectName}
                             onChangeText={text => setSex(text)}
                         />
                         <Text style={styles.inputHeader}>
@@ -176,6 +181,7 @@ const ArrivalBookingScreen = ({ navigation }) => {
                             style={styles.textInput}
                             placeholder=""
                             value={arrivalDate}
+                            editable={isCorrectName}
                             onChangeText={text => setArrivalDate(text)}
                         />
                         <Text style={styles.inputHeader}>
@@ -187,6 +193,7 @@ const ArrivalBookingScreen = ({ navigation }) => {
                             style={styles.textInput}
                             placeholder=""
                             value={arrivalTime}
+                            editable={isCorrectName}
                             onChangeText={text => setArrivalTime(text)}
                         />
                         <Text style={styles.inputHeader}>
@@ -198,6 +205,7 @@ const ArrivalBookingScreen = ({ navigation }) => {
                             style={styles.textInput}
                             placeholder=""
                             value={flightNumber}
+                            editable={isCorrectName}
                             onChangeText={text => setFlightNumber(text)}
                         />
                         <Text style={styles.inputHeader}>
@@ -209,6 +217,7 @@ const ArrivalBookingScreen = ({ navigation }) => {
                             style={styles.textInput}
                             placeholder=""
                             value={arrivalPoint}
+                            editable={isCorrectName}
                             onChangeText={text => setArrivalPoint(text)}
                         />
                         <Text style={styles.inputHeader}>
@@ -219,7 +228,8 @@ const ArrivalBookingScreen = ({ navigation }) => {
                         <TextInput
                             style={styles.textInput}
                             placeholder=""
-                            value={getValueByKey(userData.citizenship, countriesPicker)}
+                            value={citizenship}
+                            editable={isCorrectName}
                             onChangeText={text => setCitizenship(text)}
                         />
                         <Text style={styles.inputHeader}>
@@ -231,6 +241,7 @@ const ArrivalBookingScreen = ({ navigation }) => {
                             style={styles.textInput}
                             placeholder="+"
                             value={phone}
+                            editable={isCorrectName}
                             onChangeText={text => setPhone(text)}
                         />
                         <Text style={styles.inputHeader}>
@@ -242,6 +253,7 @@ const ArrivalBookingScreen = ({ navigation }) => {
                             style={styles.textInput}
                             placeholder="@"
                             value={telegram}
+                            editable={isCorrectName}
                             onChangeText={text => setTelegram(text)}
                         />
                         <Text style={styles.inputHeader}>
@@ -253,6 +265,7 @@ const ArrivalBookingScreen = ({ navigation }) => {
                             style={styles.textInput}
                             placeholder="+"
                             value={whatsApp}
+                            editable={isCorrectName}
                             onChangeText={text => setWhatsApp(text)}
                         />
                         <Text style={styles.inputHeader}>
@@ -264,6 +277,7 @@ const ArrivalBookingScreen = ({ navigation }) => {
                             style={styles.textInput}
                             placeholder="@"
                             value={vk}
+                            editable={isCorrectName}
                             onChangeText={text => setVk(text)}
                         />
 
@@ -276,7 +290,7 @@ const ArrivalBookingScreen = ({ navigation }) => {
                             style={styles.textInput}
                             placeholder={''}
                             value={comment}
-
+                            editable={isCorrectName}
                             onChangeText={text => setComment(text)}
                         />
                         <Text style={styles.inputHeader}>
@@ -288,6 +302,7 @@ const ArrivalBookingScreen = ({ navigation }) => {
                             style={styles.textInput}
                             placeholder={''}
                             value={tickets}
+                            editable={isCorrectName}
 
                             onChangeText={text => setTickets(text)}
                         />
@@ -296,7 +311,17 @@ const ArrivalBookingScreen = ({ navigation }) => {
                     <View style={styles.buttons}>
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={handleAdd}>
+                            onPress={handleDelete}>
+                            <Text style={styles.textButton}>
+                                {languageTranslate(
+                                    userData.language,
+                                    'Delete this participant',
+                                    'Удалить этого участника')}
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={isCorrectName ? handleAdd : null}>
                             <Text style={styles.textButton}>
                                 {languageTranslate(
                                     userData.language,
@@ -306,7 +331,8 @@ const ArrivalBookingScreen = ({ navigation }) => {
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={handleSave}>
+                            onPress={isCorrectName ? handleSave : null}>
+                            {/* disabled={isCorrectName} */}
                             <Text style={styles.textButton}>
                                 {languageTranslate(
                                     userData.language,
@@ -321,4 +347,4 @@ const ArrivalBookingScreen = ({ navigation }) => {
     );
 };
 
-export default ArrivalBookingScreen;
+export default AddThirdScreen;

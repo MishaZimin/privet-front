@@ -1,7 +1,7 @@
 // import { registerRootComponent } from 'expo';
 import { SafeAreaView } from 'react-native-safe-area-context'
 export var userData = {
-    language: 'en',
+    language: 'ru',
     access_token: '',
     id: '',
     photo: '',
@@ -32,25 +32,27 @@ export var userData = {
 };
 
 export var arrivalBookData = {
-    id: '123',
-    arrivalDate: '01.01.2023',
-    flightNumber: '111111',
-    arrivalPoint: '22224',
-    comment: 'comment',
-    tickets: '№4324',
+    id: '',
+    arrivalDate: '',
+    flightNumber: '',
+    arrivalPoint: '',
+    comment: '',
+    tickets: '',
 
-    fullName: 'name student',
-    sex: 1,
-    arrivalTime: '3:30 am',
-    citizenship: 'china',
-    phone: '+78689548962',
-    telegram: '@tg-student',
-    whatsApp: '+78689548962',
-    vk: '@vk-student',
+    fullName: '',
+    sex: null,
+    arrivalTime: '',
+    citizenship: '',
+    phone: '',
+    telegram: '',
+    whatsApp: '',
+    vk: '',
 
     countBuddy: 1,
     maxBuddy: 2,
 };
+
+export var arrivalBookDataArr = [];
 
 export var allArrivalBuddy = [{
     photo: '',
@@ -211,7 +213,7 @@ export var timliderMessengerArr = [
 export var buddysStudents = [];
 
 export var initialTasksData = [
-    { id: 1, text: 'Встреча в аэропорту', completed: false, deadline: '\nDeadline: 11.11.2023 4:30 pm' },
+    { id: 1, text: 'Встреча в аэропорту ', completed: true, deadline: '\nDeadline: 11.11.2023 4:30 pm' },
     { id: 2, text: 'Оплата и заселение в хостел', completed: false },
     { id: 3, text: 'Прохождение медосмотра', completed: false },
     { id: 4, text: 'Оформление сим-карты', completed: false },
@@ -221,10 +223,11 @@ export var initialTasksData = [
     { id: 8, text: 'Оформление документов о зачислении', completed: false },
     { id: 9, text: 'Оформление страховки', completed: false },
     { id: 10, text: 'Оформление документов на общежитие', completed: false },
-    { id: 11, text: 'Оформление пропуска / студенческого билета', completed: false },
-    { id: 12, text: 'Прохождение медосвидетельствования', completed: false, deadline: '\nDeadline: 11.11.2023 4:30 pm' },
-    { id: 13, text: 'Продление визы', completed: false, deadline: '\nDeadline: 11.11.2023 4:30 pm' },
-    { id: 14, text: 'Прохождение дактилоскопии', completed: false, deadline: '\nDeadline: 11.11.2023 4:30 pm' }
+    { id: 11, text: 'Оформление пропуска', completed: false },
+    { id: 12, text: 'Оформление студенческого билета', completed: false },
+    { id: 13, text: 'Прохождение медосвидетельствования', completed: false, deadline: '\nDeadline: 11.11.2023 4:30 pm' },
+    { id: 14, text: 'Продление визы', completed: false, deadline: '\nDeadline: 11.11.2023 4:30 pm' },
+    { id: 15, text: 'Прохождение дактилоскопии', completed: false, deadline: '\nDeadline: 11.11.2023 4:30 pm' }
 ];
 
 export var initialInfo = [

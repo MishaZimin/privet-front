@@ -2,7 +2,7 @@
 
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, Alert, Platform } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context'
 // import RNPickerSelect from 'react-native-picker-select';
@@ -22,6 +22,8 @@ import { styles } from '../../main.jsx';
 import BackButton from '../../back-button.jsx';
 import { countriesPicker } from '../../data-picker/citizenship.jsx';
 import { languagePicker } from '../../data-picker/langues.jsx';
+import { ToastAndroid } from 'react-native';
+import { ToastIOS } from 'react-native';
 
 const StudentProfileScreen = ({ navigation }) => {
     const [fullName, setFullName] = useState(userData.fullName);
@@ -41,15 +43,32 @@ const StudentProfileScreen = ({ navigation }) => {
     const [escortIsPaid, setEscortIsPaid] = (userData.escortIsPaid) ? useState("Yes") : useState("No");
     const [profileType, setProfileType] = useState(getUserType(userData.user));
 
+    const [lastBuddy, setLastBuddy] = useState(userData.lastBuddy);
+    const [institute, setInstitute] = useState(userData.institute);
+    const [studyProgram, setStudyProgram] = useState(userData.studyProgram);
+    const [lastArrivalDate, setLastArrivalDate] = useState(userData.lastArrivalDate);
+    const [lastVisaExpiration, setLastVisaExpiration] = useState(userData.lastVisaExpiration);
+    const [accommodation, setAccommodation] = useState(userData.accommodation);
+    const [buddysComment, setBuddysComment] = useState(userData.buddysComment);
+
     const sexPicker = [
         { key: '1', value: 'Man' },
         { key: '2', value: 'Woman' },
     ];
 
-    const handleNotifications = () => {
-        console.log('уведомления');
+    const showToastIOS = () => {
+        ToastIOS.show('Ваш текст уведомления', ToastIOS.LONG);
     };
 
+    const showToastAndroid = () => {
+        ToastAndroid.showWithGravityAndOffset(
+            'text',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50
+        );
+    };
     const handleSettings = () => {
         navigation.navigate('SettingScreen');
     };
@@ -75,6 +94,20 @@ const StudentProfileScreen = ({ navigation }) => {
         await sendChangeProfileToServer(data, "/users/me/profile/change", "/json", accessToken);
 
         Alert.alert('профиль сохранен')
+    };
+
+
+    const handleNotifications = () => {
+
+
+        if (Platform.OS === 'android') {
+            console.log('уведомления android');
+            showToastAndroid;
+        }
+        else {
+            showToastIOS();
+
+        }
     };
 
     return (
@@ -281,6 +314,7 @@ const StudentProfileScreen = ({ navigation }) => {
                             style={styles.textInput}
                             placeholder=""
                             value={university}
+                            editable={false}
                             onChangeText={text => setUniversity(text)}
                         />
 
@@ -309,6 +343,98 @@ const StudentProfileScreen = ({ navigation }) => {
                             editable={false}
 
                             onChangeText={text => setProfileType(text)}
+                        />
+
+                        <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                'Last Buddy',
+                                'Последний сопровождающий')}</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={""}
+                            value={lastBuddy}
+                            editable={false}
+
+                            onChangeText={text => setLastBuddy(text)}
+                        />
+                        <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                'Institute',
+                                'Институт Студента')}</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={""}
+                            value={institute}
+                            editable={false}
+
+                            onChangeText={text => setInstitute(text)}
+                        />
+                        <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                'Study Program',
+                                'Направление обучения')}</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={""}
+                            value={studyProgram}
+                            editable={false}
+
+                            onChangeText={text => setStudyProgram(text)}
+                        />
+                        <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                'Last Arrival Date',
+                                'Дата последнего приезда')}</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={""}
+                            value={lastArrivalDate}
+                            editable={false}
+
+                            onChangeText={text => setLastArrivalDate(text)}
+                        />
+                        <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                'Last Visa Expiration',
+                                'Дата окончания последней визы')}</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={""}
+                            value={lastVisaExpiration}
+                            editable={false}
+
+                            onChangeText={text => setLastVisaExpiration(text)}
+                        />
+                        <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                'Accommodation',
+                                'Место проживания')}</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={""}
+                            value={accommodation}
+                            editable={false}
+
+                            onChangeText={text => setAccommodation(text)}
+                        />
+                        <Text style={styles.inputHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                'Buddys Comment',
+                                'Комментарий от сопровождающего')}</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={""}
+                            value={buddysComment}
+                            editable={false}
+
+                            onChangeText={text => setBuddysComment(text)}
                         />
                     </View>
 

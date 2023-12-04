@@ -18,6 +18,8 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BackButton from '../back-button.jsx';
 import { styles } from '../main.jsx';
+import { ToastAndroid } from 'react-native';
+import { ToastIOS } from 'react-native';
 
 const BuddyProfileScreen = ({ navigation }) => {
     const [city, setCity] = useState(userData.city);
@@ -37,27 +39,37 @@ const BuddyProfileScreen = ({ navigation }) => {
     const [profileType, setProfileType] = getUserType(userData.user);
     const [buddyStatus, setBuddyStatus] = userData.buddyStatus ? useState("Yes") : useState("No");
 
+    const showToastIOS = () => {
+        ToastIOS.show('Ваш текст уведомления', ToastIOS.LONG);
+    };
+
+    const showToastAndroid = () => {
+        ToastAndroid.showWithGravityAndOffset(
+            'Ваш текст уведомления',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50
+        );
+    };
+
+
     const handleNotifications = () => {
-        console.log('уведомления');
+
+
+        if (Platform.OS === 'android') {
+            console.log('уведомления android');
+            showToastAndroid;
+        }
+        else {
+            showToastIOS();
+
+        }
     };
     const handleSettings = () => {
         navigation.navigate('SettingScreen');
     };
     const handleSave = async () => {
-        // userData.fullName = fullName;
-        // // userData.sex = sex;
-        // userData.birthDate = birthDate;
-        // userData.city = city;
-        // userData.phone = phone;
-        // userData.email = email;
-        // userData.telegram = telegram;
-        // userData.whatsApp = whatsApp;
-        // userData.vk = vk;
-
-        // userData.nativeLanguage = nativeLanguage;
-        // userData.otherLanguage = otherLanguage;
-        // userData.university = university;
-
         const data = {
             "full_name": fullName,
             "citizenship": null,

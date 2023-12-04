@@ -32,7 +32,8 @@ const BuddysStudentsScreen = ({ navigation }) => {
                             {languageTranslate(
                                 userData.language,
                                 'Buddys Students ScreenBuddys Students Screen',
-                                'Студенты Сопровождающего')}</Text>
+                                'Студенты Сопровождающего')}
+                        </Text>
                     </View>
 
                     {buddysStudents.length > 0 ? buddysStudents.map((student, index) => (
