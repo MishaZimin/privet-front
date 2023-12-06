@@ -16,27 +16,39 @@ import {
 import { styles } from '../main.jsx';
 import BackButton from '../back-button.jsx';
 
-let correctEmail = false;
+let isCorrectEmail = false;
+let isEmailInBD = false;
 
 const PasswordRecoveryScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
+    const [emailCorrect, setEmailCorrect] = useState(null);
+    const [noEmail, setNoEmail] = useState(null);
 
-    correctEmail = email.includes('@') ? true : false;
+    isCorrectEmail = email.split('@').length === 2 ? true : false;
 
     const handlePasswordRecovery = async () => {
         try {
-            if (correctEmail) {
+            setNoEmail(null);
+            setEmailCorrect(isCorrectEmail ? null : languageTranslate(
+                userData.language,
+                'Email does not meet requirements',
+                'Почта не соответствует требованиям'));
+
+            if (isCorrectEmail) {
+                setEmailCorrect(null);
+
                 registrationData.email = email;
                 registrationData.isNewPassword = true;
 
                 let response1 = await getUserByEmailFromServer("/auth/get-user/" + email, "/json");
                 let response2 = await sendDataToServer(email, "/send-verification-token/" + email, "/json");
 
-                console.log('response1:', response1);
-                console.log('response1:', response1);
+                // console.log('response1:', response1);
+                // console.log('response1:', response1);
 
                 if (response1.detail) {
-                    console.log('нет такой почты')
+                    setNoEmail('Пожалуйста, введите верный адрес');
+                    // console.log('нет такой почты')
                 }
                 else {
 
@@ -48,8 +60,8 @@ const PasswordRecoveryScreen = ({ navigation }) => {
 
                     registrationData.user = user;
 
-                    console.log('---------registration-Data---------');
-                    console.log(registrationData);
+                    // console.log('---------registration-Data---------');
+                    // console.log(registrationData);
 
 
                     if (userEmailInBD == 'true') {
@@ -88,12 +100,15 @@ const PasswordRecoveryScreen = ({ navigation }) => {
                                 'Email',
                                 'Email')}</Text>
                         <TextInput
-                            style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
+                            style={isCorrectEmail ? styles.textInput : styles.unCorrectTextInput}
 
                             placeholder=""
                             value={email}
                             onChangeText={text => setEmail(text)}
                         />
+
+                        {isCorrectEmail ? null : <Text>{emailCorrect}</Text>}
+                        {isEmailInBD ? null : <Text>{noEmail}</Text>}
                     </View>
 
 

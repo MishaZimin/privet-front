@@ -25,6 +25,7 @@ import { languagePicker } from '../../data-picker/langues.jsx';
 import { ToastAndroid } from 'react-native';
 import { ToastIOS } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { TextInputMask } from 'react-native-masked-text';
 
 const StudentProfileScreen = ({ navigation }) => {
     const [fullName, setFullName] = useState(userData.fullName);
@@ -211,7 +212,7 @@ const StudentProfileScreen = ({ navigation }) => {
                                 userData.language,
                                 'Birth Date',
                                 'Дата Рождения')}</Text>
-                        <View style={styles.inputHeader}>
+                        {/* <View style={styles.inputHeader}>
                             <Button title="Выбрать дату" onPress={showDatePicker} />
                             <DateTimePickerModal
                                 isVisible={isDatePickerVisible}
@@ -220,13 +221,25 @@ const StudentProfileScreen = ({ navigation }) => {
                                 onCancel={hideDatePicker}
                                 placeholder={birthDate}
                             />
-                        </View>
-                        <TextInput
+                        </View> */}
+
+                        <TextInputMask
+                            style={styles.textInput}
+                            type={'datetime'}
+                            options={{
+                                format: 'YYYY-MM-DD',
+                            }}
+                            placeholder="Введите дату (YYYY-MM-DD)"
+                            value={birthDate}
+                            onChangeText={text => setBirthDate(text)}
+                            keyboardType="numeric"
+                        />
+                        {/* <TextInput
                             style={styles.textInput}
                             placeholder=""
                             value={birthDate}
                             onChangeText={text => setBirthDate(text)}
-                        />
+                        /> */}
                         <Text style={styles.inputHeader}>
                             {languageTranslate(
                                 userData.language,

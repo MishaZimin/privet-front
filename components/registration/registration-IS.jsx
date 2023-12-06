@@ -18,12 +18,19 @@ import BackButton from '../back-button.jsx';
 
 let correctPassword = true;
 let correctEmail = true;
+let correctPasswords = true;
+
 
 const RegistrationISScreen = ({ navigation }) => {
     // const [university, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
+
+    const [passwordCorrect, setPasswordCorrect] = useState(null);
+    const [passwordsCorrect, setPasswordsCorrect] = useState(null);
+    const [emailCorrect, setEmailCorrect] = useState(null);
+
 
     userData.fullName = '';
     userData.citizenship = '';
@@ -42,35 +49,37 @@ const RegistrationISScreen = ({ navigation }) => {
     userData.escortIsPaid = '';
 
     correctEmail = email.split('@').length === 2 ? true : false;
-    correctPassword = (
-        password.length > 0
-        && password === passwordConfirm) ? true : false;
+    correctPassword = (password.length >= 8) ? true : false;
+    correctPasswords = (password === passwordConfirm && password.length >= 8) ? true : false;
+
 
     const handleRegistration = async () => {
-        if (!correctEmail) {
-            console.log('uncorrect email');
-            Alert.alert(languageTranslate(
-                userData.language,
-                'Uncorrect Email',
-                'Некорректный Email'));
-        }
-        else if (password.length < 8) {
-            console.log('password < 8');
-            Alert.alert(languageTranslate(
-                userData.language,
-                'Password < 8',
-                'Пароль < 8'));
+        setEmailCorrect(correctEmail ? null : languageTranslate(
+            userData.language,
+            'Email does not meet requirements',
+            'Почта не соответствует требованиям'));
 
-        }
-        else if (!correctPassword) {
-            console.log('passwords not match');
-            Alert.alert(languageTranslate(
-                userData.language,
-                'Passwords not match',
-                'Пароли не совпадают'));
+        setPasswordCorrect(correctPassword ? null : languageTranslate(
+            userData.language,
+            'Password does not meet requirements',
+            'Пароль не соответствует требованиям'));
 
-        }
-        else if (correctPassword && correctEmail) {
+        setPasswordsCorrect(correctPasswords ? null : languageTranslate(
+            userData.language,
+            'Password mismatch',
+            'Пароли не совпадают'));
+
+        console.log(correctPasswords ? null : languageTranslate(
+            userData.language,
+            'Password mismatch',
+            'Пароли не совпадают'))
+
+
+        if (correctPassword && correctEmail && correctPasswords) {
+            setPasswordCorrect(null);
+            setPasswordsCorrect(null);
+            setEmailCorrect(null);
+
             if (password === passwordConfirm) {
                 console.log('--------IS-Registration---------');
 
@@ -98,8 +107,8 @@ const RegistrationISScreen = ({ navigation }) => {
 
                     navigation.navigate('EmailScreen');
                 }
-                catch (e) {
-                    console.log(e);
+                catch (err) {
+                    console.log(err);
                 }
             };
         };
@@ -136,11 +145,15 @@ const RegistrationISScreen = ({ navigation }) => {
                             value={email}
                             onChangeText={text => setEmail(text)}
                         />
+                        <Text>{correctEmail ? null : emailCorrect}</Text>
                         <Text style={styles.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 'Password',
                                 'Пароль')}</Text>
+
+
+
                         <TextInput
                             style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
                             secureTextEntry
@@ -148,18 +161,21 @@ const RegistrationISScreen = ({ navigation }) => {
                             value={password}
                             onChangeText={text => setPassword(text)}
                         />
+                        <Text>{correctPassword ? null : passwordCorrect}</Text>
                         <Text style={styles.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 'Password confirm',
                                 'Подтверждение пароля')}</Text>
+
                         <TextInput
-                            style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
+                            style={correctPasswords ? styles.textInput : styles.unCorrectTextInput}
                             secureTextEntry
                             placeholder=""
                             value={passwordConfirm}
                             onChangeText={text => setPasswordConfirm(text)}
                         />
+                        <Text>{correctPasswords ? null : passwordsCorrect}</Text>
                     </View>
                     <View style={styles.buttons}>
                         <TouchableOpacity

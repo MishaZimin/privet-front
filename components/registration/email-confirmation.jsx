@@ -14,15 +14,18 @@ import {
 import { styles } from '../main.jsx';
 import BackButton from '../back-button.jsx';
 
-let correctEmail = true;
+let correctEmailCode = true;
+let isCorrectCode = true;
 
 const EmailScreen = ({ navigation }) => {
     const [emailCode, setEmailCode] = useState('');
+    const [correctCode, setCorrectCode] = useState(null);
 
-    correctEmail = emailCode.length === 6 ? true : false;
+    correctEmailCode = emailCode.length === 6 ? true : false;
 
     const handleEmailScreen = async () => {
         try {
+            setCorrectCode(null);
             console.log('----------EmailCode----------');
 
             const data = {
@@ -78,7 +81,10 @@ const EmailScreen = ({ navigation }) => {
                 }
             } else {
                 console.log('код неверный');
-                Alert.alert('код неверный');
+                // Alert.alert('код неверный');
+
+                isCorrectCode = false;
+                setCorrectCode('Код неверный');
             }
 
             console.log('user:', registrationData.user);
@@ -151,11 +157,13 @@ const EmailScreen = ({ navigation }) => {
                                 'Confirmation code',
                                 'Код подтверждения')}</Text>
                         <TextInput
-                            style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
+                            style={correctEmailCode ? styles.textInput : styles.unCorrectTextInput}
                             placeholder=""
                             secureTextEntry
                             value={emailCode}
                             onChangeText={text => setEmailCode(text)} />
+                        {isCorrectCode ? null : <Text>{correctCode}</Text>}
+
 
                     </View>
                     <View style={styles.buttons}>

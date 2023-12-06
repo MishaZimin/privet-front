@@ -20,12 +20,16 @@ import BackButton from '../back-button.jsx';
 
 let correctPassword = false;
 let correctEmail = false;
+let correctPasswords = true;
 
 const RegistrationBuddySreen = ({ navigation }) => {
-    const [university, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
+
+    const [passwordCorrect, setPasswordCorrect] = useState(null);
+    const [passwordsCorrect, setPasswordsCorrect] = useState(null);
+    const [emailCorrect, setEmailCorrect] = useState(null);
 
     userData.fullName = '';
     userData.citizenship = '';
@@ -44,13 +48,27 @@ const RegistrationBuddySreen = ({ navigation }) => {
     userData.escortIsPaid = '';
     userData.user = '';
 
-    correctPassword = (
-        password.length > 0
-        && password === passwordConfirm) ? true : false;
-    correctEmail = email.includes('@') ? true : false;
+    correctEmail = email.split('@').length === 2 ? true : false;
+    correctPassword = (password.length >= 8) ? true : false;
+    correctPasswords = (password === passwordConfirm && password.length >= 8) ? true : false;
 
     const handleRegistration = async () => {
-        if (correctPassword && correctEmail) {
+        setEmailCorrect(correctEmail ? null : languageTranslate(
+            userData.language,
+            'Email does not meet requirements',
+            'Почта не соответствует требованиям'));
+
+        setPasswordCorrect(correctPassword ? null : languageTranslate(
+            userData.language,
+            'Password does not meet requirements',
+            'Пароль не соответствует требованиям'));
+
+        setPasswordsCorrect(correctPasswords ? null : languageTranslate(
+            userData.language,
+            'Password mismatch',
+            'Пароли не совпадают'));
+
+        if (correctPassword && correctEmail && correctPasswords) {
             if (password === passwordConfirm) {
                 console.log('----------Buddy-Data---------');
 
@@ -100,8 +118,8 @@ const RegistrationBuddySreen = ({ navigation }) => {
                     <Text style={styles.textHeader}>
                         {languageTranslate(
                             userData.language,
-                            'Registration Buddy',
-                            'Регистрация Сопровождающего')}
+                            'Sign Up',
+                            'Регистрация ИС')}
                     </Text>
                     <View style={styles.textInputs}>
                         <Text style={styles.inputHeader}>
@@ -115,30 +133,38 @@ const RegistrationBuddySreen = ({ navigation }) => {
                             value={email}
                             onChangeText={text => setEmail(text)}
                         />
+                        <Text>
+                            {correctEmail ? null : emailCorrect}</Text>
                         <Text style={styles.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 'Password',
                                 'Пароль')}</Text>
+
+
+
                         <TextInput
                             style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
-                            placeholder=""
                             secureTextEntry
+                            placeholder=""
                             value={password}
                             onChangeText={text => setPassword(text)}
                         />
+                        <Text>{correctPassword ? null : passwordCorrect}</Text>
                         <Text style={styles.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 'Password confirm',
                                 'Подтверждение пароля')}</Text>
+
                         <TextInput
-                            style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
-                            placeholder=""
+                            style={correctPasswords ? styles.textInput : styles.unCorrectTextInput}
                             secureTextEntry
+                            placeholder=""
                             value={passwordConfirm}
                             onChangeText={text => setPasswordConfirm(text)}
                         />
+                        <Text>{correctPasswords ? null : passwordsCorrect}</Text>
                     </View>
                     <View style={styles.buttons}>
                         <TouchableOpacity

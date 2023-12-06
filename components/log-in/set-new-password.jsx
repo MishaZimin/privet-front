@@ -18,6 +18,8 @@ import {
 import BackButton from '../back-button.jsx';
 import { styles } from '../main.jsx';
 
+let correctPassword = true;
+let correctPasswords = true;
 
 const SetNewPasswordScreen = ({ navigation }) => {
     // var newPasswordData = {
@@ -28,13 +30,28 @@ const SetNewPasswordScreen = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
 
-    let correctPassword = (
-        password.length > 0 &&
-        password === passwordConfirm
-    ) ? true : false;
+    const [passwordCorrect, setPasswordCorrect] = useState(null);
+    const [passwordsCorrect, setPasswordsCorrect] = useState(null);
+
+    correctPassword = (password.length >= 8) ? true : false;
+    correctPasswords = (password === passwordConfirm && password.length >= 8) ? true : false;
+
 
     const handleSetNewPassword = async () => {
-        if (correctPassword) {
+        setPasswordCorrect(correctPassword ? null : languageTranslate(
+            userData.language,
+            'Password does not meet requirements',
+            'Пароль не соответствует требованиям'));
+
+        setPasswordsCorrect(correctPasswords ? null : languageTranslate(
+            userData.language,
+            'Password mismatch',
+            'Пароли не совпадают'));
+
+
+        if (correctPassword && correctPasswords) {
+            setPasswordCorrect(null);
+            setPasswordsCorrect(null);
 
             if (password === passwordConfirm) {
                 console.log('----------newPasswordData---------');
@@ -81,27 +98,31 @@ const SetNewPasswordScreen = ({ navigation }) => {
                                 userData.language,
                                 'Password',
                                 'Пароль')}</Text>
+
+
+
                         <TextInput
                             style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
-
-                            placeholder="Password"
                             secureTextEntry
+                            placeholder=""
                             value={password}
                             onChangeText={text => setPassword(text)}
                         />
+                        <Text>{correctPassword ? null : passwordCorrect}</Text>
                         <Text style={styles.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 'Password confirm',
                                 'Подтверждение пароля')}</Text>
-                        <TextInput
-                            style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
 
-                            placeholder=""
+                        <TextInput
+                            style={correctPasswords ? styles.textInput : styles.unCorrectTextInput}
                             secureTextEntry
+                            placeholder=""
                             value={passwordConfirm}
                             onChangeText={text => setPasswordConfirm(text)}
                         />
+                        <Text>{correctPasswords ? null : passwordsCorrect}</Text>
                     </View>
 
                     <TouchableOpacity

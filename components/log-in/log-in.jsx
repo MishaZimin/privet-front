@@ -19,25 +19,41 @@ import {
 import { styles } from '../main.jsx';
 import BackButton from '../back-button.jsx';
 
-let correctPassword = false;
-let correctEmail = false;
+let isCorrectPassword = true;
+let isCorrectEmail = true;
+let isCorrectUser = true;
 
 const LogInForm = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    correctPassword = (password.length >= 8) ? true : false;
-    correctEmail = email.includes('@') ? true : false;
+
+    const [passwordCorrect, setPasswordCorrect] = useState(null);
+    const [emailCorrect, setEmailCorrect] = useState(null);
+    const [correctUser, setCorrectUser] = useState(null);
+
+
+    isCorrectEmail = email.split('@').length === 2 ? true : false;
+    isCorrectPassword = (password.length >= 8) ? true : false;
 
     const handleLogIn = async () => {
+        setCorrectUser(null);
 
-        if (!correctEmail) {
-            Alert.alert('некорректная почта');
-        }
-        else if (!correctPassword) {
-            Alert.alert('некорректный пароль');
-        }
-        else if (correctPassword && correctEmail) {
+        setEmailCorrect(isCorrectEmail ? null : languageTranslate(
+            userData.language,
+            'Email does not meet requirements',
+            'Почта не соответствует требованиям'));
+
+        setPasswordCorrect(isCorrectPassword ? null : languageTranslate(
+            userData.language,
+            'Password does not meet requirements',
+            'Пароль не соответствует требованиям'));
+
+
+        if (isCorrectPassword && isCorrectEmail) {
+            setPasswordCorrect(null);
+            setEmailCorrect(null);
+
             LogInData.email = email;
             LogInData.password = password;
 
@@ -56,10 +72,17 @@ const LogInForm = ({ navigation }) => {
                 const response1 = await sendDataToServer(data1, "/login", "/x-www-form-urlencoded");
 
                 if (response1.detail == "Password is incorrect") {
-                    Alert.alert('ошибка в пароле');
+                    isCorrectUser = false;
+
+                    setCorrectUser('Почта или пароль введены неверно');
+                    // Alert.alert('ошибка в пароле');
                 }
                 else if (response1.detail == "This user does not exist") {
-                    Alert.alert('ошибка в почте');
+                    isCorrectUser = false;
+                    setCorrectUser('Почта или пароль введены неверно');
+
+
+                    // Alert.alert('ошибка в почте');
                 }
                 else if (response1.access_token) {
                     await AsyncStorage.setItem('access_token', response1.access_token);
@@ -90,6 +113,7 @@ const LogInForm = ({ navigation }) => {
                                 break;
                         }
                     } else {
+                        isCorrectUser = false;
                         console.log('no user in bd');
                     }
                 }
@@ -119,25 +143,31 @@ const LogInForm = ({ navigation }) => {
                                 'Email',
                                 'Email')}</Text>
                         <TextInput
-                            style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
+                            style={isCorrectEmail ? styles.textInput : styles.unCorrectTextInput}
 
                             placeholder=""
                             value={email}
                             onChangeText={text => setEmail(text)}
                         />
+                        <Text>{isCorrectEmail ? null : emailCorrect}</Text>
+                        {isCorrectEmail ? null : <Text>{emailCorrect}</Text>}
+
                         <Text style={styles.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 'Password',
                                 'Пароль')}</Text>
                         <TextInput
-                            style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
+                            style={isCorrectPassword ? styles.textInput : styles.unCorrectTextInput}
 
                             placeholder=""
                             secureTextEntry
                             value={password}
                             onChangeText={text => setPassword(text)}
                         />
+
+                        {isCorrectPassword ? null : <Text>{passwordCorrect}</Text>}
+                        {isCorrectUser ? null : <Text>{correctUser}</Text>}
                     </View>
                     <View style={styles.buttons}>
                         <TouchableOpacity
