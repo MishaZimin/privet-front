@@ -29,7 +29,6 @@ const arrivalBookDataFirst = {
     arrivalPoint: '',
     comment: '',
     tickets: '',
-
     fullName: '',
     sex: null,
     arrivalTime: '',
@@ -41,7 +40,7 @@ const arrivalBookDataFirst = {
 };
 
 const ArrivalBookingScreen = ({ navigation }) => {
-    arrivalBookDataArr.length = 0;
+    // arrivalBookDataArr.length = 0;
     const [fullName, setFullName] = useState(userData.fullName);
     const [sex, setSex] = useState(userData.sex);
 
@@ -60,73 +59,97 @@ const ArrivalBookingScreen = ({ navigation }) => {
     const [comment, setComment] = useState();
     const [tickets, setTickets] = useState();
 
-
-
-
     const handlePress = () => {
         navigation.goBack();
     };
 
     const handleSave = () => {
+
+        // addStudent('4563', arrivalDate, flightNumber, arrivalPoint,
+        //     comment, tickets, fullName, sex, arrivalTime,
+        //     citizenship, phone, telegram, whatsApp, vk)
+
+
+
+
+
+        const data = {
+            "email": userData.email,
+            "full_name": fullName,
+            "sex": "string",
+            "arrival_date": "2023-12-06",
+            "arrival_time": "11:48:07.831Z",
+            "flight_number": flightNumber,
+            "arrival_point": arrivalPoint,
+            "citizenship": citizenship,
+            "phone": phone,
+            "telegram": telegram,
+            "whatsapp": whatsApp,
+            "vk": vk,
+            "comment": "string",
+            "tickets": "string",
+        };
+
         arrivalBookDataArr.length = 0;
+        arrivalBookDataArr.push(data);
+
+        console.log("--arrivalBookDataArr--");
         console.log(arrivalBookDataArr)
-        arrivalBookDataFirst.id = '4563';
-        arrivalBookDataFirst.arrivalDate = arrivalDate;
-        arrivalBookDataFirst.flightNumber = flightNumber;
-        arrivalBookDataFirst.arrivalPoint = arrivalPoint;
-        arrivalBookDataFirst.comment = comment;
-        arrivalBookDataFirst.tickets = tickets;
-        arrivalBookDataFirst.fullName = fullName;
-        arrivalBookDataFirst.sex = sex;
-        arrivalBookDataFirst.arrivalTime = arrivalTime;
-        arrivalBookDataFirst.citizenship = citizenship;
-        arrivalBookDataFirst.phone = phone;
-        arrivalBookDataFirst.telegram = telegram;
-        arrivalBookDataFirst.whatsApp = whatsApp;
-        arrivalBookDataFirst.vk = vk;
 
-        arrivalBookDataArr.push(arrivalBookDataFirst);
-
-        console.log("--arrivalBookData--");
-        console.log(arrivalBookDataArr);
-
-        console.log('Arrival names:', arrivalBookDataArr[0].fullName);
-
+        postArrivalBook(arrivalBookDataArr, '/users/me/book-arrival', "/json", userData.access_token)
 
         navigation.navigate('ArrivalSubmitted');
     };
 
+    // [
+    //     {
+    //       "email": "string",
+    //       "full_name": "string",
+    //       "sex": "string",
+    //       "arrival_date": "2023-12-06",
+    //       "arrival_time": "11:48:07.831Z",
+    //       "flight_number": "string",
+    //       "arrival_point": "string",
+    //       "citizenship": 0,
+    //       "phone": "string",
+    //       "telegram": "string",
+    //       "whatsapp": "string",
+    //       "vk": "string",
+    //       "comment": "string",
+    //       "tickets": "string"
+    //     }
+    //   ]
+
     const handleAdd = () => {
-        console.log('add');
+        // addStudent('4563', arrivalDate, flightNumber, arrivalPoint, comment, tickets, fullName, sex, arrivalTime, citizenship, phone, telegram, whatsApp, vk)
+
+        const data = {
+            "email": userData.email,
+            "full_name": fullName,
+            "sex": "string",
+            "arrival_date": "2023-12-06",
+            "arrival_time": "11:48:07.831Z",
+            "flight_number": flightNumber,
+            "arrival_point": arrivalPoint,
+            "citizenship": citizenship,
+            "phone": phone,
+            "telegram": telegram,
+            "whatsapp": whatsApp,
+            "vk": vk,
+            "comment": "string",
+            "tickets": "string",
+        };
+
         arrivalBookDataArr.length = 0;
+        arrivalBookDataArr.push(data);
 
-        arrivalBookDataFirst.id = '4563';
-        arrivalBookDataFirst.arrivalDate = arrivalDate;
-        arrivalBookDataFirst.flightNumber = flightNumber;
-        arrivalBookDataFirst.arrivalPoint = arrivalPoint;
-        arrivalBookDataFirst.comment = comment;
-        arrivalBookDataFirst.tickets = tickets;
-        arrivalBookDataFirst.fullName = fullName;
-        arrivalBookDataFirst.sex = sex;
-        arrivalBookDataFirst.arrivalTime = arrivalTime;
-        arrivalBookDataFirst.citizenship = citizenship;
-        arrivalBookDataFirst.phone = phone;
-        arrivalBookDataFirst.telegram = telegram;
-        arrivalBookDataFirst.whatsApp = whatsApp;
-        arrivalBookDataFirst.vk = vk;
+        console.log("--arrivalBookDataArr--");
+        console.log(arrivalBookDataArr)
 
-        arrivalBookDataArr.push(arrivalBookDataFirst);
+        postArrivalBook(arrivalBookDataArr, '/users/me/book-arrival', "/json", userData.access_token)
 
-        console.log("--arrivalBookData--");
-
-        for (var key in arrivalBookData) {
-            console.log(key + ': ' + arrivalBookData[key]);
-        }
-
-        console.log('arrival bookeng end', arrivalBookDataArr);
 
         navigation.navigate('AddSecondScreen');
-
     };
 
     return (
@@ -320,5 +343,53 @@ const ArrivalBookingScreen = ({ navigation }) => {
         </SafeAreaView>
     );
 };
+
+const addStudent = (id, arrivalDate, flightNumber, arrivalPoint, comment, tickets, fullName, sex, arrivalTime, citizenship, phone, telegram, whatsApp, vk) => {
+    arrivalBookDataFirst.id = id;
+    arrivalBookDataFirst.arrivalDate = arrivalDate;
+    arrivalBookDataFirst.flightNumber = flightNumber;
+    arrivalBookDataFirst.arrivalPoint = arrivalPoint;
+    arrivalBookDataFirst.comment = comment;
+    arrivalBookDataFirst.tickets = tickets;
+    arrivalBookDataFirst.fullName = fullName;
+    arrivalBookDataFirst.sex = sex;
+    arrivalBookDataFirst.arrivalTime = arrivalTime;
+    arrivalBookDataFirst.citizenship = citizenship;
+    arrivalBookDataFirst.phone = phone;
+    arrivalBookDataFirst.telegram = telegram;
+    arrivalBookDataFirst.whatsApp = whatsApp;
+    arrivalBookDataFirst.vk = vk;
+}
+
+
+
+const addStudentArr = () => {
+    arrivalBookDataArr.length = 0;
+    arrivalBookDataArr.push(arrivalBookDataFirst);
+
+    console.log("--arrivalBookDataArr--");
+    console.log(arrivalBookDataArr)
+}
+
+export const postArrivalBook = async (data, adress, contentType, token) => {
+    try {
+        const res = await fetch("https://privet-mobile-app.onrender.com" + adress, {
+            method: "POST",
+            headers: {
+                "Accept": "application" + contentType,
+                "Content-Type": "application" + contentType,
+                "Authorization": "Bearer " + token,
+            },
+            credentials: 'include',
+            body: JSON.stringify(data),
+        });
+        const responseData = await res.json();
+        console.log(adress, responseData);
+        return responseData;
+    } catch (err) {
+        console.log(adress, err);
+        throw err;
+    }
+}
 
 export default ArrivalBookingScreen;

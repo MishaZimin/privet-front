@@ -20,7 +20,9 @@ import BackButton from '../../back-button.jsx';
 const PaymentScreen = ({ navigation }) => {
 
     const handlePay = async () => {
+        // if (true) {
 
+        // } // обязательные поля в профиля заполнены
 
         userData.escortIsPaid = true;
 

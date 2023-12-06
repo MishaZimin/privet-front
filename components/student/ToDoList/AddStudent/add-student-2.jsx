@@ -38,27 +38,67 @@ const arrivalBookDataSecond = {
 };
 
 const AddSecondScreen = ({ navigation }) => {
-    const [fullName, setFullName] = useState();
-    const [sex, setSex] = useState();
+    const [fullName, setFullName] = useState(null);
+    const [sex, setSex] = useState(null);
 
-    const [arrivalDate, setArrivalDate] = useState();
-    const [arrivalTime, setArrivalTime] = useState();
-    const [flightNumber, setFlightNumber] = useState();
-    const [citizenship, setCitizenship] = useState();
-    const [arrivalPoint, setArrivalPoint] = useState();
+    const [arrivalDate, setArrivalDate] = useState(null);
+    const [arrivalTime, setArrivalTime] = useState(null);
+    const [flightNumber, setFlightNumber] = useState(null);
+    const [citizenship, setCitizenship] = useState(null);
+    const [arrivalPoint, setArrivalPoint] = useState(null);
 
-    const [phone, setPhone] = useState();
-    const [telegram, setTelegram] = useState();
-    const [whatsApp, setWhatsApp] = useState();
-    const [vk, setVk] = useState();
+    const [phone, setPhone] = useState(null);
+    const [telegram, setTelegram] = useState(null);
+    const [whatsApp, setWhatsApp] = useState(null);
+    const [vk, setVk] = useState(null);
 
-    const [comment, setComment] = useState();
-    const [tickets, setTickets] = useState();
+    const [comment, setComment] = useState(null);
+    const [tickets, setTickets] = useState(null);
 
     const [isCorrectName, setIsCorrectName] = useState(false);
-    const [accessToInputs, setaccessToInputs] = useState();
+    const [accessToInputs, setaccessToInputs] = useState(null);
 
-    // console.log('---', isCorrectName);
+    const handleSave = () => {
+        // addStudent('4563', arrivalDate, flightNumber, arrivalPoint, comment, tickets, fullName, sex, arrivalTime, citizenship, phone, telegram, whatsApp, vk);
+        const data = {
+            "email": userData.email,
+            "full_name": fullName,
+            "sex": "string",
+            "arrival_date": "2023-12-06",
+            "arrival_time": "11:48:07.831Z",
+            "flight_number": flightNumber,
+            "arrival_point": arrivalPoint,
+            "citizenship": citizenship,
+            "phone": phone,
+            "telegram": telegram,
+            "whatsapp": whatsApp,
+            "vk": vk,
+            "comment": comment,
+            "tickets": tickets,
+        };
+
+        arrivalBookDataArr.length = 1;
+        arrivalBookDataArr.push(data);
+
+        console.log("--arrivalBookDataArr--");
+        console.log(arrivalBookDataArr)
+
+        postArrivalBook(arrivalBookDataArr, '/users/me/book-arrival', "/json", userData.access_token);
+
+        navigation.navigate('ArrivalSubmitted');
+    };
+
+    const handleAdd = () => {
+        addStudent('4563', arrivalDate, flightNumber, arrivalPoint, comment, tickets, fullName, sex, arrivalTime, citizenship, phone, telegram, whatsApp, vk);
+        addStudentArr();
+
+        navigation.navigate('AddThirdScreen');
+    };
+
+    const handleDelete = () => {
+        navigation.goBack();
+    };
+
     const handleFind = () => {
         console.log('find', isCorrectName, fullName);
 
@@ -77,64 +117,6 @@ const AddSecondScreen = ({ navigation }) => {
             setIsCorrectName(false);
             setaccessToInputs('мы не нашли сдудента');
         }
-    };
-
-    const handleSave = () => {
-        arrivalBookDataArr.length = 1;
-
-        arrivalBookDataSecond.id = '4563';
-        arrivalBookDataSecond.arrivalDate = arrivalDate;
-        arrivalBookDataSecond.flightNumber = flightNumber;
-        arrivalBookDataSecond.arrivalPoint = arrivalPoint;
-        arrivalBookDataSecond.comment = comment;
-        arrivalBookDataSecond.tickets = tickets;
-        arrivalBookDataSecond.fullName = fullName;
-        arrivalBookDataSecond.sex = sex;
-        arrivalBookDataSecond.arrivalTime = arrivalTime;
-        arrivalBookDataSecond.citizenship = citizenship;
-        arrivalBookDataSecond.phone = phone;
-        arrivalBookDataSecond.telegram = telegram;
-        arrivalBookDataSecond.whatsApp = whatsApp;
-        arrivalBookDataSecond.vk = vk;
-
-        arrivalBookDataArr.push(arrivalBookDataSecond);
-        // arrAllStudentsInArrival.splice(1, 0, arr2);
-
-        console.log("--arrivalBookDataArr--");
-        console.log('Arrival names:', arrivalBookDataArr[0].fullName, arrivalBookDataArr[1].fullName);
-
-        navigation.navigate('ArrivalSubmitted');
-
-    };
-
-    const handleAdd = () => {
-        arrivalBookDataArr.length = 1;
-
-        console.log('add');
-
-        arrivalBookDataSecond.id = '4563';
-        arrivalBookDataSecond.arrivalDate = arrivalDate;
-        arrivalBookDataSecond.flightNumber = flightNumber;
-        arrivalBookDataSecond.arrivalPoint = arrivalPoint;
-        arrivalBookDataSecond.comment = comment;
-        arrivalBookDataSecond.tickets = tickets;
-        arrivalBookDataSecond.fullName = fullName;
-        arrivalBookDataSecond.sex = sex;
-        arrivalBookDataSecond.arrivalTime = arrivalTime;
-        arrivalBookDataSecond.citizenship = citizenship;
-        arrivalBookDataSecond.phone = phone;
-        arrivalBookDataSecond.telegram = telegram;
-        arrivalBookDataSecond.whatsApp = whatsApp;
-        arrivalBookDataSecond.vk = vk;
-
-        arrivalBookDataArr.push(arrivalBookDataSecond);
-
-        navigation.navigate('AddThirdScreen');
-
-    };
-
-    const handleDelete = () => {
-        navigation.goBack();
     };
 
     return (
@@ -364,5 +346,51 @@ const AddSecondScreen = ({ navigation }) => {
         </SafeAreaView>
     );
 };
+
+const addStudent = (id, arrivalDate, flightNumber, arrivalPoint, comment, tickets, fullName, sex, arrivalTime, citizenship, phone, telegram, whatsApp, vk) => {
+    arrivalBookDataSecond.id = id;
+    arrivalBookDataSecond.arrivalDate = arrivalDate;
+    arrivalBookDataSecond.flightNumber = flightNumber;
+    arrivalBookDataSecond.arrivalPoint = arrivalPoint;
+    arrivalBookDataSecond.comment = comment;
+    arrivalBookDataSecond.tickets = tickets;
+    arrivalBookDataSecond.fullName = fullName;
+    arrivalBookDataSecond.sex = sex;
+    arrivalBookDataSecond.arrivalTime = arrivalTime;
+    arrivalBookDataSecond.citizenship = citizenship;
+    arrivalBookDataSecond.phone = phone;
+    arrivalBookDataSecond.telegram = telegram;
+    arrivalBookDataSecond.whatsApp = whatsApp;
+    arrivalBookDataSecond.vk = vk;
+};
+
+const addStudentArr = () => {
+    arrivalBookDataArr.length = 1;
+    arrivalBookDataArr.push(arrivalBookDataSecond);
+
+    console.log("--arrivalBookDataArr--");
+    console.log(arrivalBookDataArr)
+};
+
+const postArrivalBook = async (data, adress, contentType, token) => {
+    try {
+        const res = await fetch("https://privet-mobile-app.onrender.com" + adress, {
+            method: "POST",
+            headers: {
+                "Accept": "application" + contentType,
+                "Content-Type": "application" + contentType,
+                "Authorization": "Bearer " + token,
+            },
+            credentials: 'include',
+            body: JSON.stringify(data),
+        });
+        const responseData = await res.json();
+        console.log(adress, responseData);
+        return responseData;
+    } catch (err) {
+        console.log(adress, err);
+        throw err;
+    }
+}
 
 export default AddSecondScreen;

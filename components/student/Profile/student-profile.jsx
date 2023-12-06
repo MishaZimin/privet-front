@@ -24,6 +24,7 @@ import { countriesPicker } from '../../data-picker/citizenship.jsx';
 import { languagePicker } from '../../data-picker/langues.jsx';
 import { ToastAndroid } from 'react-native';
 import { ToastIOS } from 'react-native';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const StudentProfileScreen = ({ navigation }) => {
     const [fullName, setFullName] = useState(userData.fullName);
@@ -52,8 +53,8 @@ const StudentProfileScreen = ({ navigation }) => {
     const [buddysComment, setBuddysComment] = useState(userData.buddysComment);
 
     const sexPicker = [
-        { key: '1', value: 'Man' },
-        { key: '2', value: 'Woman' },
+        { key: 'Male', value: 'Man' },
+        { key: 'Female', value: 'Woman' },
     ];
 
     const showToastIOS = () => {
@@ -80,7 +81,7 @@ const StudentProfileScreen = ({ navigation }) => {
             "citizenship": citizenship == '' ? null : citizenship,
             "city": null,
             "sex": sex,
-            "birthdate": birthDate == '' ? null : birthDate,
+            "birthdate": '2000-01-01', //birthDate == '' ? null : birthDate
             "phone": phone == '' ? null : phone,
             "telegram": telegram == '' ? null : telegram,
             "whatsapp": whatsApp == '' ? null : whatsApp,
@@ -92,7 +93,7 @@ const StudentProfileScreen = ({ navigation }) => {
         console.log("send data:", data);
         const accessToken = await AsyncStorage.getItem('access_token');
         await sendChangeProfileToServer(data, "/users/me/profile/change", "/json", accessToken);
-
+        console.log("send data:", data);
         Alert.alert('профиль сохранен')
     };
 
@@ -108,6 +109,22 @@ const StudentProfileScreen = ({ navigation }) => {
             showToastIOS();
 
         }
+    };
+
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+    };
+
+    const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+    };
+
+    const handleConfirm = (date) => {
+        setBirthDate(date);
+        // console.warn("A date has been picked: ", date);
+        hideDatePicker();
     };
 
     return (
@@ -194,6 +211,16 @@ const StudentProfileScreen = ({ navigation }) => {
                                 userData.language,
                                 'Birth Date',
                                 'Дата Рождения')}</Text>
+                        <View style={styles.inputHeader}>
+                            <Button title="Выбрать дату" onPress={showDatePicker} />
+                            <DateTimePickerModal
+                                isVisible={isDatePickerVisible}
+                                mode="date"
+                                onConfirm={handleConfirm}
+                                onCancel={hideDatePicker}
+                                placeholder={birthDate}
+                            />
+                        </View>
                         <TextInput
                             style={styles.textInput}
                             placeholder=""

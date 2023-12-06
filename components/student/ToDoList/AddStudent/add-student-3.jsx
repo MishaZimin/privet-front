@@ -58,7 +58,23 @@ const AddThirdScreen = ({ navigation, route }) => {
     const [isCorrectName, setIsCorrectName] = useState(false);
     const [accessToInputs, setaccessToInputs] = useState();
 
-    // console.log('---', isCorrectName);
+    const handleSave = () => {
+        addStudent('4563', arrivalDate, flightNumber, arrivalPoint, comment, tickets, fullName, sex, arrivalTime, citizenship, phone, telegram, whatsApp, vk);
+        addStudentArr();
+
+        navigation.navigate('ArrivalSubmitted');
+    };
+
+    const handleAdd = () => {
+        arrivalBookDataArr.length = 2;
+
+        console.log('add');
+    };
+
+    const handleDelete = () => {
+        navigation.goBack();
+    };
+
     const handleFind = () => {
         console.log('find', isCorrectName, fullName);
 
@@ -77,46 +93,6 @@ const AddThirdScreen = ({ navigation, route }) => {
             setIsCorrectName(false);
             setaccessToInputs('мы не нашли сдудента');
         }
-    };
-
-    const handleSave = () => {
-        arrivalBookDataArr.length = 2;
-
-        arrivalBookDataThird.id = '4563';
-        arrivalBookDataThird.arrivalDate = arrivalDate;
-        arrivalBookDataThird.flightNumber = flightNumber;
-        arrivalBookDataThird.arrivalPoint = arrivalPoint;
-        arrivalBookDataThird.comment = comment;
-        arrivalBookDataThird.tickets = tickets;
-        arrivalBookDataThird.fullName = fullName;
-        arrivalBookDataThird.sex = sex;
-        arrivalBookDataThird.arrivalTime = arrivalTime;
-        arrivalBookDataThird.citizenship = citizenship;
-        arrivalBookDataThird.phone = phone;
-        arrivalBookDataThird.telegram = telegram;
-        arrivalBookDataThird.whatsApp = whatsApp;
-        arrivalBookDataThird.vk = vk;
-
-        arrivalBookDataArr.push(arrivalBookDataThird);
-        // arrAllStudentsInArrival.splice(1, 0, arr2);
-
-        console.log("--arrivalBookDataArr--");
-        console.log(arrivalBookDataArr);
-
-        console.log('Arrival names:', arrivalBookDataArr[0].fullName, arrivalBookDataArr[1].fullName, arrivalBookDataArr[2].fullName);
-
-
-        navigation.navigate('ArrivalSubmitted');
-
-    };
-
-    const handleAdd = () => {
-        arrivalBookDataArr.length = 2;
-
-        console.log('add');
-    };
-    const handleDelete = () => {
-        navigation.goBack();
     };
 
     return (
@@ -345,6 +321,31 @@ const AddThirdScreen = ({ navigation, route }) => {
             </ScrollView>
         </SafeAreaView>
     );
+};
+
+const addStudent = (id, arrivalDate, flightNumber, arrivalPoint, comment, tickets, fullName, sex, arrivalTime, citizenship, phone, telegram, whatsApp, vk) => {
+    arrivalBookDataThird.id = id;
+    arrivalBookDataThird.arrivalDate = arrivalDate;
+    arrivalBookDataThird.flightNumber = flightNumber;
+    arrivalBookDataThird.arrivalPoint = arrivalPoint;
+    arrivalBookDataThird.comment = comment;
+    arrivalBookDataThird.tickets = tickets;
+    arrivalBookDataThird.fullName = fullName;
+    arrivalBookDataThird.sex = sex;
+    arrivalBookDataThird.arrivalTime = arrivalTime;
+    arrivalBookDataThird.citizenship = citizenship;
+    arrivalBookDataThird.phone = phone;
+    arrivalBookDataThird.telegram = telegram;
+    arrivalBookDataThird.whatsApp = whatsApp;
+    arrivalBookDataThird.vk = vk;
+};
+
+const addStudentArr = () => {
+    arrivalBookDataArr.length = 2;
+    arrivalBookDataArr.push(arrivalBookDataThird);
+
+    console.log("--arrivalBookDataArr--");
+    console.log(arrivalBookDataArr)
 };
 
 export default AddThirdScreen;

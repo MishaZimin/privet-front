@@ -36,7 +36,7 @@ const BuddyProfileScreen = ({ navigation }) => {
     const [nativeLanguage, setNativeLanguage] = useState(userData.nativeLanguage);
     const [otherLanguage, setOtherLanguage] = useState(userData.otherLanguage);
     const [university, setUniversity] = useState(userData.university);
-    const [profileType, setProfileType] = getUserType(userData.user);
+    const [profileType, setProfileType] = useState(getUserType(userData.user));
     const [buddyStatus, setBuddyStatus] = userData.buddyStatus ? useState("Yes") : useState("No");
 
     const showToastIOS = () => {

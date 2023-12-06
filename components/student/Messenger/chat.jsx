@@ -15,7 +15,7 @@ import {
 import BackButtonMsg from '../../back-button-msg.jsx';
 // import { styles } from '../../main.jsx';
 
-const ChatScreen = ({ navigation, route }) => {
+const ChatScreen = () => {
     const [message, setMessage] = useState('');
     const scrollViewRef = useRef();
 
