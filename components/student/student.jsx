@@ -13,6 +13,8 @@ import {
     sendJSONToServer,
     userData,
     getTokenToServer,
+    invitationsData
+
 } from '../Utils.jsx';
 import { styles } from '../main.jsx';
 import BackButton from '../back-button.jsx';
@@ -41,10 +43,28 @@ const StudentsScreen = ({ navigation }) => {
 
         userData.id = response.contacts.user_id;
 
+        console.log('---', userData.sex);
+
+
+
         navigation.navigate('StudentProfileScreen');
     };
-    const handleToDoList = () => {
-        navigation.navigate('ToDoListISScreen');
+    const handleToDoList = async () => {
+        try {
+            const accessToken = await AsyncStorage.getItem('access_token');
+            const response = await getTokenToServer(accessToken, "/users/me/check-invitation", "/json");
+            console.log('check-invitation:', response);
+            if (response != null) {
+                invitationsData.push(response);
+            }
+
+            console.log('1', invitationsData);
+
+            navigation.navigate('ToDoListISScreen');
+        }
+        catch (err) {
+            console.log(err);
+        };
     };
     const handleRoute = () => {
         navigation.navigate('RouteScreen');

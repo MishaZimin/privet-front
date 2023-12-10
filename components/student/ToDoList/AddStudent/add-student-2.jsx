@@ -14,11 +14,12 @@ import {
     userData,
     arrivalBookData,
     arrivalBookDataArr,
+    sendDataToServer
 } from '../../../Utils.jsx';
 import { styles } from '../../../main.jsx';
 import BackButton from '../../../back-button.jsx';
 
-const nameArr = ['Name1', 'Name2'];
+const nameArr = ['Name1@mail.ru', 'Name2@mail.ru', 'Gg424gg@mail.ru'];
 const arrivalBookDataSecond = {
     id: '',
     arrivalDate: '',
@@ -58,39 +59,48 @@ const AddSecondScreen = ({ navigation }) => {
     const [isCorrectName, setIsCorrectName] = useState(false);
     const [accessToInputs, setaccessToInputs] = useState(null);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         // addStudent('4563', arrivalDate, flightNumber, arrivalPoint, comment, tickets, fullName, sex, arrivalTime, citizenship, phone, telegram, whatsApp, vk);
-        const data = {
-            "email": userData.email,
-            "full_name": fullName,
-            "sex": "string",
-            "arrival_date": "2023-12-06",
-            "arrival_time": "11:48:07.831Z",
-            "flight_number": flightNumber,
-            "arrival_point": arrivalPoint,
-            "citizenship": citizenship,
-            "phone": phone,
-            "telegram": telegram,
-            "whatsapp": whatsApp,
-            "vk": vk,
-            "comment": comment,
-            "tickets": tickets,
-        };
 
         arrivalBookDataArr.length = 1;
-        arrivalBookDataArr.push(data);
-
+        const invite = arrivalBookDataArr[0].invite;
+        invite.length = 0;
+        console.log(invite.length);
+        // arrivalBookDataArr.push(data);
+        arrivalBookDataArr[0].invite.push(fullName)
         console.log("--arrivalBookDataArr--");
-        console.log(arrivalBookDataArr)
+        console.log(arrivalBookDataArr[0].invite)
+        console.log(arrivalBookDataArr);
 
-        postArrivalBook(arrivalBookDataArr, '/users/me/book-arrival', "/json", userData.access_token);
+        const response = await postArrivalBook(arrivalBookDataArr[0], '/users/me/book-arrival', "/json", userData.access_token);
+        console.log(response);
 
-        navigation.navigate('ArrivalSubmitted');
+        if (response.detail == "User has already booked arrival") {
+            console.log("приезд уже зарегистрирован");
+            Alert.alert("приезд уже зарегистрирован");
+            navigation.navigate('ArrivalSubmitted');
+
+            navigation.navigate('ToDoListISScreen');
+
+        }
+        else if (response.detail == "") {
+            navigation.navigate('ArrivalSubmitted');
+        }
+
     };
 
     const handleAdd = () => {
         addStudent('4563', arrivalDate, flightNumber, arrivalPoint, comment, tickets, fullName, sex, arrivalTime, citizenship, phone, telegram, whatsApp, vk);
-        addStudentArr();
+
+
+        const invite = arrivalBookDataArr[0].invite;
+        invite.length = 0;
+        console.log(invite.length);
+        // arrivalBookDataArr.push(data);
+        arrivalBookDataArr[0].invite.push(fullName)
+        console.log("--arrivalBookDataArr--");
+        console.log(arrivalBookDataArr[0].invite)
+        console.log(arrivalBookDataArr);
 
         navigation.navigate('AddThirdScreen');
     };
@@ -99,23 +109,28 @@ const AddSecondScreen = ({ navigation }) => {
         navigation.goBack();
     };
 
-    const handleFind = () => {
-        console.log('find', isCorrectName, fullName);
+    const handleFind = async () => {
+        try {
+            // console.log('find', isCorrectName, fullName);
 
-        if (nameArr.includes(fullName)) {
-            if (true) { // оплата приезда
+            const isPayment = await getUserPyment('/check-payment/' + fullName, "application/json");
+            console.log('--', isPayment);
+            if (isPayment.detail == "User does not exist") {
+                setIsCorrectName(false);
+                setaccessToInputs('мы не нашли сдудента');
+            }
+            if (isPayment == true) { // оплата приезда
                 console.log('можно редактировать');
                 setaccessToInputs('студент есть в системе и услуги оплачены');
                 setIsCorrectName(true);
             }
-            else {
+            if (isPayment == false) {
                 setIsCorrectName(false);
                 setaccessToInputs('студент есть в системе, но услуги не оплачены');
             }
         }
-        else {
-            setIsCorrectName(false);
-            setaccessToInputs('мы не нашли сдудента');
+        catch (err) {
+            console.log(err);
         }
     };
 
@@ -158,9 +173,9 @@ const AddSecondScreen = ({ navigation }) => {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.textInputs}>
+                    {/* <View style={styles.textInputs}> */}
 
-                        <Text style={styles.inputHeader}>
+                    {/* <Text style={styles.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 'Sex',
@@ -171,8 +186,8 @@ const AddSecondScreen = ({ navigation }) => {
                             value={sex}
                             editable={isCorrectName}
                             onChangeText={text => setSex(text)}
-                        />
-                        <Text style={styles.inputHeader}>
+                        /> */}
+                    {/* <Text style={styles.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 'Arrival Date',
@@ -306,7 +321,7 @@ const AddSecondScreen = ({ navigation }) => {
 
                             onChangeText={text => setTickets(text)}
                         />
-                    </View>
+                    </View> */}
 
                     <View style={styles.buttons}>
                         <TouchableOpacity
@@ -383,6 +398,24 @@ const postArrivalBook = async (data, adress, contentType, token) => {
             },
             credentials: 'include',
             body: JSON.stringify(data),
+        });
+        const responseData = await res.json();
+        console.log(adress, responseData);
+        return responseData;
+    } catch (err) {
+        console.log(adress, err);
+        throw err;
+    }
+}
+
+const getUserPyment = async (adress, contentType) => {
+    try {
+        const res = await fetch("https://privet-mobile-app.onrender.com" + adress, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application" + contentType,
+            },
+            credentials: 'include',
         });
         const responseData = await res.json();
         console.log(adress, responseData);

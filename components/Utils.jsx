@@ -203,6 +203,8 @@ export var timliderMessengerArr = [
     }
 ];
 
+export var invitationsData = [];
+
 
 // export var buddysStudents = [
 //     { arrivalID: '#1', photo: 'photo1', studentFullName: 'name1', studenCizenship: 'China' },
@@ -337,6 +339,8 @@ export const sendDataToServer = async (data, adress, contentType) => {
         throw err;
     }
 }
+
+
 
 export const getUserByEmailFromServer = async (adress, contentType) => {
     try {

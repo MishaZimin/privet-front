@@ -76,13 +76,13 @@ const StudentProfileScreen = ({ navigation }) => {
     };
 
     const handleSave = async () => {
-        console.log('---', sex);
+
         const data = {
-            "full_name": fullName,
+            "full_name": fullName == '' ? null : fullName,
             "citizenship": citizenship == '' ? null : citizenship,
             "city": null,
-            "sex": sex,
-            "birthdate": '2000-01-01', //birthDate == '' ? null : birthDate
+            "sex": sex == '' ? null : sex,
+            "birthdate": birthDate == '' ? null : birthDate,
             "phone": phone == '' ? null : phone,
             "telegram": telegram == '' ? null : telegram,
             "whatsapp": whatsApp == '' ? null : whatsApp,
@@ -91,10 +91,17 @@ const StudentProfileScreen = ({ navigation }) => {
             "other_languages_ids": [],
             "university": university == '' ? null : university
         };
+        console.log('sex:', sex);
+        console.log('birthDate:', birthDate);
+
+
+
         console.log("send data:", data);
         const accessToken = await AsyncStorage.getItem('access_token');
-        await sendChangeProfileToServer(data, "/users/me/profile/change", "/json", accessToken);
-        console.log("send data:", data);
+        const response = await sendChangeProfileToServer(data, "/users/me/profile/change", "/json", accessToken);
+        console.log("response:", response.profile_info.sex);
+
+
         Alert.alert('профиль сохранен')
     };
 
@@ -202,7 +209,7 @@ const StudentProfileScreen = ({ navigation }) => {
                             data={sexPicker}
                             save="key"
 
-                            placeholder="Man"
+                            placeholder={sex}
                             setSelected={(val) => setSex(val)}
                         />
 
