@@ -14,11 +14,11 @@ import {
 import BackButton from './back-button.jsx';
 
 
-const WelcomeOneScreen = ({ navigation }) => {
+const WelcomeTwoScreen = ({ navigation }) => {
     const handleRegister = () => {
-        navigation.navigate('WelcomeTwoScreen');
-
         // navigation.navigate('RegistrationISScreen');
+        navigation.navigate('WelcomeThreeScreen');
+
     };
 
     return (
@@ -31,20 +31,20 @@ const WelcomeOneScreen = ({ navigation }) => {
                     <Image
                         resizeMode="contain"
                         style={welcome.img}
-                        source={require('./3d-fluency-cowboy-hat-face.png')} />
+                        source={require('./3d-fluency-star-struck.png')} />
                     <View style={welcome.welcomeTextForm}>
                         <View style={welcome.welcomeText}>
                             <Text style={welcome.textHeader}>
                                 {languageTranslate(
                                     userData.language,
                                     'Privet👋',
-                                    'Privet👋')}
+                                    'С нашим приложением ты можешь:')}
                             </Text>
 
                             <Text style={welcome.text}>
                                 {languageTranslate(
                                     userData.language,
-                                    'is an application for foreign students that will help you settle in Russia without any problems',
+                                    'this is an application for foreign students that will help you settle in Russia without any problems',
                                     'это приложение для иностранных студентов, которое поможет без проблем обосноваться в России')}
                             </Text>
                         </View>
@@ -97,7 +97,6 @@ export const welcome = StyleSheet.create({
     welcomeText: {
         width: '90%',
         marginLeft: '5%',
-        // fontFamily: 'proximanova_bold'
     },
 
     textHeader: {
@@ -111,7 +110,9 @@ export const welcome = StyleSheet.create({
     text: {
         width: '80%',
         paddingLeft: '10%',
-        paddingBottom: '20%',
+        // paddingBottom: '2%',
+
+
         fontWeight: '300',
         fontSize: 20,
     },
@@ -133,7 +134,7 @@ export const welcome = StyleSheet.create({
         width: '25%',
         marginLeft: '65%',
         borderWidth: 8,
-        borderColor: 'rgb(245, 193, 68)'
+        borderColor: 'rgb(234, 51, 111)'
     },
     buttonImg: {
         height: 50,
@@ -144,6 +145,7 @@ export const welcome = StyleSheet.create({
         fontSize: 24,
         fontWeight: '600',
     },
+
     buttonForm: {
         position: 'absolute',
         width: '100%',
@@ -151,4 +153,4 @@ export const welcome = StyleSheet.create({
     }
 });
 
-export default WelcomeOneScreen;
+export default WelcomeTwoScreen;

@@ -3,7 +3,11 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import WelcomeScreen from './components/welcome.jsx';
+import WelcomeOneScreen from './components/welcome.jsx';
+import WelcomeTwoScreen from './components/welcome1.jsx';
+import WelcomeThreeScreen from './components/welcome2.jsx';
+import RegOrLogInScreen from './components/reg-or-login.jsx';
+
 import RegistrationISScreen from './components/registration/registration-IS.jsx';
 import EmailScreen from './components/registration/email-confirmation.jsx';
 import RegistrationBuddyScreen from './components/registration/registration-buddy.jsx';
@@ -51,7 +55,13 @@ function App() {
 
                 <Stack.Screen name="LoadingScreen" component={LoadingScreen} />
                 <Stack.Screen name="LanguageSelectionScreen" component={LanguageSelectionScreen} />
-                <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
+                <Stack.Screen name="WelcomeOneScreen" component={WelcomeOneScreen} />
+                <Stack.Screen name="WelcomeThreeScreen" component={WelcomeThreeScreen} />
+                <Stack.Screen name="RegOrLogInScreen" component={RegOrLogInScreen} />
+
+
+                <Stack.Screen name="WelcomeTwoScreen" component={WelcomeTwoScreen} />
+
 
                 <Stack.Screen name="LoadingSettingISScreen" component={LoadingSettingISScreen} />
                 <Stack.Screen name="LoadingSettingBuddyScreen" component={LoadingSettingBuddyScreen} />

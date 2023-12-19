@@ -123,30 +123,30 @@ const RegistrationISScreen = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView style={styles.main}>
-            <ScrollView style={styles.main}>
-                <View style={styles.form}>
+        <SafeAreaView style={form.main}>
+            <ScrollView style={form.main}>
+                <View style={form.form}>
                     <BackButton />
-                    <Text style={styles.textHeader}>
+                    <Text style={form.textHeader}>
                         {languageTranslate(
                             userData.language,
                             'Sign Up',
-                            'Регистрация ИС')}
+                            'Регистрация')}
                     </Text>
-                    <View style={styles.textInputs}>
-                        <Text style={styles.inputHeader}>
+                    <View style={form.textInputs}>
+                        <Text style={form.inputHeader}>
                             {languageTranslate(
                                 userData.language,
-                                'Email',
-                                'Email')}</Text>
+                                'E-mail',
+                                'E-mail')}</Text>
                         <TextInput
-                            style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
+                            style={correctEmail ? form.textInput : form.unCorrectTextInput}
                             placeholder=""
                             value={email}
                             onChangeText={text => setEmail(text)}
                         />
-                        <Text>{correctEmail ? null : emailCorrect}</Text>
-                        <Text style={styles.inputHeader}>
+                        <Text style={form.inputProblem}>{correctEmail ? null : emailCorrect}</Text>
+                        <Text style={form.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 'Password',
@@ -155,41 +155,41 @@ const RegistrationISScreen = ({ navigation }) => {
 
 
                         <TextInput
-                            style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
+                            style={correctPassword ? form.textInput : form.unCorrectTextInput}
                             secureTextEntry
                             placeholder=""
                             value={password}
                             onChangeText={text => setPassword(text)}
                         />
-                        <Text>{correctPassword ? null : passwordCorrect}</Text>
-                        <Text style={styles.inputHeader}>
+                        <Text style={form.inputProblem}>{correctPassword ? null : passwordCorrect}</Text>
+                        <Text style={form.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 'Password confirm',
                                 'Подтверждение пароля')}</Text>
 
                         <TextInput
-                            style={correctPasswords ? styles.textInput : styles.unCorrectTextInput}
+                            style={correctPasswords ? form.textInput : form.unCorrectTextInput}
                             secureTextEntry
                             placeholder=""
                             value={passwordConfirm}
                             onChangeText={text => setPasswordConfirm(text)}
                         />
-                        <Text>{correctPasswords ? null : passwordsCorrect}</Text>
+                        <Text style={form.inputProblem}>{correctPasswords ? null : passwordsCorrect}</Text>
                     </View>
-                    <View style={styles.buttons}>
-                        <TouchableOpacity
-                            style={styles.button}
-                            title="Зарегистрироваться"
-                            onPress={handleRegistration}>
-                            <Text style={styles.textButton}>
-                                {languageTranslate(
-                                    userData.language,
-                                    'Registration',
-                                    'Зарегистрироваться')}
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
+                    {/* <View style={form.buttons}> */}
+                    <TouchableOpacity
+                        style={form.button}
+                        title="Зарегистрироваться"
+                        onPress={handleRegistration}>
+                        <Text style={form.textButton}>
+                            {languageTranslate(
+                                userData.language,
+                                'Registration',
+                                'Зарегистрироваться')}
+                        </Text>
+                    </TouchableOpacity>
+                    {/* <TouchableOpacity
                             style={styles.button}
                             title="Я Сопровождающий"
                             onPress={handleBuddy}>
@@ -210,11 +210,168 @@ const RegistrationISScreen = ({ navigation }) => {
                                     'Log In',
                                     'Войти')}
                             </Text>
-                        </TouchableOpacity>
-                    </View>
+                        </TouchableOpacity> */}
+                    {/* </View> */}
                 </View>
             </ScrollView></SafeAreaView>
     );
 };
+
+export const form = StyleSheet.create({
+    main: {
+        flex: 1,
+        backgroundColor: 'white',
+    },
+    form: {
+        flex: 1,
+        gap: 0,
+        backgroundColor: 'white',
+    },
+
+    welcomeTextForm: {
+        flex: 5,
+        width: '100%',
+        backgroundColor: 'white',
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+        shadowColor: 'grey',
+        shadowOffset: { width: 0, height: -20 },
+        shadowOpacity: 0.2,
+        shadowRadius: 10,
+    },
+
+    welcomeText: {
+        width: '90%',
+        marginLeft: '5%',
+    },
+
+    textHeader: {
+
+        paddingLeft: '10%',
+        paddingBottom: '30%',
+        fontWeight: '700',
+        fontSize: 30,
+    },
+
+    text: {
+        width: '80%',
+        paddingLeft: '10%',
+        // paddingBottom: '2%',
+
+
+        fontWeight: '300',
+        fontSize: 20,
+    },
+
+    img: {
+
+        flex: 4,
+        alignItems: 'center',
+        borderRadius: 30,
+        backgroundColor: 'white',
+        width: '50%',
+        marginLeft: '25%',
+    },
+
+    button: {
+        padding: '4%',
+        margin: '2%',
+        width: '75%',
+        marginLeft: '12.5%',
+        alignItems: 'center',
+        backgroundColor: 'black',
+        color: 'grey',
+        borderRadius: 28,
+        shadowColor: 'grey',
+    },
+    buttonImg: {
+        height: 50,
+        width: '60%',
+    },
+    textButton: {
+        color: 'white',
+        fontSize: 24,
+        fontWeight: '600',
+    },
+
+    buttonForm: {
+        position: 'absolute',
+        width: '100%',
+        bottom: '10%',
+    },
+
+    textInputs: {
+        flex: 1,
+        width: '90%',
+        marginLeft: '5%',
+        padding: '5%',
+        marginBottom: '30%',
+
+
+        justifyContent: 'start',
+    },
+
+
+
+    text: {
+        width: '100%',
+    },
+
+    text1: {
+        padding: '1%',
+        width: '100%',
+    },
+
+    textInput: {
+        width: '100%',
+        padding: '1%',
+        marginTop: '0%',
+        borderBottomWidth: 1,
+        borderColor: 'grey',
+    },
+
+
+    inputHeader: {
+        marginTop: '10%',
+        textAlign: 'left',
+        marginLeft: '1%',
+        marginBottom: '2%',
+        color: 'grey',
+    },
+
+    unCorrectTextInput: {
+        width: '100%',
+        padding: '1%',
+        marginTop: '0%',
+        borderBottomWidth: 1,
+
+        borderColor: 'red',
+    },
+    inputProblem: {
+        paddingTop: '2%',
+        color: 'red',
+        fontSize: 12,
+    },
+    buttonMini: {
+        padding: '4%',
+        margin: '2%',
+        width: '75%',
+        marginLeft: '12.5%',
+        alignItems: 'center',
+
+        borderRadius: 28,
+
+    },
+    textButtonMini: {
+        width: '100%',
+        color: 'silver',
+        textDecorationLine: 'underline',
+        fontSize: 12,
+        fontWeight: '600',
+        textAlign: 'right',
+    }
+});
 
 export default RegistrationISScreen;

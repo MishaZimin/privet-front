@@ -24,10 +24,10 @@ const SettingScreen = ({ navigation }) => {
         console.log(accessToken);
 
         if (registrationData.user == 1) {
-            navigation.navigate('RegistrationISScreen');
+            navigation.navigate('RegOrLogInScreen');
         }
         else {
-            navigation.navigate('RegistrationISScreen');
+            navigation.navigate('RegOrLogInScreen');
         }
     };
     const handleChangeLanguage = () => {

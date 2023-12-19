@@ -28,7 +28,7 @@ const LanguageSelectionScreen = ({ navigation }) => {
     const handleContinue = () => {
         console.log('selctor language:', userData.language);
 
-        navigation.navigate('WelcomeScreen');
+        navigation.navigate('WelcomeOneScreen');
     };
 
     return (
@@ -76,14 +76,10 @@ export const languageStyles = StyleSheet.create({
         padding: '5%',
         alignItems: 'center',
 
-        backgroundColor: 'white',
+        backgroundColor: 'rgb(240, 240, 240)',
 
         borderRadius: 40,
 
-        shadowColor: 'grey',
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 5,
     },
 
 });

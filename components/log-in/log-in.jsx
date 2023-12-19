@@ -18,7 +18,7 @@ import {
 } from '../Utils.jsx';
 import { styles } from '../main.jsx';
 import BackButton from '../back-button.jsx';
-
+import { form } from '../registration/registration-IS.jsx';
 let isCorrectPassword = true;
 let isCorrectEmail = true;
 let isCorrectUser = true;
@@ -68,8 +68,10 @@ const LogInForm = ({ navigation }) => {
                     'client_id': "",
                     'client_secret': "",
                 };
+                console.log(data1);
 
                 const response1 = await sendDataToServer(data1, "/login", "/x-www-form-urlencoded");
+                console.log('fasdas');
 
                 if (response1.detail == "Password is incorrect") {
                     isCorrectUser = false;
@@ -129,36 +131,35 @@ const LogInForm = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView style={styles.main}>
-            <ScrollView style={styles.main}>
-                <View style={styles.form}>
+        <SafeAreaView style={form.main}>
+            <ScrollView style={form.main}>
+                <View style={form.form}>
                     <BackButton />
-                    <Text style={styles.textHeader}>
+                    <Text style={form.textHeader}>
                         {languageTranslate(userData.language, 'Log In', 'Вход')}
                     </Text>
-                    <View style={styles.textInputs}>
-                        <Text style={styles.inputHeader}>
+                    <View style={form.textInputs}>
+                        <Text style={form.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 'Email',
                                 'Email')}</Text>
                         <TextInput
-                            style={isCorrectEmail ? styles.textInput : styles.unCorrectTextInput}
+                            style={isCorrectEmail ? form.textInput : form.unCorrectTextInput}
 
                             placeholder=""
                             value={email}
                             onChangeText={text => setEmail(text)}
                         />
-                        <Text>{isCorrectEmail ? null : emailCorrect}</Text>
-                        {isCorrectEmail ? null : <Text>{emailCorrect}</Text>}
+                        {isCorrectEmail ? null : <Text style={form.inputProblem}>{emailCorrect}</Text>}
 
-                        <Text style={styles.inputHeader}>
+                        <Text style={form.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 'Password',
                                 'Пароль')}</Text>
                         <TextInput
-                            style={isCorrectPassword ? styles.textInput : styles.unCorrectTextInput}
+                            style={isCorrectPassword ? form.textInput : form.unCorrectTextInput}
 
                             placeholder=""
                             secureTextEntry
@@ -166,33 +167,54 @@ const LogInForm = ({ navigation }) => {
                             onChangeText={text => setPassword(text)}
                         />
 
-                        {isCorrectPassword ? null : <Text>{passwordCorrect}</Text>}
-                        {isCorrectUser ? null : <Text>{correctUser}</Text>}
-                    </View>
-                    <View style={styles.buttons}>
-                        <TouchableOpacity
-                            style={styles.button}
-                            title="Вход"
-                            onPress={handleLogIn}>
-                            <Text style={styles.textButton}>
-                                {languageTranslate(userData.language, 'Log In', 'Вход')}
 
-                            </Text>
-                        </TouchableOpacity>
+                        {isCorrectPassword ? null : <Text style={form.inputProblem}>{passwordCorrect}</Text>}
+                        {isCorrectUser ? null : <Text style={form.inputProblem}>{correctUser}</Text>}
+
                         <TouchableOpacity
-                            style={styles.button}
+                            style={login.buttonMini}
                             title="Забыли пароль?"
                             onPress={handleForgotPassword}>
-                            <Text style={styles.textButton}>
+                            <Text style={login.textButtonMini}>
                                 {languageTranslate(userData.language, 'Forgot your password?', 'Забыли пароль?')}
 
                             </Text>
                         </TouchableOpacity>
                     </View>
+                    <TouchableOpacity
+                        style={form.button}
+                        title="Вход"
+                        onPress={handleLogIn}>
+                        <Text style={form.textButton}>
+                            {languageTranslate(userData.language, 'Log In', 'Войти')}
+
+                        </Text>
+                    </TouchableOpacity>
+
                 </View>
             </ScrollView></SafeAreaView>
     );
 };
+
+export const login = StyleSheet.create({
+    buttonMini: {
+        padding: '2%',
+
+        width: '75%',
+        marginLeft: '27%',
+        alignItems: 'center',
+
+        borderRadius: 28,
+    },
+    textButtonMini: {
+        width: '100%',
+        color: 'silver',
+        textDecorationLine: 'underline',
+        fontSize: 12,
+        fontWeight: '600',
+        textAlign: 'right',
+    }
+});
 
 const sendJSONLogInToServer = async (data) => {
     try {

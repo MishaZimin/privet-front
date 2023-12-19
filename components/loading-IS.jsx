@@ -15,7 +15,7 @@ import {
 } from './Utils.jsx';
 import BackButton from './back-button.jsx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { loading } from './loading.jsx';
 
 const LoadingSettingISScreen = ({ navigation }) => {
 
@@ -90,22 +90,47 @@ const LoadingSettingISScreen = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.main}>
-            <View style={styles.main}>
-                <View style={styles.loading}>
-                    <Text style={styles.textHeader}>
-                        {languageTranslate(
-                            userData.language,
-                            'Loading...',
-                            'Загрузка...')}</Text>
-                    <TouchableOpacity
-                        style={styles.button}
-                        title="loading..."
-                        onPress={handleLoading}
-                    >
-                        <Text style={styles.textButton}>skip</Text>
-                    </TouchableOpacity>
-                </View>
-            </View></SafeAreaView>
+            <View style={loading.loading}>
+                <Text style={loading.textLoading}>
+
+                    {languageTranslate(
+                        userData.language,
+                        'Privet👋',
+                        'Privet👋')}
+                </Text>
+                <Text style={loading.textLoadingMini}>
+
+                    {languageTranslate(
+                        userData.language,
+                        'Loading',
+                        'Идет загрузка')}
+                </Text>
+                <TouchableOpacity
+                    style={loading.button}
+                    title="loading..."
+                    onPress={handleLoading}
+                >
+                    <Text style={loading.textButton}>skip</Text>
+                </TouchableOpacity>
+            </View>
+            {/* <View style={loading.loading}>
+                <Text style={loading.textLoading}>
+
+                    {languageTranslate(
+                        userData.language,
+                        'Privet👋',
+                        'Privet👋')}
+                </Text>
+
+                <Text style={loading.textLoadingMini}>
+
+                    {languageTranslate(
+                        userData.language,
+                        'Loading',
+                        'Идет загрузка')}
+                </Text>
+            </View> */}
+        </SafeAreaView>
     );
 };
 

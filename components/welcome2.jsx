@@ -14,11 +14,12 @@ import {
 import BackButton from './back-button.jsx';
 
 
-const WelcomeOneScreen = ({ navigation }) => {
+const WelcomeThreeScreen = ({ navigation }) => {
     const handleRegister = () => {
-        navigation.navigate('WelcomeTwoScreen');
-
         // navigation.navigate('RegistrationISScreen');
+
+        navigation.navigate('RegOrLogInScreen');
+
     };
 
     return (
@@ -31,37 +32,39 @@ const WelcomeOneScreen = ({ navigation }) => {
                     <Image
                         resizeMode="contain"
                         style={welcome.img}
-                        source={require('./3d-fluency-cowboy-hat-face.png')} />
+                        source={require('./3d-fluency-sparkling.png')} />
                     <View style={welcome.welcomeTextForm}>
                         <View style={welcome.welcomeText}>
                             <Text style={welcome.textHeader}>
                                 {languageTranslate(
                                     userData.language,
-                                    'Privet👋',
-                                    'Privet👋')}
+                                    'Title, to the core',
+                                    'Заголовок, до глубины души')}
                             </Text>
 
                             <Text style={welcome.text}>
                                 {languageTranslate(
                                     userData.language,
-                                    'is an application for foreign students that will help you settle in Russia without any problems',
-                                    'это приложение для иностранных студентов, которое поможет без проблем обосноваться в России')}
+                                    'is an application for international students that will help',
+                                    'это приложение для иностранных студентов, которое поможет')}
                             </Text>
                         </View>
-                        <View style={welcome.buttonForm}>
-                            <TouchableOpacity
-                                style={welcome.button}
-                                title="2-3 sec"
-                                onPress={handleRegister}>
+                        <TouchableOpacity
+                            style={welcome.button}
+                            title=""
+                            onPress={handleRegister}>
 
-                                <Image
-                                    // resizeMode="contain"
-                                    style={welcome.buttonImg}
-                                    source={require('./right-arrows.png')} />
+                            <Text style={welcome.textButton}>
 
-                                {/* components/right-arrows.png */}
-                            </TouchableOpacity>
-                        </View>
+                                {languageTranslate(
+                                    userData.language,
+                                    'Lets go',
+                                    'Погнали!')}
+                            </Text>
+
+                            {/* components/right-arrows.png */}
+                        </TouchableOpacity>
+
                     </View>
                 </View>
             </View>
@@ -97,10 +100,10 @@ export const welcome = StyleSheet.create({
     welcomeText: {
         width: '90%',
         marginLeft: '5%',
-        // fontFamily: 'proximanova_bold'
     },
 
     textHeader: {
+        width: '60%',
         paddingTop: '15%',
         paddingLeft: '10%',
         paddingBottom: '2%',
@@ -127,28 +130,27 @@ export const welcome = StyleSheet.create({
     },
 
     button: {
+        padding: '4%',
+        margin: '2%',
+        width: '75%',
+        marginLeft: '12.5%',
         alignItems: 'center',
+        backgroundColor: 'rgb(122, 60, 227)',
         color: 'grey',
-        borderRadius: 30,
-        width: '25%',
-        marginLeft: '65%',
-        borderWidth: 8,
-        borderColor: 'rgb(245, 193, 68)'
+        borderRadius: 28,
+        shadowColor: 'grey',
     },
     buttonImg: {
         height: 50,
         width: '60%',
     },
     textButton: {
+        width: '100%',
         color: 'white',
         fontSize: 24,
         fontWeight: '600',
-    },
-    buttonForm: {
-        position: 'absolute',
-        width: '100%',
-        bottom: '10%',
+        textAlign: 'center',
     }
 });
 
-export default WelcomeOneScreen;
+export default WelcomeThreeScreen;

@@ -78,7 +78,7 @@ const AddSecondScreen = ({ navigation }) => {
         if (response.detail == "User has already booked arrival") {
             console.log("приезд уже зарегистрирован");
             Alert.alert("приезд уже зарегистрирован");
-            navigation.navigate('ArrivalSubmitted');
+            // navigation.navigate('ArrivalSubmitted');
 
             navigation.navigate('ToDoListISScreen');
 

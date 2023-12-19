@@ -15,7 +15,7 @@ import {
 } from '../Utils.jsx';
 import { styles } from '../main.jsx';
 import BackButton from '../back-button.jsx';
-
+import { form } from './registration-IS.jsx';
 
 
 let correctPassword = false;
@@ -111,31 +111,30 @@ const RegistrationBuddySreen = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView style={styles.main}>
-            <ScrollView style={styles.main}>
-                <View style={styles.form}>
+        <SafeAreaView style={form.main}>
+            <ScrollView style={form.main}>
+                <View style={form.form}>
                     <BackButton />
-                    <Text style={styles.textHeader}>
+                    <Text style={form.textHeader}>
                         {languageTranslate(
                             userData.language,
                             'Sign Up',
-                            'Регистрация ИС')}
+                            'Регистрация Сопровождающего')}
                     </Text>
-                    <View style={styles.textInputs}>
-                        <Text style={styles.inputHeader}>
+                    <View style={form.textInputs}>
+                        <Text style={form.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 'Email',
                                 'Email')}</Text>
                         <TextInput
-                            style={correctEmail ? styles.textInput : styles.unCorrectTextInput}
+                            style={correctEmail ? form.textInput : form.unCorrectTextInput}
                             placeholder=""
                             value={email}
                             onChangeText={text => setEmail(text)}
                         />
-                        <Text>
-                            {correctEmail ? null : emailCorrect}</Text>
-                        <Text style={styles.inputHeader}>
+                        <Text style={form.inputProblem}>{correctEmail ? null : emailCorrect}</Text>
+                        <Text style={form.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 'Password',
@@ -144,41 +143,41 @@ const RegistrationBuddySreen = ({ navigation }) => {
 
 
                         <TextInput
-                            style={correctPassword ? styles.textInput : styles.unCorrectTextInput}
+                            style={correctPassword ? form.textInput : form.unCorrectTextInput}
                             secureTextEntry
                             placeholder=""
                             value={password}
                             onChangeText={text => setPassword(text)}
                         />
-                        <Text>{correctPassword ? null : passwordCorrect}</Text>
-                        <Text style={styles.inputHeader}>
+                        <Text style={form.inputProblem}>{correctPassword ? null : passwordCorrect}</Text>
+                        <Text style={form.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 'Password confirm',
                                 'Подтверждение пароля')}</Text>
 
                         <TextInput
-                            style={correctPasswords ? styles.textInput : styles.unCorrectTextInput}
+                            style={correctPasswords ? form.textInput : form.unCorrectTextInput}
                             secureTextEntry
                             placeholder=""
                             value={passwordConfirm}
                             onChangeText={text => setPasswordConfirm(text)}
                         />
-                        <Text>{correctPasswords ? null : passwordsCorrect}</Text>
+                        <Text style={form.inputProblem}>{correctPasswords ? null : passwordsCorrect}</Text>
                     </View>
-                    <View style={styles.buttons}>
-                        <TouchableOpacity
-                            style={styles.button}
-                            title="Зарегистрироваться"
-                            onPress={handleRegistration}>
-                            <Text style={styles.textButton}>
-                                {languageTranslate(
-                                    userData.language,
-                                    'Registration',
-                                    'Зарегистрироваться')}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
+                    {/* <View style={styles.buttons}> */}
+                    <TouchableOpacity
+                        style={form.button}
+                        title="Зарегистрироваться"
+                        onPress={handleRegistration}>
+                        <Text style={form.textButton}>
+                            {languageTranslate(
+                                userData.language,
+                                'Registration',
+                                'Зарегистрироваться')}
+                        </Text>
+                    </TouchableOpacity>
+                    {/* </View> */}
                 </View>
             </ScrollView></SafeAreaView>
     );

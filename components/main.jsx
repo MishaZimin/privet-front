@@ -1,9 +1,12 @@
 import { StyleSheet, StatusBar } from 'react-native';
 
+
+
 export const styles = StyleSheet.create({
+
     main: {
         flex: 1,
-        backgroundColor: 'rgb(245, 245, 245)',
+        backgroundColor: 'white',
     },
 
     form: {
@@ -14,7 +17,7 @@ export const styles = StyleSheet.create({
         marginTop: '0%',
         padding: '7%',
         alignItems: 'center',
-        backgroundColor: 'rgba(235, 235, 235, 1)',
+        backgroundColor: 'white',
         borderRadius: 30,
         justifyContent: 'space-between',
     },
@@ -27,18 +30,18 @@ export const styles = StyleSheet.create({
         justifyContent: 'start',
     },
 
-    loading: {
-        display: 'flex',
-        flex: 1,
-        width: '90%',
-        margin: '5%',
-        marginTop: '0%',
-        padding: '7%',
-        alignItems: 'center',
-        backgroundColor: 'rgba(235, 235, 235, 1)',
-        borderRadius: 30,
-        justifyContent: 'center',
-    },
+    // loading: {
+    //     display: 'flex',
+    //     flex: 1,
+    //     width: '90%',
+    //     margin: '5%',
+    //     marginTop: '0%',
+    //     padding: '7%',
+    //     alignItems: 'center',
+    //     backgroundColor: 'rgba(235, 235, 235, 1)',
+    //     borderRadius: 30,
+    //     justifyContent: 'center',
+    // },
 
     toDoList: {
         backgroundColor: 'rgba(225, 225, 225, 1)',
@@ -123,7 +126,8 @@ export const styles = StyleSheet.create({
         padding: '5%',
         margin: '2%',
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: 'rgb(240, 240, 240)',
+        color: 'grey',
         borderRadius: 40,
         shadowColor: 'grey',
         shadowOffset: { width: 2, height: 2 },
@@ -133,11 +137,12 @@ export const styles = StyleSheet.create({
 
     img: {
         marginBottom: '100%',
-        flex: 4,
+        flex: 1,
         alignItems: 'center',
         borderRadius: 30,
         width: '100%',
         height: '100%',
+        backgroundColor: 'plum',
     },
 
     buddysStudents: {

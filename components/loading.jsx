@@ -71,28 +71,48 @@ const LoadingScreen = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.main}>
-            <View style={styles.main}>
-                <View style={styles.loading}>
-                    <Text style={styles.textHeader}>
+            <View style={loading.loading}>
+                <Text style={loading.textLoading}>
 
-                        {languageTranslate(
-                            userData.language,
-                            'Loading...',
-                            'Загрузка...')}
-                    </Text>
-                    {/* <Image
-                    style={styles.img}
-                    source={require('./img/d29e31c59a395ddf644fea8cc04fb79b.jpg')} /> */}
-                    {/* <TouchableOpacity
-                    style={styles.button}
-                    title="loading..."
-                    onPress={handleLoading}
-                >
-                    <Text style={styles.textButton}>skip</Text>
-                </TouchableOpacity> */}
-                </View>
-            </View></SafeAreaView>
+                    {languageTranslate(
+                        userData.language,
+                        'Privet👋',
+                        'Privet👋')}
+                </Text>
+
+                <Text style={loading.textLoadingMini}>
+
+                    {languageTranslate(
+                        userData.language,
+                        'Loading',
+                        'Идет загрузка')}
+                </Text>
+            </View>
+        </SafeAreaView>
     );
 };
+
+export const loading = StyleSheet.create({
+    loading: {
+        display: 'flex',
+        flex: 1,
+        backgroundColor: 'white',
+        alignItems: 'center',
+
+        justifyContent: 'center',
+        paddingBottom: '15%',
+    },
+
+    textLoading: {
+        fontWeight: '600',
+        fontSize: 40,
+    },
+    textLoadingMini: {
+        position: 'absolute',
+        bottom: '15%',
+        fontWeight: '200',
+        fontSize: 16,
+    },
+});
 
 export default LoadingScreen;

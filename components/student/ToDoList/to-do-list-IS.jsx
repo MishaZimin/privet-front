@@ -16,7 +16,8 @@ import {
     arrivalBookData,
     getTokenToServer,
     arrivalBookDataArr,
-    invitationsData
+    invitationsData,
+    showTasks,
 } from '../../Utils.jsx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from '../../main.jsx';
@@ -30,6 +31,8 @@ const ToDoListISScreen = ({ navigation }) => {
     const updateProgress = () => {
         const completedTasks = tasks.filter((task) => task.completed);
         const newProgress = (completedTasks.length / tasks.length) * 100;
+
+        console.log(newProgress);
         setProgress(newProgress);
     };
 
@@ -111,17 +114,12 @@ const ToDoListISScreen = ({ navigation }) => {
                         {languageTranslate(
                             userData.language,
                             '',
-                            '')}</Text>
-
-
-
-
-
+                            '')}
+                    </Text>
 
                     {invitationsData.length > 0 ? invitationsData.map((arrival, index) => (
                         <TouchableOpacity
-                            style={styles.buddysStudents}
-                        >
+                            style={styles.buddysStudents}>
                             <View>
                                 <Text style={styles.textHeader}>Приглашение в приезд</Text>
                                 <Text style={styles.studentName}>Arrival ID: {arrival.id}</Text>
@@ -139,8 +137,7 @@ const ToDoListISScreen = ({ navigation }) => {
                             <TouchableOpacity
                                 style={styles.button}
                                 title=""
-                                onPress={() => handleSubmit(invitationsData.arrivalID)}
-                            >
+                                onPress={() => handleSubmit(invitationsData.arrivalID)}>
                                 <Text style={styles.textButton}>
                                     {languageTranslate(
                                         userData.language,
@@ -159,40 +156,34 @@ const ToDoListISScreen = ({ navigation }) => {
                             <Text></Text>
                             <Text></Text>
                             <Text></Text>
-
-
                         </View>}
 
-
-
-
-                    {(userData.escortIsPaid && arrivalBookDataArr.length > 0) ? (
-
+                    {(userData.escortIsPaid) ? (
                         <View style={styles.toDoList}>
-                            {/* <Text style={styles.textHeader}>
-                                {languageTranslate(
-                                    userData.language,
-                                    'Arrival #',
-                                    'Приезд #')}{arrivalBookDataArr[0].id}</Text> */}
                             <Text style={styles.progress}>
                                 {languageTranslate(
                                     userData.language,
                                     'Progress: ',
-                                    'Прогресс: ')}{progress.toFixed(1)}%</Text>
+                                    'Прогресс: '
+                                )}
+                                {progress.toFixed(1)}%
+                            </Text>
 
                             <Progress.Bar progress={progress.toFixed(1) / 100} width={240} />
+
                             {tasks.map((task) => (
                                 <TouchableOpacity
                                     key={task.id}
-                                    // onPress={() => handleTaskPress(task.id)}
                                     style={styles.taskItem}>
-
-                                    <Text style={{
-                                        textDecorationLine: task.completed ? 'line-through' : 'none',
-                                        color: task.completed ? 'gray' : 'black'
-                                    }}>
+                                    <Text
+                                        style={{
+                                            textDecorationLine: task.completed ? 'line-through' : 'none',
+                                            color: task.completed ? 'gray' : 'black',
+                                        }}>
                                         {task.text}
-                                        <Text style={styles.deadline}>{task.deadline !== null ? task.deadline : ''}</Text>
+                                        <Text style={styles.deadline}>
+                                            {task.deadline !== null ? task.deadline : ''}
+                                        </Text>
                                     </Text>
                                 </TouchableOpacity>
                             ))}
@@ -225,5 +216,7 @@ const postSsubmitInvitation = async (data, token, adress, contentType) => {
         throw err;
     }
 }
+
+
 
 export default ToDoListISScreen;

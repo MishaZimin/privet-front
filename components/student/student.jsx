@@ -13,8 +13,10 @@ import {
     sendJSONToServer,
     userData,
     getTokenToServer,
-    invitationsData
-
+    invitationsData,
+    showTasks,
+    arrivalBookDataArr,
+    initialTasksData,
 } from '../Utils.jsx';
 import { styles } from '../main.jsx';
 import BackButton from '../back-button.jsx';
@@ -51,8 +53,8 @@ const StudentsScreen = ({ navigation }) => {
     };
     const handleToDoList = async () => {
         try {
-            const accessToken = await AsyncStorage.getItem('access_token');
-            const response = await getTokenToServer(accessToken, "/users/me/check-invitation", "/json");
+            // получение приглашений
+            const response = await getTokenToServer(userData.access_token, "/users/me/check-invitation", "/json");
             console.log('check-invitation:', response);
             if (response != null) {
                 invitationsData.push(response);
@@ -60,7 +62,36 @@ const StudentsScreen = ({ navigation }) => {
 
             console.log('1', invitationsData);
 
-            navigation.navigate('ToDoListISScreen');
+            // получение ту ду листа
+            const showTasks = await getTokenToServer(userData.access_token, '/users/me/tasks', "/json");
+
+            initialTasksData[0].completed = showTasks.airport_meeting;
+            initialTasksData[1].completed = showTasks.motel_checked_in;
+            initialTasksData[2].completed = showTasks.medical_examinated;
+            initialTasksData[3].completed = showTasks.sim_card_created;
+            initialTasksData[4].completed = showTasks.money_exchange;
+            initialTasksData[5].completed = showTasks.passport_translated;
+            initialTasksData[6].completed = showTasks.bank_card;
+            initialTasksData[7].completed = showTasks.enrollment_documents;
+            initialTasksData[8].completed = showTasks.insurance;
+            initialTasksData[9].completed = showTasks.dormitory_documents;
+
+            initialTasksData[11].completed = showTasks.student_ID;
+
+            initialTasksData[12].completed = showTasks.medical_tests[0];
+            initialTasksData[12].deadline = showTasks.medical_tests[1] ? '\nDeadline: ' + showTasks.medical_tests[1] + ' 4:30 pm' : '';
+
+            initialTasksData[13].completed = showTasks.visa_extension[0];
+            initialTasksData[13].deadline = showTasks.visa_extension[1] ? '\nDeadline: ' + showTasks.visa_extension[1] + ' 4:30 pm' : '';
+
+            initialTasksData[14].completed = showTasks.fingerprinting[0];
+            initialTasksData[14].deadline = showTasks.fingerprinting[1] ? '\nDeadline: ' + showTasks.fingerprinting[1] + ' 4:30 pm' : '';
+
+
+            console.log('-=-=-=', initialTasksData);
+
+
+            navigation.navigate('ToDoListISScreen',);
         }
         catch (err) {
             console.log(err);
@@ -163,5 +194,24 @@ const StudentsScreen = ({ navigation }) => {
         </SafeAreaView>
     );
 };
+
+const getToDoList = async (adress, token) => {
+    try {
+        const res = await fetch("https://privet-mobile-app.onrender.com" + adress, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                Authorization: "Bearer " + token,
+            },
+        });
+        const userData = await res.json();
+        console.log(userData);
+        return userData;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
 
 export default StudentsScreen;

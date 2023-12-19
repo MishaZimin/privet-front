@@ -216,8 +216,8 @@ export var buddysStudents = [];
 
 export var initialTasksData = [
     { id: 1, text: 'Встреча в аэропорту ', completed: true, deadline: '\nDeadline: 11.11.2023 4:30 pm' },
-    { id: 2, text: 'Оплата и заселение в хостел', completed: false },
-    { id: 3, text: 'Прохождение медосмотра', completed: false },
+    { id: 2, text: 'Оплата и заселение в хостел', completed: true },
+    { id: 3, text: 'Прохождение медосмотра', completed: true },
     { id: 4, text: 'Оформление сим-карты', completed: false },
     { id: 5, text: 'Обмен денег', completed: false },
     { id: 6, text: 'Перевод и нотариальное заверение паспорта', completed: false },
@@ -231,6 +231,24 @@ export var initialTasksData = [
     { id: 14, text: 'Продление визы', completed: false, deadline: '\nDeadline: 11.11.2023 4:30 pm' },
     { id: 15, text: 'Прохождение дактилоскопии', completed: false, deadline: '\nDeadline: 11.11.2023 4:30 pm' }
 ];
+
+export var showTasks = {
+    "airport_meeting": false,
+    "bank_card": false,
+    "dormitory_documents": false,
+    "enrollment_documents": false,
+    "fingerprinting": [false, "2024-03-05"],
+    "insurance": false,
+    "medical_examinated": false,
+    "medical_tests": [false, null],
+    "money_exchange": false,
+    "motel_checked_in": false,
+    "passport_translated": false,
+    "sim_card_created": false,
+    "student_ID": true, "user_id":
+        "86a37105-55d7-4b04-88e5-68898574a89e",
+    "visa_extension": [false, null]
+}
 
 export var initialInfo = [
     { id: 1, text: 'Визовый режим', completed: false },
