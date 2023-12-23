@@ -62,7 +62,7 @@ const AllArrivalsScreen = ({ navigation }) => {
                             <Text style={styles.text1}>Arrival Date: {arrivalData.arrivalDate}</Text>
                             <Text style={styles.text1}>Group Full Names: {arrivalData.fullName}</Text>
                             <Text style={styles.text1}>Group Countries: {arrivalData.citizenship}</Text>
-                            <Text style={styles.text1}>Buddies Amount: {arrivalData.countBuddy}/{arrivalData.maxBuddy}</Text>
+                            <Text style={styles.text1}>Buddies Amount: {arrivalData.countBuddy}</Text>
                         </TouchableOpacity>
                     )) :
                         <View>

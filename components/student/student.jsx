@@ -88,10 +88,10 @@ const StudentsScreen = ({ navigation }) => {
             initialTasksData[14].deadline = showTasks.fingerprinting[1] ? '\nDeadline: ' + showTasks.fingerprinting[1] + ' 4:30 pm' : '';
 
 
-            console.log('-=-=-=', initialTasksData);
+            console.log('-=-=-=', showTasks);
 
 
-            navigation.navigate('ToDoListISScreen',);
+            navigation.navigate('ToDoListISScreen');
         }
         catch (err) {
             console.log(err);

@@ -15,6 +15,7 @@ import {
     userData,
     arrivalBookData,
     myArrivals,
+    invitationsData,
 
 } from '../../Utils.jsx';
 import { styles } from '../../main.jsx';
@@ -34,7 +35,7 @@ const ToDoListBuddyScreen = ({ navigation }) => {
         setProgress(newProgress);
     };
 
-    const handleTaskPress = (id) => {
+    const handleTaskPress = async (id) => {
         const updatedTasks = tasks.map((task) =>
             task.id === id ? { ...task, completed: !task.completed } : task
         );
@@ -45,11 +46,7 @@ const ToDoListBuddyScreen = ({ navigation }) => {
     };
 
     const handleFillInfo = () => {
-        // userData.escortIsPaid = false;
-        // arrivalBookData.id = '';
-
         navigation.navigate('StudentProfileForBuddy');
-
     }
 
     useEffect(() => {
@@ -70,28 +67,7 @@ const ToDoListBuddyScreen = ({ navigation }) => {
                         </Text>
                     </View>
 
-                    {/* <TouchableOpacity
-                    style={styles.button}
-                    title="BookMyArrival"
-                    onPress={handleFillInfo}>
-                    <Text style={styles.textButton}>
-                        {languageTranslate(
-                            userData.language,
-                            'Fill Info About {Student Full Name}',
-                            'Заполнить информацию о {Полное Имя Студента}')}
-                    </Text>
-                </TouchableOpacity>
-                <Text style={styles.inputHeader}>
-                    {languageTranslate(
-                        userData.language,
-                        '',
-                        '')}</Text> */}
-
-                    {/* {(userData.escortIsPaid && arrivalBookData.id !== '') ? (
-
-                    
-                ) : null} */}
-                    {myArrivals.length > 0 ? myArrivals.map((arrival, index) => (
+                    {true ? myArrivals.map((arrival, index) => (
                         <View style={styles.toDoList} key={index}>
                             <TouchableOpacity
                                 style={styles.button}
@@ -104,11 +80,6 @@ const ToDoListBuddyScreen = ({ navigation }) => {
                                         'Заполнить информацию о ' + arrival.fullName)}
                                 </Text>
                             </TouchableOpacity>
-                            {/* <Text style={styles.inputHeader}>
-                            {languageTranslate(
-                                userData.language,
-                                '',
-                                '')}</Text> */}
                             <Text style={styles.textHeader}>
                                 {languageTranslate(
                                     userData.language,
@@ -118,7 +89,8 @@ const ToDoListBuddyScreen = ({ navigation }) => {
                                 {languageTranslate(
                                     userData.language,
                                     'Progress: ',
-                                    'Прогресс: ')}{progress.toFixed(1)}%</Text>
+                                    'Прогресс: ')}{progress.toFixed(1)}%
+                            </Text>
 
                             <Progress.Bar progress={progress.toFixed(1) / 100} width={240} />
                             {tasks.map((task) => (
@@ -132,7 +104,9 @@ const ToDoListBuddyScreen = ({ navigation }) => {
                                         color: task.completed ? 'gray' : 'black'
                                     }}>
                                         {task.text}
-                                        <Text style={styles.deadline}>{task.deadline !== null ? task.deadline : ''}</Text>
+                                        <Text style={styles.deadline}>
+                                            {task.deadline !== null ? task.deadline : ''}
+                                        </Text>
                                     </Text>
                                 </TouchableOpacity>
                             ))}

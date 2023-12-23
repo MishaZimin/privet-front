@@ -119,7 +119,8 @@ const ToDoListISScreen = ({ navigation }) => {
 
                     {invitationsData.length > 0 ? invitationsData.map((arrival, index) => (
                         <TouchableOpacity
-                            style={styles.buddysStudents}>
+                            style={styles.buddysStudents}
+                        >
                             <View>
                                 <Text style={styles.textHeader}>Приглашение в приезд</Text>
                                 <Text style={styles.studentName}>Arrival ID: {arrival.id}</Text>
@@ -137,7 +138,8 @@ const ToDoListISScreen = ({ navigation }) => {
                             <TouchableOpacity
                                 style={styles.button}
                                 title=""
-                                onPress={() => handleSubmit(invitationsData.arrivalID)}>
+                                onPress={() => handleSubmit(invitationsData.arrivalID)}
+                            >
                                 <Text style={styles.textButton}>
                                     {languageTranslate(
                                         userData.language,
@@ -174,12 +176,14 @@ const ToDoListISScreen = ({ navigation }) => {
                             {tasks.map((task) => (
                                 <TouchableOpacity
                                     key={task.id}
-                                    style={styles.taskItem}>
+                                    style={styles.taskItem}
+                                >
                                     <Text
                                         style={{
                                             textDecorationLine: task.completed ? 'line-through' : 'none',
                                             color: task.completed ? 'gray' : 'black',
-                                        }}>
+                                        }}
+                                    >
                                         {task.text}
                                         <Text style={styles.deadline}>
                                             {task.deadline !== null ? task.deadline : ''}
