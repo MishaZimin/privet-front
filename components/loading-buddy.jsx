@@ -1,9 +1,16 @@
 //2.2.2. Приветственный экран
 
-import React from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { styles } from './main.jsx';
-import { SafeAreaView } from 'react-native-safe-area-context'
+import React from "react";
+import {
+    View,
+    Text,
+    Button,
+    StyleSheet,
+    TouchableOpacity,
+    Image,
+} from "react-native";
+import { styles } from "./main.jsx";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
     LogInData,
     registrationData,
@@ -12,20 +19,22 @@ import {
     sendJSONToServer,
     userData,
     getTokenToServer,
-
-} from './Utils.jsx';
-import BackButton from './back-button.jsx';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { loading } from './loading.jsx';
+} from "./Utils.jsx";
+import BackButton from "./back-button.jsx";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { loading } from "./loading.jsx";
 
 const LoadingSettingBuddyScreen = ({ navigation }) => {
-
     const handleLoading = async () => {
-        const accessToken = await AsyncStorage.getItem('access_token');
+        const accessToken = await AsyncStorage.getItem("access_token");
 
         if (accessToken !== null) {
-            console.log('Access token: ', accessToken);
-            const response = await getTokenToServer(accessToken, "/users/me/profile", "/json");
+            console.log("Access token: ", accessToken);
+            const response = await getTokenToServer(
+                accessToken,
+                "/users/me/profile",
+                "/json"
+            );
 
             userData.access_token = accessToken;
 
@@ -46,10 +55,27 @@ const LoadingSettingBuddyScreen = ({ navigation }) => {
             userData.escortIsPaid = response.profile_info.escort_paid;
 
             userData.id = response.contacts.user_id;
-            console.log('userData: ', userData);
 
+            const dataUserBD = await getTokenToServer(
+                accessToken,
+                "/auth/me",
+                "/json"
+            );
+            userData.user = dataUserBD.role_id;
 
-            navigation.navigate('BuddysScreen');
+            console.log("userData: ", userData);
+            const roleId = dataUserBD.role_id;
+
+            // navigation.navigate("BuddysScreen");
+
+            const chats = await getTokenToServer(
+                userData.access_token,
+                "/messages/chat/",
+                "/json"
+            );
+            console.log(chats);
+
+            navigation.navigate("MessengerScreen", { roleId, chats });
         }
     };
 
@@ -79,7 +105,6 @@ const LoadingSettingBuddyScreen = ({ navigation }) => {
     //         userData.id = response.contacts.user_id;
     //         console.log('userData: ', userData);
 
-
     //         navigation.navigate('BuddysScreen');
     //     }
 
@@ -89,18 +114,18 @@ const LoadingSettingBuddyScreen = ({ navigation }) => {
         <SafeAreaView style={styles.main}>
             <View style={loading.loading}>
                 <Text style={loading.textLoading}>
-
                     {languageTranslate(
                         userData.language,
-                        'Privet👋',
-                        'Privet👋')}
+                        "Privet👋",
+                        "Privet👋"
+                    )}
                 </Text>
                 <Text style={loading.textLoadingMini}>
-
                     {languageTranslate(
                         userData.language,
-                        'Loading',
-                        'Идет загрузка')}
+                        "Loading",
+                        "Идет загрузка"
+                    )}
                 </Text>
                 <TouchableOpacity
                     style={loading.button}
@@ -113,7 +138,5 @@ const LoadingSettingBuddyScreen = ({ navigation }) => {
         </SafeAreaView>
     );
 };
-
-
 
 export default LoadingSettingBuddyScreen;

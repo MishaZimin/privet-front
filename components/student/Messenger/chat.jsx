@@ -1,8 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, ScrollView, Image, KeyboardAvoidingView, Alert } from 'react-native';
-import { useRoute } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native-safe-area-context'
-import RNPickerSelect from 'react-native-picker-select';
+import React, { useState, useRef, useEffect } from "react";
+import {
+    StyleSheet,
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    ScrollView,
+    Image,
+    KeyboardAvoidingView,
+    Alert,
+} from "react-native";
+import { useRoute } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import RNPickerSelect from "react-native-picker-select";
 import {
     registrationData,
     languageTranslate,
@@ -11,71 +21,108 @@ import {
     messengerArr,
     userData,
     supportArr,
-} from '../../Utils.jsx';
-import BackButtonMsg from '../../back-button-msg.jsx';
+} from "../../Utils.jsx";
+import BackButtonMsg from "../../back-button-msg.jsx";
 // import { styles } from '../../main.jsx';
 
 const ChatScreen = ({ navigation, route }) => {
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState("");
     const scrollViewRef = useRef();
 
-    const indexChat = route.params;
-    const index = indexChat.index;
+    const index = route.params.index;
+    const companion = route.params.companion;
+    const messages = route.params.messages;
+
+    console.log(messages);
 
     useEffect(() => {
         if (scrollViewRef.current) {
             scrollViewRef.current.scrollToEnd({ animated: true });
         }
-    }, [messengerArr[index].messages]);
+    }, [messages]);
 
     const handleSend = (mes) => {
         if (mes.length > 0) {
             const newMessage = {
                 text: message,
-                sender: 'user',
-                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                sender: "user",
+                timestamp: new Date().toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                }),
             };
             messengerArr[index].messages.push(newMessage);
-            setMessage('');
+            setMessage("");
 
             const newMessageCompanion = {
                 text: getRandomMessage(popularMessages),
-                sender: 'companion',
-                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                sender: "companion",
+                timestamp: new Date().toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                }),
             };
             messengerArr[index].messages.push(newMessageCompanion);
-        }
-        else {
-            Alert.alert('0 букв')
+        } else {
+            Alert.alert("0 букв");
         }
     };
 
     const handleProfile = () => {
-        navigation.navigate('StudentProfileForBuddy');
+        navigation.navigate("StudentProfileForBuddy");
     };
 
     return (
         <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : null}
-            style={styles.container}>
+            behavior={Platform.OS === "ios" ? "padding" : null}
+            style={styles.container}
+        >
             <SafeAreaView style={styles.container}>
                 <TouchableOpacity style={styles.header} onPress={handleProfile}>
                     <BackButtonMsg />
-                    <Image source={{ uri: messengerArr[index].photo }} style={styles.avatar} />
-                    <Text style={styles.username}>{messengerArr[index].fullName}</Text>
+                    <Image
+                        source={{ uri: messengerArr[2].photo }}
+                        style={styles.avatar}
+                    />
+                    <Text style={styles.username}>
+                        {companion.slice(0, 10)}...
+                    </Text>
                 </TouchableOpacity>
 
                 <ScrollView
                     ref={scrollViewRef}
                     style={styles.chatContainer}
-                    onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}>
-                    {messengerArr[index].messages.map((msg, idx) => (
-                        <View key={idx} style={msg.sender === 'user' ? styles.userMessage : styles.companionMessage}>
-                            <Text style={msg.sender === 'user' ? styles.messageText : styles.messageText1}>
+                    onContentSizeChange={() =>
+                        scrollViewRef.current.scrollToEnd({ animated: true })
+                    }
+                >
+                    {messages.map((msg, idx) => (
+                        <View
+                            key={idx}
+                            style={
+                                msg.from_user == companion
+                                    ? styles.userMessage
+                                    : styles.companionMessage
+                            }
+                        >
+                            <Text
+                                style={
+                                    msg.from_user == companion //! поменять на !=
+                                        ? styles.messageText
+                                        : styles.messageText1
+                                }
+                            >
                                 {msg.text}
                             </Text>
-                            <Text style={msg.sender === 'user' ? styles.timestampTextUser : styles.timestampTextComp}>
-                                {msg.timestamp}
+                            <Text
+                                style={
+                                    msg.from_user == companion
+                                        ? styles.timestampTextUser
+                                        : styles.timestampTextComp
+                                }
+                            >
+                                {msg.date_print.slice(5, 10)}{" "}
+                                {msg.date_print.slice(11, 16)}{" "}
                             </Text>
                         </View>
                     ))}
@@ -87,16 +134,23 @@ const ChatScreen = ({ navigation, route }) => {
                         placeholder="Введите сообщение"
                         placeholderTextColor="rgb(90, 93, 97)"
                         value={message}
-                        onChangeText={text => setMessage(text)} />
-                    <TouchableOpacity style={styles.sendButton} onPress={() => handleSend(message)}>
+                        onChangeText={(text) => setMessage(text)}
+                    />
+                    <TouchableOpacity
+                        style={styles.sendButton}
+                        onPress={() => handleSend(message)}
+                    >
                         <Text style={styles.sendButtonText}>
-                            {languageTranslate(userData.language, ' ✉️ ', ' ✉️ ')}
+                            {languageTranslate(
+                                userData.language,
+                                " ✉️ ",
+                                " ✉️ "
+                            )}
                         </Text>
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
         </KeyboardAvoidingView>
-
     );
 };
 
@@ -111,7 +165,8 @@ const popularMessages = [
     // 'How are things?',
     // 'Long time no see!',
     // 'What\'s new?',
-    'привет', 'очень большое сообщение очень большое сообщение очень большое сообщение очень большое сообщение очень большое сообщение очень большое сообщение очень большое сообщение'
+    "привет",
+    "очень большое сообщение очень большое сообщение очень большое сообщение очень большое сообщение очень большое сообщение очень большое сообщение очень большое сообщение",
 ];
 
 function getRandomMessage(messages) {
@@ -122,15 +177,14 @@ function getRandomMessage(messages) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'rgb(24, 25, 29)',
-
+        backgroundColor: "rgb(24, 25, 29)",
     },
     header: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: "row",
+        alignItems: "center",
         padding: 10,
         // marginBottom: 100,
-        backgroundColor: 'rgb(41, 46, 50)',
+        backgroundColor: "rgb(41, 46, 50)",
     },
     avatar: {
         width: 40,
@@ -140,36 +194,34 @@ const styles = StyleSheet.create({
     },
     username: {
         fontSize: 16,
-        color: 'white',
+        color: "white",
     },
     chatContainer: {
         flex: 1,
-
     },
     inputContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: "row",
+        alignItems: "center",
         padding: 10,
         // borderTopWidth: 1,
         // borderTopColor: '#fff',
-        backgroundColor: 'rgb(41, 46, 50)',
-        paddingBottom: '0%',
-        paddingTop: '0%',
-        paddingLeft: '3%',
-        paddingRight: '3%',
+        backgroundColor: "rgb(41, 46, 50)",
+        paddingBottom: "0%",
+        paddingTop: "0%",
+        paddingLeft: "3%",
+        paddingRight: "3%",
 
         // marginTop: 50,
-
     },
     textInput: {
         flex: 1,
         height: 40,
-        borderColor: 'black',
+        borderColor: "black",
         // borderWidth: 1,
         borderRadius: 20,
         paddingHorizontal: 10,
         marginRight: 10,
-        color: 'white',
+        color: "white",
     },
     sendButton: {
         padding: 10,
@@ -177,16 +229,16 @@ const styles = StyleSheet.create({
         // backgroundColor: 'black',
     },
     sendButtonText: {
-        color: 'white',
-        fontWeight: 'bold',
+        color: "white",
+        fontWeight: "bold",
     },
     chatContainer: {
         flex: 1,
         padding: 10,
     },
     userMessage: {
-        alignSelf: 'flex-end',
-        backgroundColor: 'rgb(43, 47, 51)',
+        alignSelf: "flex-end",
+        backgroundColor: "rgb(43, 47, 51)",
         borderTopRightRadius: 20,
         borderTopLeftRadius: 20,
         borderBottomRightRadius: 7,
@@ -194,11 +246,11 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 15,
         marginVertical: 5,
-        maxWidth: '70%',
+        maxWidth: "70%",
     },
     companionMessage: {
-        alignSelf: 'flex-start',
-        backgroundColor: 'rgb(43, 47, 51)',
+        alignSelf: "flex-start",
+        backgroundColor: "rgb(43, 47, 51)",
         borderRadius: 20,
         borderTopRightRadius: 20,
         borderTopLeftRadius: 20,
@@ -208,25 +260,25 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 15,
         marginVertical: 5,
-        maxWidth: '70%',
+        maxWidth: "70%",
     },
     messageText: {
-        alignSelf: 'flex-end',
-        color: 'white',
+        alignSelf: "flex-end",
+        color: "white",
     },
     messageText1: {
-        alignSelf: 'flex-start',
-        color: 'white',
+        alignSelf: "flex-start",
+        color: "white",
     },
     timestampTextUser: {
         fontSize: 12,
-        color: 'grey',
-        alignSelf: 'flex-end',
+        color: "grey",
+        alignSelf: "flex-end",
     },
     timestampTextComp: {
         fontSize: 12,
-        color: 'grey',
-        alignSelf: 'flex-start',
+        color: "grey",
+        alignSelf: "flex-start",
     },
 });
 

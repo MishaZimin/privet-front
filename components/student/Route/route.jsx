@@ -1,6 +1,13 @@
-import React, { Component, useState } from 'react';
-import { View, Text, Button, FlatList, TouchableOpacity, AsyncStorage } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context'
+import React, { Component, useState } from "react";
+import {
+    View,
+    Text,
+    Button,
+    FlatList,
+    TouchableOpacity,
+    AsyncStorage,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
     LogInData,
     registrationData,
@@ -8,14 +15,13 @@ import {
     getJSONFromServer,
     sendJSONToServer,
     initialTasksData,
-} from '../../Utils.jsx';
-import { styles } from '../../main.jsx';
-import BackButton from '../../back-button.jsx';
-
+} from "../../Utils.jsx";
+import { styles } from "../../main.jsx";
+import BackButton from "../../back-button.jsx";
+import StudentsScreen from "../student.jsx";
 
 const RouteScreen = ({ navigation }) => {
     const [tasks, setTasks] = useState(initialTasksData);
-
 
     return (
         <SafeAreaView style={styles.main}>
@@ -28,17 +34,16 @@ const RouteScreen = ({ navigation }) => {
                     renderItem={({ item }) => (
                         // <TouchableOpacity onPress={() => toggleTask(item.id)}>
                         <TouchableOpacity style={styles.form}>
-
-                            <Text>
-                                {item.text}
-                            </Text>
+                            <Text>{item.text}</Text>
                         </TouchableOpacity>
                     )}
                     keyExtractor={(item) => item.id.toString()}
                 />
                 {/* </View> */}
-            </View></SafeAreaView>
+            </View>
+            <StudentsScreen navigation={navigation} />
+        </SafeAreaView>
     );
-}
+};
 
 export default RouteScreen;

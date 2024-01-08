@@ -1,9 +1,16 @@
-
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
-import { useRoute } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native-safe-area-context'
-import RNPickerSelect from 'react-native-picker-select';
+import React, { useState } from "react";
+import {
+    StyleSheet,
+    View,
+    Text,
+    TextInput,
+    Button,
+    TouchableOpacity,
+    ScrollView,
+} from "react-native";
+import { useRoute } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import RNPickerSelect from "react-native-picker-select";
 import {
     registrationData,
     languageTranslate,
@@ -12,22 +19,17 @@ import {
     userData,
     arrivalBookData,
     myArrivals,
-} from '../Utils.jsx';
-import { styles } from '../main.jsx';
-import BackButton from '../back-button.jsx';
+} from "../Utils.jsx";
+import { styles } from "../main.jsx";
+import BackButton from "../back-button.jsx";
 
-const MyArrivals = ({ navigation }) => {
-    const [university, setName] = useState('');
-    console.log('arrivalBookData:', arrivalBookData);
-    console.log('myArrivals:', myArrivals);
+const MyArrivals = ({ navigation, route }) => {
+    const meArrivals = route.params.responseMeArrivals;
+    console.log(meArrivals);
+    const [university, setName] = useState("");
 
-
-    const handleArrivalBuddy = () => {
-        navigation.navigate('ArrivalBuddy');
-    };
-
-    const handleMyArrivals = () => {
-
+    const handleMyArrivalStudent = () => {
+        // navigation.navigate("StudentProfileForBuddy");
     };
 
     return (
@@ -38,38 +40,52 @@ const MyArrivals = ({ navigation }) => {
                     <View style={styles.textBlock}>
                         <Text style={styles.textHeader}>My Arrivals</Text>
                     </View>
-
-                    {myArrivals.length > 0 ? myArrivals.map((arrival, index) => (
-                        <View style={styles.buddysStudents} key={index}>
-                            <Text style={styles.text1}>Full Name: {arrival.fullName}</Text>
-                            <Text style={styles.text1}>Sex: {arrival.sex}</Text>
-                            <Text style={styles.text1}>Arrival Date: {arrival.arrivalDate}</Text>
-                            <Text style={styles.text1}>Arrival Time: {arrival.arrivalTime}</Text>
-                            <Text style={styles.text1}>Flight Number: {arrival.flightNumber}</Text>
-                            <Text style={styles.text1}>Arrival Point: {arrival.arrivalPoint}</Text>
-                            <Text style={styles.text1}>Citizenship: {arrival.citizenship}</Text>
-                            <Text style={styles.text1}>Phone: {arrival.phone}</Text>
-                            <Text style={styles.text1}>Telegram: {arrival.telegram}</Text>
-                            <Text style={styles.text1}>WhatsApp: {arrival.whatsApp}</Text>
-                            <Text style={styles.text1}>VK: {arrival.vk}</Text>
-                            <Text style={styles.text1}>Comment: {arrival.comment}</Text>
-                            <Text style={styles.text1}>Tickets: {arrival.tickets}</Text>
-                        </View>
-                    )) :
+                    {meArrivals.length > 0 ? (
+                        meArrivals.map((arrivalData, index) => (
+                            <TouchableOpacity
+                                key={index}
+                                style={styles.buddysStudents}
+                                onPress={() =>
+                                    handleMyArrivalStudent(
+                                        index,
+                                        arrivalData.id
+                                    )
+                                }
+                            >
+                                <Text style={styles.text1}>
+                                    Arrival ID: {arrivalData.arrival_id}
+                                </Text>
+                                <Text style={styles.text1}>
+                                    Arrival Date:{" "}
+                                    {arrivalData.arrival_date.slice(0, 10)}
+                                </Text>
+                                <Text style={styles.text1}>
+                                    Group Full Names:{" "}
+                                    {arrivalData.group_full_names.join(", ")}
+                                </Text>
+                                <Text style={styles.text1}>
+                                    Group Countries:{" "}
+                                    {arrivalData.group_countries.join(", ")}
+                                </Text>
+                                <Text style={styles.text1}>
+                                    Buddies Amount: {arrivalData.buddies_amount}
+                                </Text>
+                            </TouchableOpacity>
+                        ))
+                    ) : (
                         <View>
                             <Text style={styles.studentName}>
                                 {languageTranslate(
                                     userData.language,
-                                    'You have no arrival',
-                                    'У вас нет приездов')}
+                                    "You have no arrival",
+                                    "У вас нет приездов"
+                                )}
                             </Text>
-
                         </View>
-                    }
-
-
+                    )}
                 </View>
-            </ScrollView></SafeAreaView >
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 

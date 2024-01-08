@@ -1,10 +1,17 @@
 //2.2.2. Приветственный экран
 
-import React from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { styles } from './main.jsx';
-import { SafeAreaView } from 'react-native-safe-area-context'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React from "react";
+import {
+    View,
+    Text,
+    Button,
+    StyleSheet,
+    TouchableOpacity,
+    Image,
+} from "react-native";
+import { styles } from "./main.jsx";
+import { SafeAreaView } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
     LogInData,
@@ -14,20 +21,26 @@ import {
     sendJSONToServer,
     userData,
     getTokenToServer,
-} from './Utils.jsx';
-import BackButton from './back-button.jsx';
+} from "./Utils.jsx";
+import BackButton from "./back-button.jsx";
 
 const LoadingScreen = ({ navigation }) => {
-
-
     setTimeout(async () => {
         // await AsyncStorage.setItem('access_token', '');
-        const accessToken = await AsyncStorage.getItem('access_token');
+        const accessToken = await AsyncStorage.getItem("access_token");
 
         if (accessToken !== null) {
-            console.log('Access token: ', accessToken);
-            const dataUserBD = await getTokenToServer(accessToken, "/auth/me", "/json");
-            const response = await getTokenToServer(accessToken, "/users/me/profile", "/json");
+            console.log("Access token: ", accessToken);
+            const dataUserBD = await getTokenToServer(
+                accessToken,
+                "/auth/me",
+                "/json"
+            );
+            const response = await getTokenToServer(
+                accessToken,
+                "/users/me/profile",
+                "/json"
+            );
 
             userData.access_token = accessToken;
             userData.user = dataUserBD.role_id;
@@ -49,23 +62,18 @@ const LoadingScreen = ({ navigation }) => {
             userData.escortIsPaid = response.profile_info.escort_paid;
 
             userData.id = response.contacts.user_id;
-            console.log('userData: ', userData);
-
+            console.log("userData: ", userData);
 
             if (userData.user == 1) {
-                navigation.navigate('LoadingSettingISScreen');
-
-            }
-            else if (userData.user == 2) {
-                navigation.navigate('LoadingSettingBuddyScreen');
-            }
-            else {
-                navigation.navigate('LanguageSelectionScreen');
+                navigation.navigate("LoadingSettingISScreen");
+            } else if (userData.user == 2) {
+                navigation.navigate("LoadingSettingBuddyScreen");
+            } else {
+                navigation.navigate("LanguageSelectionScreen");
             }
             // Вы можете использовать токен для авторизации при запросах к серверу.
-        }
-        else {
-            navigation.navigate('LanguageSelectionScreen');
+        } else {
+            navigation.navigate("LanguageSelectionScreen");
         }
     });
 
@@ -73,19 +81,19 @@ const LoadingScreen = ({ navigation }) => {
         <SafeAreaView style={styles.main}>
             <View style={loading.loading}>
                 <Text style={loading.textLoading}>
-
                     {languageTranslate(
                         userData.language,
-                        'Privet👋',
-                        'Privet👋')}
+                        "Privet👋",
+                        "Privet👋"
+                    )}
                 </Text>
 
                 <Text style={loading.textLoadingMini}>
-
                     {languageTranslate(
                         userData.language,
-                        'Loading',
-                        'Идет загрузка')}
+                        "Loading",
+                        "Идет загрузка"
+                    )}
                 </Text>
             </View>
         </SafeAreaView>
@@ -94,23 +102,23 @@ const LoadingScreen = ({ navigation }) => {
 
 export const loading = StyleSheet.create({
     loading: {
-        display: 'flex',
+        display: "flex",
         flex: 1,
-        backgroundColor: 'white',
-        alignItems: 'center',
+        backgroundColor: "white",
+        alignItems: "center",
 
-        justifyContent: 'center',
-        paddingBottom: '15%',
+        justifyContent: "center",
+        paddingBottom: "15%",
     },
 
     textLoading: {
-        fontWeight: '600',
+        fontWeight: "600",
         fontSize: 40,
     },
     textLoadingMini: {
-        position: 'absolute',
-        bottom: '15%',
-        fontWeight: '200',
+        position: "absolute",
+        bottom: "15%",
+        fontWeight: "200",
         fontSize: 16,
     },
 });

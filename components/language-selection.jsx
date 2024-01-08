@@ -1,19 +1,17 @@
 //2.2.1. Выбор языка
 
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context'
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
     registrationData,
     languageTranslate,
     getJSONFromServer,
     sendJSONToServer,
     userData,
-} from './Utils.jsx';
-import { styles } from './main.jsx';
-import BackButton from './back-button.jsx';
-
-
+} from "./Utils.jsx";
+import { styles } from "./main.jsx";
+import BackButton from "./back-button.jsx";
 
 const LanguageSelectionScreen = ({ navigation }) => {
     const [selectedLanguage, setSelectedLanguage] = useState(userData.language);
@@ -22,13 +20,12 @@ const LanguageSelectionScreen = ({ navigation }) => {
         setSelectedLanguage(language);
 
         userData.language = language;
-
     };
 
     const handleContinue = () => {
-        console.log('selctor language:', userData.language);
+        console.log("selctor language:", userData.language);
 
-        navigation.navigate('WelcomeOneScreen');
+        navigation.navigate("WelcomeOneScreen");
     };
 
     return (
@@ -40,48 +37,60 @@ const LanguageSelectionScreen = ({ navigation }) => {
 
                     <View style={styles.buttons}>
                         <TouchableOpacity
-                            style={[languageStyles.button, selectedLanguage === 'ru' ? languageStyles.selectedButton : {}]}
-                            onPress={() => handleLanguageChange('ru')}>
+                            style={[
+                                languageStyles.button,
+                                selectedLanguage === "ru"
+                                    ? languageStyles.selectedButton
+                                    : {},
+                            ]}
+                            onPress={() => handleLanguageChange("ru")}
+                        >
                             <Text style={styles.buttonText}>Русский</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={[languageStyles.button, selectedLanguage === 'en' ? languageStyles.selectedButton : {}]}
-                            onPress={() => handleLanguageChange('en')}>
-                            <Text style={languageStyles.buttonText}>English</Text>
+                            style={[
+                                languageStyles.button,
+                                selectedLanguage === "en"
+                                    ? languageStyles.selectedButton
+                                    : {},
+                            ]}
+                            onPress={() => handleLanguageChange("en")}
+                        >
+                            <Text style={languageStyles.buttonText}>
+                                English
+                            </Text>
                         </TouchableOpacity>
                     </View>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={handleContinue}>
+                        onPress={handleContinue}
+                    >
                         <Text style={languageStyles.buttonText}>Next</Text>
                     </TouchableOpacity>
                 </View>
-            </View></SafeAreaView>
+            </View>
+        </SafeAreaView>
     );
 };
 
 export const languageStyles = StyleSheet.create({
-
     buttons: {
         flex: 2,
-
     },
     button: {
-        padding: '5%',
-        alignItems: 'center',
+        padding: "5%",
+        alignItems: "center",
     },
     buttonText: {},
 
     selectedButton: {
-        padding: '5%',
-        alignItems: 'center',
+        padding: "5%",
+        alignItems: "center",
 
-        backgroundColor: 'rgb(240, 240, 240)',
+        backgroundColor: "rgb(230, 230, 230)",
 
         borderRadius: 40,
-
     },
-
 });
 
 export default LanguageSelectionScreen;
