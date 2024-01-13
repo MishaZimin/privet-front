@@ -9,6 +9,7 @@ import {
     Button,
     TouchableOpacity,
     ScrollView,
+    Alert,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -30,25 +31,50 @@ import BackButton from "../../back-button.jsx";
 import Swiper from "react-native-swiper";
 import BuddysScreen from "../buddy.jsx";
 
-const ToDoList = ({ arrival, user }) => {
+const ToDoList = ({ arrival, user, userEmail, userName }) => {
     const [tasks, setTasks] = useState(arrival);
     const [progress, setProgress] = useState(0);
 
+    // console.log("-0-", userEmail);
+
     const handleTaskPress = async (id, taskName, taskValue) => {
-        console.log("--", id, user, taskName, taskValue);
-        const updatedTasks = tasks.map((task) =>
-            task.id === id ? { ...task, completed: !task.completed } : task
-        );
+        // console.log("-1-", tasks[0]);
 
-        initialTasksData[id - 1] = updatedTasks[id - 1];
+        // console.log("--", id, user, taskName, taskValue);
 
-        setTasks(updatedTasks);
+        setTasks((prevTasks) => {
+            const updatedTasks = prevTasks.map((task) =>
+                task.id === id ? { ...task, completed: !task.completed } : task
+            );
+
+            return updatedTasks;
+        });
+
+        const queryParams = new URLSearchParams({
+            task_name: taskName,
+            task_value: taskValue,
+        });
+
+        const url = `/users/tasks/change/${encodeURIComponent(
+            userEmail
+        )}?${queryParams.toString()}`;
+        console.log(url);
+
+        const response = await postChaingeTaskToServer(url);
+
+        if (response.details != "ok") {
+            setTasks((prevTasks) => {
+                const updatedTasks = prevTasks.map((task) =>
+                    task.id === id
+                        ? { ...task, completed: !task.completed }
+                        : task
+                );
+
+                return updatedTasks;
+            });
+            Alert.alert(response.details);
+        }
     };
-
-    // tasks.map((task) => {
-    //     console.log(task);
-    // });
-    // console.log("---------");
 
     const updateProgress = () => {
         const completedTasks = tasks.filter((task) => task.completed);
@@ -64,7 +90,7 @@ const ToDoList = ({ arrival, user }) => {
         <View style={stylesToDoList.toDoList}>
             <Text style={styles.textHeader}>
                 {languageTranslate(userData.language, "Student: ", "Студент: ")}
-                {user.slice(0, 10)}...
+                {userName}
             </Text>
             <View style={stylesToDoList.progressContainer}>
                 <Text style={stylesToDoList.progress}>
@@ -74,6 +100,7 @@ const ToDoList = ({ arrival, user }) => {
                     style={stylesToDoList.progressBar}
                     progress={progress.toFixed(1) / 100}
                     width={240}
+                    color="black"
                 />
             </View>
             {tasks.map((task) => (
@@ -85,13 +112,15 @@ const ToDoList = ({ arrival, user }) => {
                     style={[
                         stylesToDoList.taskItem,
                         {
-                            backgroundColor:
-                                task.id % 3 === 1
-                                    ? "rgb(255, 183, 68)"
-                                    : task.id % 3 === 2
-                                    ? "pink"
-                                    : "lightblue",
-                            opacity: task.completed ? 0.4 : 1,
+                            backgroundColor: task.completed
+                                ? "rgb(200, 200, 200)" // цвет для выполненных заданий
+                                : task.id % 3 === 1
+                                ? "rgb(244, 193, 66)"
+                                : task.id % 3 === 2
+                                ? "rgb(234, 73, 143)"
+                                : "rgb(59, 133, 247)",
+
+                            // opacity: task.completed ? 0.4 : 1,
                         },
                     ]}
                 >
@@ -107,7 +136,7 @@ const ToDoList = ({ arrival, user }) => {
                                     textDecorationLine: task.completed
                                         ? "line-through"
                                         : "none",
-                                    color: task.completed ? "gray" : "black",
+                                    color: task.completed ? "black" : "black",
                                 },
                                 stylesToDoList.text,
                             ]}
@@ -130,8 +159,9 @@ const ToDoListBuddyScreen = ({ navigation, route }) => {
     const allTasks = route.params.responseTasks;
     const usersID = route.params.studentsID;
     const usersName = route.params.studentsName;
+    const usersEmail = route.params.studentsEmail;
 
-    console.log(usersName);
+    // console.log("allTasks", allTasks);
 
     // console.log("allTasks", allTasks);
 
@@ -155,13 +185,22 @@ const ToDoListBuddyScreen = ({ navigation, route }) => {
                     </View>
 
                     {meArrivals.length > 0 ? (
-                        <Swiper showsPagination={true}>
+                        <Swiper
+                            showsPagination={true}
+                            showsButtons={false}
+                            buttonWrapperStyle={stylesSwiper.buttonWrapper}
+                            paginationStyle={stylesSwiper.paginationStyle}
+                            dotStyle={stylesSwiper.dotStyle}
+                            activeDotStyle={stylesSwiper.activeDotStyle}
+                        >
                             {allTasks.map((arrival, index) => (
                                 <ScrollView key={index}>
                                     <ToDoList
                                         key={arrival.id}
                                         arrival={allTasks[index]}
                                         user={usersID[index]}
+                                        userEmail={usersEmail[index]}
+                                        userName={usersName[index]}
                                     />
                                 </ScrollView>
                             ))}
@@ -183,6 +222,43 @@ const ToDoListBuddyScreen = ({ navigation, route }) => {
         </SafeAreaView>
     );
 };
+
+const stylesSwiper = StyleSheet.create({
+    swiperContainer: {
+        // Стили для контейнера Swiper, если необходимо
+    },
+    buttonWrapper: {
+        position: "absolute",
+        top: -295, // Вы можете настроить отступ сверху по вашему усмотрению
+        left: 0,
+        right: 0,
+        // backgroundColor: "black",
+        justifyContent: "space-between",
+        alignItems: "center",
+        flexDirection: "row",
+    },
+    buttonText: {
+        color: "white", // Цвет кнопок
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    paginationStyle: {
+        position: "absolute",
+        top: -555,
+    },
+    dotStyle: {
+        width: 8,
+        height: 8,
+        borderRadius: 4,
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
+    activeDotStyle: {
+        width: 8,
+        height: 8,
+        borderRadius: 4,
+        backgroundColor: "black",
+    },
+});
 
 export const stylesToDoList = StyleSheet.create({
     main: {
@@ -216,8 +292,10 @@ export const stylesToDoList = StyleSheet.create({
         maxHeight: 8,
         marginTop: "1.5%",
         marginLeft: "2%",
+    },
 
-        color: "red",
+    progress: {
+        fontWeight: "600",
     },
 
     toDoList: {
@@ -284,5 +362,22 @@ export const stylesToDoList = StyleSheet.create({
         zIndex: 2,
     },
 });
+
+export const postChaingeTaskToServer = async (adress) => {
+    try {
+        const res = await fetch("http://79.174.94.7:8000" + adress, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+            },
+        });
+        const responseData = await res.json();
+        console.log(adress, responseData);
+        return responseData;
+    } catch (err) {
+        console.log(adress, err);
+        throw err;
+    }
+};
 
 export default ToDoListBuddyScreen;

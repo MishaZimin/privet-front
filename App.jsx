@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 
+import { addCustomFonts } from "react-native-custom-fonts";
+import { useFonts } from "expo-font";
+import AppLoading from "expo-app-loading";
+import { SplashScreen } from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -50,6 +54,27 @@ import AddThirdScreen from "./components/student/ToDoList/AddStudent/add-student
 const Stack = createNativeStackNavigator();
 
 function App() {
+    // const [fontsLoaded] = useFonts({
+    //     "proxima-nova": require("./assets/fonts/proximanova_black.ttf"),
+    // });
+
+    // useEffect(() => {
+    //     const initializeApp = async () => {
+    //         try {
+    //             await SplashScreen.preventAutoHideAsync();
+    //             await SplashScreen.hideAsync();
+    //         } catch (e) {
+    //             console.warn(e);
+    //         }
+    //     };
+
+    //     initializeApp();
+    // }, []);
+
+    // if (!fontsLoaded) {
+    //     return null;
+    // }
+
     return (
         <NavigationContainer>
             <Stack.Navigator

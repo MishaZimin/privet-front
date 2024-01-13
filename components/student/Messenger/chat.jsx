@@ -23,17 +23,23 @@ import {
     supportArr,
 } from "../../Utils.jsx";
 import BackButtonMsg from "../../back-button-msg.jsx";
-// import { styles } from '../../main.jsx';
+// import { useNavigation } from "@react-navigation/native";
 
 const ChatScreen = ({ navigation, route }) => {
     const [message, setMessage] = useState("");
     const scrollViewRef = useRef();
+    const [ws, setWs] = useState(null);
+    const [localMessages, setLocalMessages] = useState([]);
 
     const index = route.params.index;
     const companion = route.params.companion;
+    const name = route.params.name;
+
+    // console.log(name);а
+
     const messages = route.params.messages;
 
-    console.log(messages);
+    // console.log(messages);
 
     useEffect(() => {
         if (scrollViewRef.current) {
@@ -41,35 +47,77 @@ const ChatScreen = ({ navigation, route }) => {
         }
     }, [messages]);
 
-    const handleSend = (mes) => {
-        if (mes.length > 0) {
-            const newMessage = {
-                text: message,
-                sender: "user",
-                timestamp: new Date().toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                }),
-            };
-            messengerArr[index].messages.push(newMessage);
-            setMessage("");
+    useEffect(() => {
+        const url = "ws://79.174.94.7:8000/ws?token=" + userData.access_token;
 
-            const newMessageCompanion = {
-                text: getRandomMessage(popularMessages),
-                sender: "companion",
-                timestamp: new Date().toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                }),
-            };
-            messengerArr[index].messages.push(newMessageCompanion);
-        } else {
-            Alert.alert("0 букв");
+        const newWs = new WebSocket(url);
+
+        console.log(url);
+
+        newWs.onopen = () => {
+            console.log("WebSocket connection established");
+            setWs(newWs);
+        };
+
+        newWs.onclose = (event) => {
+            console.log("WebSocket connection closed:", event);
+        };
+
+        newWs.onerror = (error) => {
+            console.error("WebSocket error:", error);
+        };
+
+        newWs.onmessage = (msg) => {
+            console.log("WebSocket msg:", msg);
+        };
+
+        return () => {
+            if (newWs && newWs.close) {
+                newWs.close();
+            }
+        };
+    }, []);
+
+    const handleSend = (mes) => {
+        try {
+            if (mes.length > 0 && ws && ws.readyState === WebSocket.OPEN) {
+                const newMessage = {
+                    text: mes,
+                    sender: "user",
+                    date_print: new Date().toISOString([]),
+
+                    from_user: "companion",
+                    id: message[message.length - 1].id + 1,
+                    attachment: "",
+                    chat_id: index,
+                    read: false,
+                };
+                setLocalMessages([...localMessages, newMessage]);
+                setMessage("");
+                const messageObject = {
+                    type: "send_message",
+                    chat_id: +index,
+                    text: mes,
+                };
+
+                console.log("messageObject:", JSON.stringify(messageObject));
+                ws.send(JSON.stringify(messageObject));
+            } else {
+                Alert.alert("нет соединения с WebSocket-сервером");
+            }
+        } catch (error) {
+            console.error("Ошибка при отправке сообщения:", error);
         }
     };
 
     const handleProfile = () => {
         navigation.navigate("StudentProfileForBuddy");
+    };
+
+    // const navigationBack = useNavigation();
+
+    const handlePress = () => {
+        navigation.goBack();
     };
 
     return (
@@ -79,14 +127,23 @@ const ChatScreen = ({ navigation, route }) => {
         >
             <SafeAreaView style={styles.container}>
                 <TouchableOpacity style={styles.header} onPress={handleProfile}>
-                    <BackButtonMsg />
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={handlePress}
+                    >
+                        <Image
+                            resizeMode="contain"
+                            style={styles.back}
+                            source={require("../../img/return.png")}
+                        />
+                    </TouchableOpacity>
                     <Image
-                        source={{ uri: messengerArr[2].photo }}
+                        source={{
+                            uri: "http://79.174.94.7:8000/images/0ae7d1fd-de81-4913-b73d-b3b2699abbad.jpg",
+                        }}
                         style={styles.avatar}
                     />
-                    <Text style={styles.username}>
-                        {companion.slice(0, 10)}...
-                    </Text>
+                    <Text style={styles.username}>{name}</Text>
                 </TouchableOpacity>
 
                 <ScrollView
@@ -96,18 +153,18 @@ const ChatScreen = ({ navigation, route }) => {
                         scrollViewRef.current.scrollToEnd({ animated: true })
                     }
                 >
-                    {messages.map((msg, idx) => (
+                    {messages.concat(localMessages).map((msg, idx) => (
                         <View
                             key={idx}
                             style={
-                                msg.from_user == companion
+                                msg.from_user != companion
                                     ? styles.userMessage
                                     : styles.companionMessage
                             }
                         >
                             <Text
                                 style={
-                                    msg.from_user == companion //! поменять на !=
+                                    msg.from_user != companion
                                         ? styles.messageText
                                         : styles.messageText1
                                 }
@@ -116,13 +173,13 @@ const ChatScreen = ({ navigation, route }) => {
                             </Text>
                             <Text
                                 style={
-                                    msg.from_user == companion
+                                    msg.from_user != companion
                                         ? styles.timestampTextUser
                                         : styles.timestampTextComp
                                 }
                             >
-                                {msg.date_print.slice(5, 10)}{" "}
-                                {msg.date_print.slice(11, 16)}{" "}
+                                {/* {msg.date_print.slice(5, 10)}{" "} */}
+                                {msg.date_print.slice(11, 16)}
                             </Text>
                         </View>
                     ))}
@@ -131,7 +188,7 @@ const ChatScreen = ({ navigation, route }) => {
                 <View style={styles.inputContainer}>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Введите сообщение"
+                        placeholder="Сообщение"
                         placeholderTextColor="rgb(90, 93, 97)"
                         value={message}
                         onChangeText={(text) => setMessage(text)}
@@ -140,13 +197,13 @@ const ChatScreen = ({ navigation, route }) => {
                         style={styles.sendButton}
                         onPress={() => handleSend(message)}
                     >
-                        <Text style={styles.sendButtonText}>
-                            {languageTranslate(
-                                userData.language,
-                                " ✉️ ",
-                                " ✉️ "
-                            )}
-                        </Text>
+                        {/* components/img/send.png */}
+
+                        <Image
+                            resizeMode="contain"
+                            style={styles.imgSend}
+                            source={require("../../img/send.png")}
+                        />
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
@@ -154,37 +211,19 @@ const ChatScreen = ({ navigation, route }) => {
     );
 };
 
-const popularMessages = [
-    // 'Hi, how are you?',
-    // 'Hello!',
-    // 'What\'s up?',
-    // 'How\'s it going?',
-    // 'Nice to meet you!',
-    // 'Good to see you!',
-    // 'Hey there!',
-    // 'How are things?',
-    // 'Long time no see!',
-    // 'What\'s new?',
-    "привет",
-    "очень большое сообщение очень большое сообщение очень большое сообщение очень большое сообщение очень большое сообщение очень большое сообщение очень большое сообщение",
-];
-
-function getRandomMessage(messages) {
-    const randomIndex = Math.floor(Math.random() * messages.length);
-    return messages[randomIndex];
-}
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "rgb(24, 25, 29)",
+        backgroundColor: "white",
     },
     header: {
         flexDirection: "row",
         alignItems: "center",
         padding: 10,
-        // marginBottom: 100,
-        backgroundColor: "rgb(41, 46, 50)",
+
+        backgroundColor: "white",
+        borderBottomWidth: 1,
+        borderColor: "rgb(240,240,240)",
     },
     avatar: {
         width: 40,
@@ -194,7 +233,9 @@ const styles = StyleSheet.create({
     },
     username: {
         fontSize: 16,
-        color: "white",
+        color: "black",
+
+        fontWeight: "600",
     },
     chatContainer: {
         flex: 1,
@@ -203,30 +244,35 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         padding: 10,
-        // borderTopWidth: 1,
-        // borderTopColor: '#fff',
-        backgroundColor: "rgb(41, 46, 50)",
+
+        backgroundColor: "white",
+
         paddingBottom: "0%",
-        paddingTop: "0%",
+        paddingTop: "1%",
         paddingLeft: "3%",
         paddingRight: "3%",
 
-        // marginTop: 50,
+        shadowColor: "grey",
+        shadowOffset: { width: 0, height: -5 },
+        shadowOpacity: 0.2,
+        shadowRadius: 5,
     },
+
     textInput: {
         flex: 1,
         height: 40,
         borderColor: "black",
-        // borderWidth: 1,
+
         borderRadius: 20,
         paddingHorizontal: 10,
         marginRight: 10,
-        color: "white",
+        color: "black",
+
+        fontSize: 18,
     },
     sendButton: {
         padding: 10,
         borderRadius: 20,
-        // backgroundColor: 'black',
     },
     sendButtonText: {
         color: "white",
@@ -238,47 +284,83 @@ const styles = StyleSheet.create({
     },
     userMessage: {
         alignSelf: "flex-end",
-        backgroundColor: "rgb(43, 47, 51)",
-        borderTopRightRadius: 20,
-        borderTopLeftRadius: 20,
+
+        backgroundColor: "rgb(216, 188, 238)",
+        borderTopRightRadius: 15,
+        borderTopLeftRadius: 15,
         borderBottomRightRadius: 7,
-        borderBottomLeftRadius: 20,
-        paddingVertical: 10,
+        borderBottomLeftRadius: 15,
+
+        paddingTop: 10,
+        paddingBottom: 5,
         paddingHorizontal: 15,
+
         marginVertical: 5,
         maxWidth: "70%",
     },
     companionMessage: {
         alignSelf: "flex-start",
-        backgroundColor: "rgb(43, 47, 51)",
+        backgroundColor: "rgb(243, 217, 156)",
         borderRadius: 20,
-        borderTopRightRadius: 20,
-        borderTopLeftRadius: 20,
-        borderBottomRightRadius: 20,
+        borderTopRightRadius: 15,
+        borderTopLeftRadius: 15,
+        borderBottomRightRadius: 15,
         borderBottomLeftRadius: 7,
 
-        paddingVertical: 10,
+        paddingTop: 10,
+        paddingBottom: 5,
+        paddingTop: 10,
+        paddingBottom: 5,
         paddingHorizontal: 15,
         marginVertical: 5,
         maxWidth: "70%",
     },
     messageText: {
+        fontSize: 16,
+
         alignSelf: "flex-end",
-        color: "white",
+        color: "black",
     },
     messageText1: {
         alignSelf: "flex-start",
-        color: "white",
+        fontSize: 16,
+
+        color: "black",
     },
     timestampTextUser: {
-        fontSize: 12,
-        color: "grey",
+        fontSize: 10,
+        color: "black",
         alignSelf: "flex-end",
+
+        fontWeight: "500",
+
+        marginTop: 3,
     },
     timestampTextComp: {
-        fontSize: 12,
-        color: "grey",
+        fontSize: 10,
+        color: "black",
         alignSelf: "flex-start",
+        fontWeight: "500",
+
+        marginTop: 3,
+    },
+    imgSend: {
+        width: 20,
+        height: 20,
+
+        marginRight: "1%",
+        marginTop: "1%",
+    },
+
+    button: {
+        alignItems: "left",
+
+        marginRight: 15,
+        marginLeft: 5,
+    },
+    back: {
+        width: 25,
+        height: 25,
     },
 });
 

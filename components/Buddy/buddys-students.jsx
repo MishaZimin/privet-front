@@ -34,7 +34,7 @@ const BuddysStudentsScreen = ({ navigation }) => {
         <SafeAreaView style={styles.main}>
             <ScrollView style={styles.main}>
                 <View style={styles.form}>
-                    <BackButton />
+                    {/* <BackButton /> */}
                     <View style={styles.textBlock}>
                         <Text style={styles.textHeader}>
                             {languageTranslate(

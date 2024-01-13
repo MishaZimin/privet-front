@@ -9,6 +9,7 @@ import {
     Button,
     TouchableOpacity,
     ScrollView,
+    Alert,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -37,18 +38,27 @@ const ToDoListISScreen = ({ navigation, route }) => {
     const [loading, setLoading] = useState(false);
 
     const todolist = route.params.initialTasksDataCopy;
-
-    console.log("todolist", todolist);
+    const invitation1 = route.params.responseInvitation;
+    // const invitation = null;
 
     const [progress, setProgress] = useState(0);
     const [tasks, setTasks] = useState(todolist);
+    const [invitation, setInvitation] = useState(invitation1);
+
+    console.log("todolist", todolist);
 
     const updateProgress = () => {
+        if (tasks.length == 0) {
+            return;
+        }
         const completedTasks = tasks.filter((task) => task.completed);
         const newProgress = (completedTasks.length / tasks.length) * 100;
 
-        console.log(newProgress);
-        setProgress(newProgress);
+        if (!isNaN(newProgress)) {
+            setProgress(newProgress);
+        } else {
+            console.error("Invalid progress value:", newProgress);
+        }
     };
 
     const handleBookMyArrival = async () => {
@@ -70,33 +80,78 @@ const ToDoListISScreen = ({ navigation, route }) => {
         }
     };
 
+    const handleBookMyArrival1 = async () => {
+        navigation.navigate("ArrivalSubmitted");
+    };
+
     const handleSubmit = async () => {
+        const accessToken = await AsyncStorage.getItem("access_token");
+
+        const response = await getTokenToServer(
+            accessToken,
+            "/users/me/profile",
+            "/json"
+        );
+
         const data = {
-            full_name: userData.fullName == "" ? null : userData.fullName,
-            sex: "string",
-            citizenship:
-                userData.citizenship == "" ? null : userData.citizenship,
-            phone: userData.phone == "" ? null : userData.phone,
-            telegram: userData.telegram == "" ? null : userData.telegram,
-            whatsapp: userData.whatsApp == "" ? null : userData.whatsApp,
-            vk: userData.vk == "" ? null : userData.vk,
-            tickets: "string",
+            full_name: response.profile_info.full_name,
+            sex: response.profile_info.sex,
+            citizenship: response.profile_info.citizenship,
+            phone: response.contacts.phone,
+            telegram: response.contacts.telegram,
+            whatsapp: response.contacts.whatsapp,
+            vk: response.contacts.vk,
+            tickets: "tickets",
             submit_arrival: true,
         };
-        const response = await postSsubmitInvitation(
+
+        console.log(data);
+
+        const responseSubmit = await postSubmitInvitation(
             data,
             userData.access_token,
             "/users/me/submit-invitation",
             "/json"
         );
-        if (response.detail == "User has been added to arrival") {
+        if (responseSubmit.detail == "User has been added to arrival") {
+            setInvitation(null);
         } else if (
-            response.detail == "User hasn't been invited to any arrival"
+            responseSubmit.detail == "User hasn't been invited to any arrival"
         ) {
-            invitationsData = null;
-        } else {
-            console.log("че бля");
+            Alert.alert("User hasn't been invited to any arrival");
         }
+    };
+
+    const handleNotSubmit = async () => {
+        const accessToken = await AsyncStorage.getItem("access_token");
+
+        const response = await getTokenToServer(
+            accessToken,
+            "/users/me/profile",
+            "/json"
+        );
+
+        const data = {
+            full_name: response.profile_info.full_name,
+            sex: response.profile_info.sex,
+            citizenship: response.profile_info.citizenship,
+            phone: response.contacts.phone,
+            telegram: response.contacts.telegram,
+            whatsapp: response.contacts.whatsapp,
+            vk: response.contacts.vk,
+            tickets: "tickets",
+            submit_arrival: false,
+        };
+
+        console.log(data);
+        const responseSubmit = await postSubmitInvitation(
+            data,
+            userData.access_token,
+            "/users/me/submit-invitation",
+            "/json"
+        );
+
+        setInvitation(null);
     };
 
     useEffect(() => {
@@ -107,91 +162,65 @@ const ToDoListISScreen = ({ navigation, route }) => {
         <SafeAreaView style={stylesToDoList.main}>
             <ScrollView style={stylesToDoList.main}>
                 <View style={stylesToDoList.form}>
-                    <BackButton />
+                    {/* <BackButton /> */}
                     <View style={styles.textBlock}>
-                        <Text style={styles.textHeader}>
+                        <Text style={stylesToDoList.textHeader}>
                             {languageTranslate(
                                 userData.language,
-                                "To Do List",
-                                "Список задач"
+                                userData.fullName + ", Privet👋",
+                                userData.fullName + ", Privet👋"
                             )}
                         </Text>
                     </View>
-                    {invitationsData.length > 0 ? (
-                        invitationsData.map((arrival, index) => (
-                            <TouchableOpacity style={styles.buddysStudents}>
-                                <View>
-                                    <Text style={styles.textHeader}>
-                                        Приглашение в приезд
-                                    </Text>
-                                    <Text style={styles.studentName}>
-                                        Arrival ID: {arrival.id}
-                                    </Text>
-                                    <Text style={styles.studentAge}>
-                                        arrival_date: {arrival.arrival_date}
-                                    </Text>
-                                    <Text style={styles.studentAge}>
-                                        arrival_point: {arrival.arrival_point}
-                                    </Text>
 
-                                    <Text style={styles.studentAge}>
-                                        comment: {arrival.comment}
-                                    </Text>
+                    {/* <TouchableOpacity
+                        style={styles.button}
+                        title="BookMyArrival"
+                        onPress={handleBookMyArrival}
+                    >
+                        <Text style={styles.textButto}>
+                            {languageTranslate(
+                                userData.language,
+                                "Book My Arrival",
+                                "Зарегистрировать приезд"
+                            )}
+                        </Text>
+                    </TouchableOpacity> */}
 
-                                    <Text style={styles.studentAge}>
-                                        confirmed: {arrival.confirmed}
-                                    </Text>
-
-                                    <Text style={styles.studentName}>
-                                        flight_number: {arrival.flight_number}
-                                    </Text>
-                                    <Text style={styles.studentAge}>
-                                        tickets: {arrival.tickets}
-                                    </Text>
-                                    <Text></Text>
-                                </View>
-                                <TouchableOpacity
-                                    style={styles.button}
-                                    title=""
-                                    onPress={() =>
-                                        handleSubmit(invitationsData.arrivalID)
-                                    }
-                                >
-                                    <Text style={styles.textButton}>
-                                        {languageTranslate(
-                                            userData.language,
-                                            "Accept arrival",
-                                            "Принять приезд"
-                                        )}
-                                    </Text>
-                                </TouchableOpacity>
-                            </TouchableOpacity>
-                        ))
-                    ) : (
-                        <View>
-                            <Text style={styles.studentName}>
-                                {/* {languageTranslate(
-                                    userData.language,
-                                    "You dont have any invitations",
-                                    "У вас нет приглашений"
-                                )} */}
-                            </Text>
-                        </View>
-                    )}
-
-                    {tasks.length == 0 ? (
+                    {todolist.length == 0 ? (
                         <TouchableOpacity
-                            style={styles.button}
-                            title="BookMyArrival"
                             onPress={handleBookMyArrival}
+                            style={[
+                                stylesToDoList.taskItem,
+                                {
+                                    backgroundColor: "rgb(244, 193, 66)",
+                                },
+                            ]}
                         >
-                            <Text style={styles.textButto}>
-                                {languageTranslate(
-                                    userData.language,
-                                    "Book My Arrival",
-                                    "Зарегистрировать приезд"
-                                )}
-                            </Text>
+                            <View style={stylesToDoList.numberTask}>
+                                <Text style={stylesToDoList.numberTaskText}>
+                                    0
+                                </Text>
+                            </View>
+                            <View style={stylesToDoList.textTaksContainer}>
+                                <Text
+                                    style={[
+                                        {
+                                            textDecorationLine: "none",
+
+                                            color: "black",
+                                        },
+                                        stylesToDoList.text,
+                                    ]}
+                                >
+                                    {languageTranslate(
+                                        userData.language,
+                                        "Book My Arrival",
+                                        "Зарегистрировать приезд"
+                                    )}
+                                </Text>
+                            </View>
+                            {/* <View style={stylesToDoList.line}></View> */}
                         </TouchableOpacity>
                     ) : (
                         <View>
@@ -207,24 +236,27 @@ const ToDoListISScreen = ({ navigation, route }) => {
                                             style={stylesToDoList.progressBar}
                                             progress={progress.toFixed(1) / 100}
                                             width={240}
+                                            color="black"
                                         />
                                     </View>
 
-                                    {tasks.map((task) => (
+                                    {todolist.map((task) => (
                                         <TouchableOpacity
                                             key={task.id}
                                             style={[
                                                 stylesToDoList.taskItem,
                                                 {
                                                     backgroundColor:
-                                                        task.id % 3 === 1
-                                                            ? "rgb(255, 183, 68)"
+                                                        task.completed
+                                                            ? "rgb(200, 200, 200)"
+                                                            : task.id % 3 === 1
+                                                            ? "rgb(244, 193, 66)"
                                                             : task.id % 3 === 2
-                                                            ? "pink"
-                                                            : "lightblue",
-                                                    opacity: task.completed
-                                                        ? 0.4
-                                                        : 1,
+                                                            ? "rgb(234, 73, 143)"
+                                                            : "rgb(59, 133, 247)",
+                                                    // opacity: task.completed
+                                                    //     ? 0.4
+                                                    //     : 1,
                                                 },
                                             ]}
                                         >
@@ -279,6 +311,148 @@ const ToDoListISScreen = ({ navigation, route }) => {
                             ) : null}
                         </View>
                     )}
+
+                    {invitation != null ? (
+                        <TouchableOpacity style={stylesToDoList.invitations}>
+                            <View>
+                                <Text
+                                    style={stylesToDoList.textHeaderInvitation}
+                                >
+                                    Приглашение в приезд
+                                </Text>
+                                <Text style={stylesToDoList.text2}>
+                                    {languageTranslate(
+                                        userData.language,
+                                        "Arrival ID: ",
+                                        "ID приезда: "
+                                    )}
+                                </Text>
+                                <Text style={styles.text1}>
+                                    {invitation.id}
+                                </Text>
+
+                                <Text style={stylesToDoList.text2}>
+                                    {languageTranslate(
+                                        userData.language,
+                                        "Arrival Date: ",
+                                        "Дата приезда: "
+                                    )}
+                                </Text>
+                                <Text style={styles.text1}>
+                                    {invitation.arrival_date.slice(0, 10)}
+                                </Text>
+
+                                <Text style={stylesToDoList.text2}>
+                                    {languageTranslate(
+                                        userData.language,
+                                        "Arrival point",
+                                        "Пункт прибытия"
+                                    )}
+                                </Text>
+                                <Text style={styles.text1}>
+                                    {invitation.arrival_point}
+                                </Text>
+                                <Text style={stylesToDoList.text2}>
+                                    {languageTranslate(
+                                        userData.language,
+                                        "Flight number",
+                                        "Номер рейса"
+                                    )}
+                                </Text>
+                                <Text style={styles.text1}>
+                                    {invitation.flight_number}
+                                </Text>
+                                <Text style={stylesToDoList.text2}>
+                                    {languageTranslate(
+                                        userData.language,
+                                        "Comment",
+                                        "Комментарий"
+                                    )}
+                                </Text>
+                                <Text style={styles.text1}>
+                                    {invitation.comment}
+                                </Text>
+
+                                {/* <Text style={stylesToDoList.text2}>
+                                    {languageTranslate(
+                                        userData.language,
+                                        "Buddies Amount: ",
+                                        "Количество сопровождающих: "
+                                    )}
+                                </Text>
+                                <Text style={styles.text1}>
+                                    {invitation.confirmed}
+                                </Text> */}
+
+                                {/* <Text style={styles.studentName}>
+                                    Arrival ID: {invitation.id}
+                                </Text>
+                                <Text style={styles.studentAge}>
+                                    arrival_date:{" "}
+                                    {invitation.arrival_date.slice(0, 10)}
+                                </Text>
+                                <Text style={styles.studentAge}>
+                                    arrival_point: {invitation.arrival_point}
+                                </Text>
+
+                                <Text style={styles.studentAge}>
+                                    comment: {invitation.comment}
+                                </Text>
+
+                                <Text style={styles.studentAge}>
+                                    confirmed: {invitation.confirmed}
+                                </Text> */}
+
+                                {/* <Text style={styles.studentName}>
+                                    flight_number: {invitation.flight_number}
+                                </Text>
+                                <Text style={styles.studentAge}>
+                                    tickets: {invitation.tickets}
+                                </Text> */}
+                                <Text></Text>
+                            </View>
+                            <View style={stylesToDoList.invitationButtons}>
+                                <TouchableOpacity
+                                    style={stylesToDoList.invitationButton}
+                                    title=""
+                                    onPress={() => handleSubmit(invitation.id)}
+                                >
+                                    <Text style={stylesToDoList.textButton}>
+                                        {languageTranslate(
+                                            userData.language,
+                                            "Accept",
+                                            "Принять"
+                                        )}
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={stylesToDoList.invitationButton}
+                                    title=""
+                                    onPress={() =>
+                                        handleNotSubmit(invitation.id)
+                                    }
+                                >
+                                    <Text style={stylesToDoList.textButton}>
+                                        {languageTranslate(
+                                            userData.language,
+                                            "Decline",
+                                            "Отклонить"
+                                        )}
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        </TouchableOpacity>
+                    ) : (
+                        <View>
+                            <Text style={styles.studentName}>
+                                {/* {languageTranslate(
+                                    userData.language,
+                                    "You dont have any invitations",
+                                    "У вас нет приглашений"
+                                )} */}
+                            </Text>
+                        </View>
+                    )}
                 </View>
                 <Loader loading={loading} text="" />
             </ScrollView>
@@ -311,6 +485,9 @@ export const stylesToDoList = StyleSheet.create({
         flexDirection: "row",
 
         justifyContent: "center",
+
+        paddingTop: 25,
+        marginBottom: -20,
     },
 
     progressBar: {
@@ -382,27 +559,106 @@ export const stylesToDoList = StyleSheet.create({
         height: 40,
         zIndex: -1,
     },
+
+    textHeaderInvitation: {
+        marginTop: "0%",
+        paddingBottom: "5%",
+        fontSize: 18,
+        fontWeight: "700",
+
+        textAlign: "center",
+    },
+
+    textHeader: {
+        marginTop: "0%",
+        paddingBottom: "2%",
+        fontSize: 28,
+        fontWeight: "600",
+
+        textAlign: "center",
+    },
+
+    invitations: {
+        backgroundColor: "white",
+        padding: "8%",
+        marginTop: "10%",
+        borderRadius: 30,
+        width: "100%",
+        borderRadius: 40,
+
+        shadowColor: "grey",
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.35,
+        shadowRadius: 10,
+    },
+
+    invitation: {
+        backgroundColor: "white",
+        borderWidth: 1,
+        borderColor: "silver",
+        padding: "5%",
+        marginBottom: "5%",
+        borderRadius: 30,
+        width: "100%",
+        borderRadius: 30,
+    },
+
+    invitationButtons: {
+        display: "flex",
+        flexDirection: "row",
+
+        alignSelf: "center",
+    },
+
+    invitationButton: {
+        width: "45%",
+        paddingHorizontal: "5%",
+        paddingVertical: "2%",
+        margin: "2%",
+        alignItems: "center",
+        backgroundColor: "white",
+        color: "grey",
+
+        borderWidth: 1,
+
+        borderRadius: 40,
+        shadowColor: "grey",
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+    },
+
+    text1: {
+        padding: "1%",
+        width: "100%",
+    },
+    text2: {
+        padding: "1%",
+        width: "100%",
+        fontWeight: "700",
+    },
+
+    textButton: {
+        fontWeight: "600",
+    },
 });
 
-const postSsubmitInvitation = async (data, token, adress, contentType) => {
+const postSubmitInvitation = async (data, token, adress, contentType) => {
     try {
         let bodyData =
             contentType == "/json"
                 ? JSON.stringify(data)
                 : new URLSearchParams(data).toString();
 
-        const res = await fetch(
-            "https://privet-mobile-app.onrender.com" + adress,
-            {
-                method: "POST",
-                headers: {
-                    Accept: "application" + contentType,
-                    Authorization: "Bearer " + token,
-                    "Content-Type": "application" + contentType,
-                },
-                body: bodyData,
-            }
-        );
+        const res = await fetch("http://79.174.94.7:8000" + adress, {
+            method: "POST",
+            headers: {
+                Accept: "application" + contentType,
+                Authorization: "Bearer " + token,
+                "Content-Type": "application" + contentType,
+            },
+            body: bodyData,
+        });
         const responseData = await res.json();
         console.log(adress, responseData);
         return responseData;

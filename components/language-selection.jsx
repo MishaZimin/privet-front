@@ -29,44 +29,51 @@ const LanguageSelectionScreen = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView style={styles.main}>
-            <View style={styles.main}>
-                <View style={styles.form}>
-                    <BackButton />
-                    <Text style={styles.textHeader}>Language Choice</Text>
-
-                    <View style={styles.buttons}>
+        <SafeAreaView style={languageStyles.main}>
+            <View style={languageStyles.main}>
+                <View style={languageStyles.form}>
+                    {/* <BackButton /> */}
+                    <Text style={languageStyles.textHeader}>
+                        Выберите язык{"\n"}Select language
+                    </Text>
+                    <View style={languageStyles.welcomeTextForm}>
+                        <View style={languageStyles.buttons}>
+                            <TouchableOpacity
+                                style={[
+                                    languageStyles.button,
+                                    selectedLanguage === "ru"
+                                        ? languageStyles.selectedButton
+                                        : {},
+                                ]}
+                                onPress={() => handleLanguageChange("ru")}
+                            >
+                                <Text style={languageStyles.buttonText}>
+                                    Русский
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[
+                                    languageStyles.button,
+                                    selectedLanguage === "en"
+                                        ? languageStyles.selectedButton
+                                        : {},
+                                ]}
+                                onPress={() => handleLanguageChange("en")}
+                            >
+                                <Text style={languageStyles.buttonText}>
+                                    English
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
                         <TouchableOpacity
-                            style={[
-                                languageStyles.button,
-                                selectedLanguage === "ru"
-                                    ? languageStyles.selectedButton
-                                    : {},
-                            ]}
-                            onPress={() => handleLanguageChange("ru")}
+                            style={languageStyles.buttonNext}
+                            onPress={handleContinue}
                         >
-                            <Text style={styles.buttonText}>Русский</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={[
-                                languageStyles.button,
-                                selectedLanguage === "en"
-                                    ? languageStyles.selectedButton
-                                    : {},
-                            ]}
-                            onPress={() => handleLanguageChange("en")}
-                        >
-                            <Text style={languageStyles.buttonText}>
-                                English
+                            <Text style={languageStyles.buttonTextNext}>
+                                Next
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={handleContinue}
-                    >
-                        <Text style={languageStyles.buttonText}>Next</Text>
-                    </TouchableOpacity>
                 </View>
             </View>
         </SafeAreaView>
@@ -74,14 +81,64 @@ const LanguageSelectionScreen = ({ navigation }) => {
 };
 
 export const languageStyles = StyleSheet.create({
+    main: {
+        flex: 1,
+        backgroundColor: "white",
+    },
+    form: {
+        flex: 1,
+        gap: 0,
+        backgroundColor: "white",
+    },
+
+    textHeader: {
+        flex: 3,
+        paddingLeft: "10%",
+        paddingTop: "10%",
+
+        marginTop: 10,
+        fontWeight: "800",
+        fontSize: 30,
+    },
+
     buttons: {
-        flex: 2,
+        flex: 1,
+        marginTop: "6%",
+        width: "100%",
+        marginLeft: "0%",
+        borderRadius: 0,
+        textAlign: "center",
+        alignItems: "center",
     },
     button: {
+        width: "100%",
+
+        display: "flex",
+        paddingHorizontal: "auto",
+        // flexDirection: "row",
+        textAlign: "center",
         padding: "5%",
         alignItems: "center",
     },
-    buttonText: {},
+    buttonNext: {
+        padding: "5%",
+        alignItems: "center",
+        padding: "4%",
+        margin: "2%",
+        // marginBottom: "20%",
+
+        width: "50%",
+        marginLeft: "25%",
+        alignItems: "center",
+        backgroundColor: "rgb(122, 60, 227)",
+
+        color: "white",
+        borderRadius: 28,
+        shadowColor: "grey",
+    },
+    buttonText: {
+        fontWeight: "700",
+    },
 
     selectedButton: {
         padding: "5%",
@@ -89,7 +146,27 @@ export const languageStyles = StyleSheet.create({
 
         backgroundColor: "rgb(230, 230, 230)",
 
-        borderRadius: 40,
+        borderRadius: 0,
+    },
+
+    welcomeTextForm: {
+        flex: 1.5,
+        width: "100%",
+        backgroundColor: "white",
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+        shadowColor: "grey",
+        shadowOffset: { width: 0, height: -20 },
+        shadowOpacity: 0.2,
+        shadowRadius: 10,
+    },
+
+    buttonTextNext: {
+        color: "white",
+        fontSize: 20,
+        fontWeight: "700",
     },
 });
 

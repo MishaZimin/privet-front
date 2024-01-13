@@ -30,17 +30,20 @@ const LoadingScreen = ({ navigation }) => {
         const accessToken = await AsyncStorage.getItem("access_token");
 
         if (accessToken !== null) {
-            console.log("Access token: ", accessToken);
+            console.log("Access token:", accessToken);
             const dataUserBD = await getTokenToServer(
                 accessToken,
                 "/auth/me",
                 "/json"
             );
+            console.log("Access token: ", accessToken);
+
             const response = await getTokenToServer(
                 accessToken,
                 "/users/me/profile",
                 "/json"
             );
+            console.log("Access token: ", accessToken);
 
             userData.access_token = accessToken;
             userData.user = dataUserBD.role_id;
@@ -71,7 +74,6 @@ const LoadingScreen = ({ navigation }) => {
             } else {
                 navigation.navigate("LanguageSelectionScreen");
             }
-            // Вы можете использовать токен для авторизации при запросах к серверу.
         } else {
             navigation.navigate("LanguageSelectionScreen");
         }

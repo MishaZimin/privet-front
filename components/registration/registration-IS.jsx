@@ -306,6 +306,7 @@ export const form = StyleSheet.create({
         paddingBottom: "30%",
         fontWeight: "700",
         fontSize: 30,
+        paddingTop: "5%",
     },
 
     text: {

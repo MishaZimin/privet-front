@@ -104,19 +104,19 @@ const SetNewPasswordScreen = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView style={styles.main}>
-            <ScrollView style={styles.main}>
-                <View style={styles.form}>
-                    <BackButton />
-                    <Text style={styles.textHeader}>
+        <SafeAreaView style={form.main}>
+            <ScrollView style={form.main}>
+                <View style={form.form}>
+                    {/* <BackButton /> */}
+                    <Text style={form.textHeader}>
                         {languageTranslate(
                             userData.language,
                             "Setting a new password",
                             "Установка нового пароля"
                         )}
                     </Text>
-                    <View style={styles.textInputs}>
-                        <Text style={styles.inputHeader}>
+                    <View style={form.textInputs}>
+                        <Text style={form.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 "Password",
@@ -127,8 +127,8 @@ const SetNewPasswordScreen = ({ navigation }) => {
                         <TextInput
                             style={
                                 correctPassword
-                                    ? styles.textInput
-                                    : styles.unCorrectTextInput
+                                    ? form.textInput
+                                    : form.textInput
                             }
                             secureTextEntry
                             placeholder=""
@@ -136,7 +136,7 @@ const SetNewPasswordScreen = ({ navigation }) => {
                             onChangeText={(text) => setPassword(text)}
                         />
                         <Text>{correctPassword ? null : passwordCorrect}</Text>
-                        <Text style={styles.inputHeader}>
+                        <Text style={form.inputHeader}>
                             {languageTranslate(
                                 userData.language,
                                 "Password confirm",
@@ -147,8 +147,8 @@ const SetNewPasswordScreen = ({ navigation }) => {
                         <TextInput
                             style={
                                 correctPasswords
-                                    ? styles.textInput
-                                    : styles.unCorrectTextInput
+                                    ? form.textInput
+                                    : form.textInput
                             }
                             secureTextEntry
                             placeholder=""
@@ -161,11 +161,11 @@ const SetNewPasswordScreen = ({ navigation }) => {
                     </View>
 
                     <TouchableOpacity
-                        style={styles.button}
+                        style={form.button}
                         title="Готово"
                         onPress={handleSetNewPassword}
                     >
-                        <Text style={styles.textButton}>
+                        <Text style={form.textButton}>
                             {languageTranslate(
                                 userData.language,
                                 "Ready",

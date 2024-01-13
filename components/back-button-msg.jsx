@@ -1,7 +1,6 @@
-import React from 'react';
-import { TouchableOpacity, Image, Text, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-
+import React from "react";
+import { TouchableOpacity, Image, Text, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const BackButtonMsg = () => {
     const navigation = useNavigation();
@@ -12,23 +11,27 @@ const BackButtonMsg = () => {
 
     return (
         <TouchableOpacity style={styles.button} onPress={handlePress}>
-            <Text style={styles.back}>🔙</Text>
+            <Image
+                resizeMode="contain"
+                style={styles.back}
+                source={require("./img/return.png")}
+            />
         </TouchableOpacity>
     );
 };
 
-
 const styles = StyleSheet.create({
     button: {
-        alignItems: 'left',
-        // width: '95%',
+        position: "absolute",
+        top: 25,
+        left: 20,
+        alignItems: "left",
+        width: "100%",
     },
     back: {
-
-        paddingRight: '3%',
-        color: 'white',
-        fontSize: 22,
-    }
+        width: 25,
+        height: 25,
+    },
 });
 
 export default BackButtonMsg;

@@ -24,6 +24,8 @@ import {
     initialTasksData,
     allarrivalBookArr,
 } from "../Utils.jsx";
+import { countriesPicker } from "../data-picker/citizenship.jsx";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BackButton from "../back-button.jsx";
 import Loader from "../loader.jsx";
@@ -53,7 +55,7 @@ const BuddysScreen = ({ navigation }) => {
             userData.whatsApp = response.contacts.whatsapp;
             userData.vk = response.contacts.vk;
 
-            userData.nativeLanguage = response.profile_info.nativeLanguage;
+            userData.nativeLanguage = response.profile_info.native_language;
             userData.otherLanguage = response.contacts.other_languages;
 
             userData.buddyStatus = response.profile_info.buddy_status;
@@ -101,6 +103,7 @@ const BuddysScreen = ({ navigation }) => {
             const responseTasks = [];
             const studentsID = [];
             const studentsName = [];
+            const studentsEmail = [];
 
             if (responseMeArrivals.length > 0) {
                 console.log(
@@ -118,18 +121,25 @@ const BuddysScreen = ({ navigation }) => {
                     console.log(responseArrival);
 
                     responseArrival.map((showTasks) => {
-                        console.log("--", showTasks.user_id);
+                        // console.log("--", showTasks.user_id);
                         const studentID = showTasks.user_id;
-                        console.log("--", studentID, allBuddies);
-                        const studentName = findNameById(studentID, allBuddies);
-                        console.log("--", studentName);
+                        // console.log("--", studentID, allBuddies);
+                        const studentName = showTasks.fullname;
+                        const studentEmail = showTasks.email;
+
+                        // console.log("--", studentName);
 
                         var initialTasksDataCopy = [
                             {
                                 id: 1,
                                 text: "Встреча в аэропорту ",
                                 completed: showTasks.airport_meeting,
-                                deadline: "\nDeadline: 11.11.2023",
+                                deadline:
+                                    "\n" +
+                                    responseMeArrivals[0].arrival_date.slice(
+                                        0,
+                                        10
+                                    ),
                                 taskName: "airport_meeting",
                             },
                             {
@@ -188,53 +198,58 @@ const BuddysScreen = ({ navigation }) => {
                             },
                             {
                                 id: 11,
-                                text: "student_ID",
+                                text: "Оформление студенчиского билета",
                                 completed: showTasks.student_ID,
                                 taskName: "student_ID",
                             },
                             {
                                 id: 12,
-                                text: "Прохождение медосвидетельствования",
-                                completed: showTasks.medical_tests[0],
-                                deadline:
-                                    "\nDeadline: " + showTasks.medical_tests[1],
-                                taskName: "medical_tests",
+                                text: "Оформление электронного пропуска",
+                                completed: showTasks.student_pass,
+                                taskName: "student_pass",
                             },
                             {
                                 id: 13,
-                                text: "Продление визы",
-                                completed: showTasks.visa_extension[0],
-                                deadline:
-                                    "\nDeadline: " +
-                                    showTasks.visa_extension[1],
-                                taskName: "visa_extension",
+                                text: "Прохождение медосвидетельствования",
+                                completed: showTasks.medical_tests[0],
+                                deadline: "\n" + showTasks.medical_tests[1],
+                                taskName: "medical_tests",
                             },
                             {
                                 id: 14,
+                                text: "Продление визы",
+                                completed: showTasks.visa_extension[0],
+                                deadline: "\n" + showTasks.visa_extension[1],
+                                taskName: "visa_extension",
+                            },
+                            {
+                                id: 15,
                                 text: "Прохождение дактилоскопии",
                                 completed: showTasks.fingerprinting[0],
-                                deadline:
-                                    "\nDeadline: " +
-                                    showTasks.fingerprinting[1],
+                                deadline: "\n" + showTasks.fingerprinting[1],
                                 taskName: "fingerprinting",
                             },
                         ];
 
-                        console.log("----", initialTasksDataCopy[4]);
+                        // console.log("----", initialTasksDataCopy[4]);
 
                         responseTasks.push(initialTasksDataCopy);
                         studentsID.push(studentID);
                         studentsName.push(studentName);
-                        console.log("------", responseTasks);
+
+                        studentsEmail.push(studentEmail);
+
+                        // console.log("------", responseTasks);
                     });
 
-                    console.log("--------", responseTasks);
+                    // console.log("--------", responseTasks);
 
                     navigation.navigate("ToDoListBuddyScreen", {
                         responseMeArrivals,
                         responseTasks,
                         studentsID,
                         studentsName,
+                        studentsEmail,
                     });
                 }
             } else {
@@ -243,6 +258,7 @@ const BuddysScreen = ({ navigation }) => {
                     responseTasks,
                     studentsID,
                     studentsName,
+                    studentsEmail,
                 });
             }
         } catch (err) {
@@ -255,20 +271,23 @@ const BuddysScreen = ({ navigation }) => {
     const handleAllArrivals = async () => {
         try {
             setLoading(true);
-            const response = await getTokenToServer(
+            const responseAllArrivals = await getTokenToServer(
                 userData.access_token,
                 "/arrivals",
                 "/json"
             );
-            console.log("response", response.past_arrivals);
-            console.log("-----");
 
             allarrivalBookArr.length = 0;
 
             console.log("allarrivalBookArr", allarrivalBookArr);
             console.log("-----");
 
-            const arrivalsData = response.past_arrivals;
+            // const arrivalsData = responseAllArrivals.future_arrivals;
+            // const pastArrivalsData = responseAllArrivals.past_arrivals;
+            const arrivalsData = [
+                ...responseAllArrivals.future_arrivals,
+                ...responseAllArrivals.past_arrivals,
+            ];
             arrivalsData.map((arrival) => {
                 console.log("----", arrival);
 
@@ -282,13 +301,16 @@ const BuddysScreen = ({ navigation }) => {
 
                     fullName: arrival.group_full_names,
                     sex: 1,
-                    arrivalTime: "3:30 am",
+                    arrivalTime: arrival.arrival_date.slice(11, 16),
                     citizenship: "usa",
                     phone: "+786895489622",
                     telegram: "@tg-student-1",
                     whatsApp: "+786895489622",
                     vk: "@vk-student-1",
-
+                    group_countries: createCountriesArray(
+                        arrival.group_countries,
+                        countriesPicker
+                    ),
                     countBuddy: arrival.buddies_amount,
                     maxBuddy: 1,
 
@@ -298,7 +320,10 @@ const BuddysScreen = ({ navigation }) => {
                 allarrivalBookArr.push(arrivalData);
             });
 
-            navigation.navigate("AllArrivalsScreen", { allarrivalBookArr });
+            navigation.navigate("AllArrivalsScreen", {
+                allarrivalBookArr,
+                responseAllArrivals,
+            });
         } catch (err) {
             console.log(err);
         } finally {
@@ -352,12 +377,12 @@ const BuddysScreen = ({ navigation }) => {
                         <Image
                             resizeMode="contain"
                             style={styles.img}
-                            source={require("../welcome/3d-fluency-cowboy-hat-face.png")}
+                            source={require("../img/3d-fluency-male-user.png")}
                         />
                         <Text style={styles.textButton}>
                             {languageTranslate(
                                 userData.language,
-                                "Buddy Profile",
+                                "Profile",
                                 "Профиль"
                             )}
                         </Text>
@@ -370,7 +395,7 @@ const BuddysScreen = ({ navigation }) => {
                         <Image
                             resizeMode="contain"
                             style={styles.img}
-                            source={require("./3d-fluency-test-passed.png")}
+                            source={require("../img/3d-fluency-test-passed.png")}
                         />
                         <Text style={styles.textButton}>
                             {languageTranslate(
@@ -388,8 +413,9 @@ const BuddysScreen = ({ navigation }) => {
                         <Image
                             resizeMode="contain"
                             style={styles.img}
-                            source={require("./3d-fluency-boarding-pass.png")}
+                            source={require("../img/3d-fluency-boarding-pass.png")}
                         />
+
                         <Text style={styles.textButton}>
                             {languageTranslate(
                                 userData.language,
@@ -406,7 +432,7 @@ const BuddysScreen = ({ navigation }) => {
                         <Image
                             resizeMode="contain"
                             style={styles.img}
-                            source={require("../3d-fluency-graduation-cap.png")}
+                            source={require("../img/3d-fluency-graduation-cap.png")}
                         />
                         <Text style={styles.textButton}>
                             {languageTranslate(
@@ -424,7 +450,7 @@ const BuddysScreen = ({ navigation }) => {
                         <Image
                             resizeMode="contain"
                             style={styles.img}
-                            source={require("./3d-fluency-chat-bubbles.png")}
+                            source={require("../img/3d-fluency-chat-bubbles.png")}
                         />
                         <Text style={styles.textButton}>
                             {languageTranslate(
@@ -483,8 +509,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingTop: 15,
         justifyContent: "space-between",
-        // borderTopWidth: 1,
-        borderRadius: 25,
+
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
+
         backgroundColor: "white",
 
         shadowColor: "grey",
@@ -501,10 +529,12 @@ const styles = StyleSheet.create({
     },
     textButton: {
         fontSize: 10,
+        fontWeight: "700",
     },
     img: {
-        width: 40,
-        height: 40,
+        width: 30,
+        height: 30,
+        marginBottom: "10%",
     },
 });
 
@@ -520,8 +550,7 @@ function findNameById(id, data) {
 export const getIDArrivalToServer = async (id) => {
     try {
         const res = await fetch(
-            "https://privet-mobile-app.onrender.com/arrivals/tasks/?arrival_id=" +
-                id,
+            "http://79.174.94.7:8000/arrivals/tasks/?arrival_id=" + id,
             {
                 method: "GET",
                 headers: {
@@ -536,6 +565,13 @@ export const getIDArrivalToServer = async (id) => {
         console.log(err);
         throw err;
     }
+};
+
+const createCountriesArray = (groupCountriesKeys, countriesPicker) => {
+    return groupCountriesKeys.map((key) => {
+        const country = countriesPicker.find((country) => country.key === key);
+        return country ? country.value : null;
+    });
 };
 
 export default BuddysScreen;

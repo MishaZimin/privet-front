@@ -214,7 +214,7 @@ export var buddysStudents = [];
 export var initialTasksData = [
     {
         id: 1,
-        text: "Встреча в аэропорту ",
+        text: "Встреча в аэропорту",
         completed: false,
         deadline: "\nDeadline: 11.11.2023 4:30 pm",
     },
@@ -243,7 +243,7 @@ export var initialTasksData = [
         id: 14,
         text: "Продление визы",
         completed: false,
-        deadline: "\nDeadline: 11.11.2023 4:30 pm",
+        deadline: "\nDeadline: 11.11.2023 4:30 pm ",
     },
     {
         id: 15,
@@ -278,7 +278,7 @@ export var initialInfo = [
     { id: 4, text: "Правила пребывания в стране", completed: false },
     {
         id: 5,
-        text: "Карта мест первой и второй необходимости (мага",
+        text: "Карта мест первой и второй необходимости",
         completed: false,
     },
     { id: 6, text: "Карта достопримечательностей", completed: false },
@@ -297,17 +297,16 @@ export const languageTranslate = (language, en, ru) => {
 export function getUserType(userType) {
     switch (userType) {
         case 1:
-            return "Student";
+            return "Студент";
         case 2:
-            return "Buddy";
+            return "Сопровождающий";
         case 3:
             return "Teamleader";
     }
 }
 
 export const getJSONFromServer = async () => {
-    const serverURL =
-        "https://privet-mobile-app.onrender.com/openapi.json/register";
+    const serverURL = "http://79.174.94.7:8000";
 
     try {
         const response = await fetch(serverURL);
@@ -325,18 +324,15 @@ export const getJSONFromServer = async () => {
 
 export const sendChangePasswordToServer = async (data, adress, contentType) => {
     try {
-        const res = await fetch(
-            "https://privet-mobile-app.onrender.com" + adress,
-            {
-                method: "PATCH",
-                headers: {
-                    Accept: "application" + contentType,
-                    "Content-Type": "application" + contentType,
-                },
-                credentials: "include",
-                body: JSON.stringify(data),
-            }
-        );
+        const res = await fetch("http://79.174.94.7:8000" + adress, {
+            method: "PATCH",
+            headers: {
+                Accept: "application" + contentType,
+                "Content-Type": "application" + contentType,
+            },
+            credentials: "include",
+            body: JSON.stringify(data),
+        });
         const responseData = await res.json();
         console.log(adress, responseData);
         return responseData;
@@ -353,19 +349,16 @@ export const sendChangeProfileToServer = async (
     token
 ) => {
     try {
-        const res = await fetch(
-            "https://privet-mobile-app.onrender.com" + adress,
-            {
-                method: "POST",
-                headers: {
-                    Accept: "application" + contentType,
-                    "Content-Type": "application" + contentType,
-                    Authorization: "Bearer " + token,
-                },
-                credentials: "include",
-                body: JSON.stringify(data),
-            }
-        );
+        const res = await fetch("http://79.174.94.7:8000" + adress, {
+            method: "POST",
+            headers: {
+                Accept: "application" + contentType,
+                "Content-Type": "application" + contentType,
+                Authorization: "Bearer " + token,
+            },
+            credentials: "include",
+            body: JSON.stringify(data),
+        });
         const responseData = await res.json();
         console.log(adress, responseData);
         return responseData;
@@ -382,17 +375,14 @@ export const sendDataToServer = async (data, adress, contentType) => {
             : new URLSearchParams(data).toString();
 
     try {
-        const res = await fetch(
-            "https://privet-mobile-app.onrender.com" + adress,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application" + contentType,
-                },
-                credentials: "include",
-                body: bodyData,
-            }
-        );
+        const res = await fetch("http://79.174.94.7:8000" + adress, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application" + contentType,
+            },
+            credentials: "include",
+            body: bodyData,
+        });
         const responseData = await res.json();
         console.log(adress, responseData);
         return responseData;
@@ -404,16 +394,13 @@ export const sendDataToServer = async (data, adress, contentType) => {
 
 export const getUserByEmailFromServer = async (adress, contentType) => {
     try {
-        const res = await fetch(
-            "https://privet-mobile-app.onrender.com" + adress,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application" + contentType,
-                },
-                credentials: "include",
-            }
-        );
+        const res = await fetch("http://79.174.94.7:8000" + adress, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application" + contentType,
+            },
+            credentials: "include",
+        });
         const responseData = await res.json();
         console.log(adress, responseData);
         return responseData;
@@ -425,17 +412,14 @@ export const getUserByEmailFromServer = async (adress, contentType) => {
 
 export const getDataFromServer = async (adress, contentType) => {
     try {
-        const res = await fetch(
-            "https://privet-mobile-app.onrender.com" + adress,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application" + contentType,
-                },
-                credentials: "include",
-                // body: badyData,
-            }
-        );
+        const res = await fetch("http://79.174.94.7:8000" + adress, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application" + contentType,
+            },
+            credentials: "include",
+            // body: badyData,
+        });
         const responseData = await res.json();
         console.log(adress, responseData);
         return responseData;
@@ -447,16 +431,13 @@ export const getDataFromServer = async (adress, contentType) => {
 
 export const getTokenToServer = async (token, adress, contentType) => {
     try {
-        const res = await fetch(
-            "https://privet-mobile-app.onrender.com" + adress,
-            {
-                method: "GET",
-                headers: {
-                    Accept: "application" + contentType,
-                    Authorization: "Bearer " + token,
-                },
-            }
-        );
+        const res = await fetch("http://79.174.94.7:8000" + adress, {
+            method: "GET",
+            headers: {
+                Accept: "application" + contentType,
+                Authorization: "Bearer " + token,
+            },
+        });
         const responseData = await res.json();
         console.log(adress, responseData);
         return responseData;
@@ -467,7 +448,7 @@ export const getTokenToServer = async (token, adress, contentType) => {
 };
 
 export function getValueByKey(number, arr) {
-    const language = arr.find((item) => item.key === number);
+    const language = arr.find((item) => item.key == +number);
     // console.log(number, language);
     if (language) {
         return language.value;
@@ -477,7 +458,7 @@ export function getValueByKey(number, arr) {
 }
 
 // export const sendJSONToServer = async (data,) => {
-//     const serverURL = 'https://privet-mobile-app.onrender.com/register';
+//     const serverURL = 'http://79.174.94.7:8000/register';
 
 //     const headers = {
 //         'Content-Type': 'application/json',

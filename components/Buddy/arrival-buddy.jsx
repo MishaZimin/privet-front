@@ -43,7 +43,6 @@ const ArrivalBuddy = ({ navigation, route }) => {
                 "/arrivals/sign-up/" + indexInAllArrivals,
                 "/json"
             );
-
             if (
                 responsePutSignUpArrival.detail ==
                 "Buddy has been added to arrival"
@@ -119,9 +118,9 @@ const ArrivalBuddy = ({ navigation, route }) => {
         <SafeAreaView style={styles.main}>
             <ScrollView style={styles.main}>
                 <View style={styles.form}>
-                    <BackButton />
-                    <View style={styles.textBlock}>
-                        <Text style={styles.textHeader}>
+                    {/* <BackButton /> */}
+                    <View style={stylesBuddy.textBlock}>
+                        <Text style={stylesBuddy.textHeader}>
                             {languageTranslate(
                                 userData.language,
                                 "Arrival",
@@ -129,52 +128,165 @@ const ArrivalBuddy = ({ navigation, route }) => {
                             )}
                         </Text>
                     </View>
-                    <View style={styles.buddysStudents}>
+                    <View style={stylesBuddy.buddysStudents}>
                         {arrivalStudents.map((student, index) => (
-                            <View key={index} style={styles.buddysStudent}>
-                                <Text style={styles.text1}>
-                                    Full Name: {student.full_name}
+                            <View key={index} style={stylesBuddy.buddysStudent}>
+                                <Text style={stylesBuddy.text2}>
+                                    {languageTranslate(
+                                        userData.language,
+                                        "Full Name",
+                                        "Полное имя"
+                                    )}
                                 </Text>
-                                <Text style={styles.text1}>
-                                    Sex: {student.sex}
+                                <Text style={stylesBuddy.text1}>
+                                    {student.full_name}
                                 </Text>
-                                <Text style={styles.text1}>
-                                    Arrival Date: {student.arrival_date}
+
+                                <Text style={stylesBuddy.text2}>
+                                    {languageTranslate(
+                                        userData.language,
+                                        "Sex",
+                                        "Пол"
+                                    )}
                                 </Text>
-                                <Text style={styles.text1}>
-                                    Arrival Time:{" "}
-                                    {student.arrival_time.slice(0, 8)}
+                                <Text style={stylesBuddy.text1}>
+                                    {student.sex}
                                 </Text>
-                                <Text style={styles.text1}>
-                                    Flight Number: {student.flight_number}
+
+                                <Text style={stylesBuddy.text2}>
+                                    {languageTranslate(
+                                        userData.language,
+                                        "Arrival Date",
+                                        "Дата приезда"
+                                    )}
                                 </Text>
-                                <Text style={styles.text1}>
-                                    Arrival Point: {student.arrival_point}
+                                <Text style={stylesBuddy.text1}>
+                                    {student.arrival_date}
                                 </Text>
-                                <Text style={styles.text1}>
-                                    Citizenship: {student.citizenship}
+
+                                <Text style={stylesBuddy.text2}>
+                                    {languageTranslate(
+                                        userData.language,
+                                        "Arrival Time",
+                                        "Время приезда"
+                                    )}
                                 </Text>
-                                <Text style={styles.text1}>
-                                    Phone: {student.phone}
+                                <Text style={stylesBuddy.text1}>
+                                    {student.arrival_time.slice(0, 5)}
                                 </Text>
-                                <Text style={styles.text1}>
-                                    Telegram: {student.telegram}
+
+                                <Text style={stylesBuddy.text2}>
+                                    {languageTranslate(
+                                        userData.language,
+                                        "Flight Number",
+                                        "Номер рейса"
+                                    )}
                                 </Text>
-                                <Text style={styles.text1}>
-                                    VK: {student.vk}
+                                <Text style={stylesBuddy.text1}>
+                                    {student.flight_number}
                                 </Text>
-                                <Text style={styles.text1}>
-                                    Comment: {student.comment}
+
+                                <Text style={stylesBuddy.text2}>
+                                    {languageTranslate(
+                                        userData.language,
+                                        "Arrival Point",
+                                        "Пункт прибытия"
+                                    )}
                                 </Text>
-                                <Text style={styles.text1}>
-                                    Tickets: {student.tickets}
+                                <Text style={stylesBuddy.text1}>
+                                    {student.arrival_point}
+                                </Text>
+
+                                <Text style={stylesBuddy.text2}>
+                                    {languageTranslate(
+                                        userData.language,
+                                        "Citizenship",
+                                        "Гражданство"
+                                    )}
+                                </Text>
+                                <Text style={stylesBuddy.text1}>
+                                    {student.citizenship}
+                                </Text>
+
+                                <Text style={stylesBuddy.text2}>
+                                    {languageTranslate(
+                                        userData.language,
+                                        "Contacts",
+                                        "Контакты"
+                                    )}
+                                </Text>
+
+                                <View style={stylesBuddy.contactContainer}>
+                                    <Image
+                                        resizeMode="contain"
+                                        style={stylesBuddy.imgContact}
+                                        source={require("../img/3d-fluency-telephone-handset.png")}
+                                    />
+                                    <Text style={styles.text1}>
+                                        {student.phone}
+                                    </Text>
+                                </View>
+
+                                {/* <View style={stylesBuddy.contactContainer}>
+                                    <Image
+                                        resizeMode="contain"
+                                        style={stylesBuddy.imgContact}
+                                        source={require("../img/3d-fluency-whatsapp-logo.png")}
+                                    />
+                                    <Text style={stylesBuddy.text1}>
+                                        {student.whatsApp}
+                                    </Text>
+                                </View> */}
+
+                                <View style={stylesBuddy.contactContainer}>
+                                    <Image
+                                        resizeMode="contain"
+                                        style={stylesBuddy.imgContact}
+                                        source={require("../img/3d-fluency-telegram-logo.png")}
+                                    />
+                                    <Text style={stylesBuddy.text1}>
+                                        {student.telegram}
+                                    </Text>
+                                </View>
+
+                                <View style={stylesBuddy.contactContainer}>
+                                    <Image
+                                        resizeMode="contain"
+                                        style={stylesBuddy.imgContact}
+                                        source={require("../img/3d-fluency-vk-logo.png")}
+                                    />
+                                    <Text style={stylesBuddy.text1}>
+                                        {student.vk}
+                                    </Text>
+                                </View>
+
+                                <Text style={stylesBuddy.text2}>
+                                    {languageTranslate(
+                                        userData.language,
+                                        "Comment",
+                                        "Комментарий"
+                                    )}
+                                </Text>
+                                <Text style={stylesBuddy.text1}>
+                                    {student.comment}
+                                </Text>
+
+                                <Text style={stylesBuddy.text2}>
+                                    {languageTranslate(
+                                        userData.language,
+                                        "Tickets",
+                                        "Билеты"
+                                    )}
+                                </Text>
+                                <Text style={stylesBuddy.text1}>
+                                    {student.tickets}
                                 </Text>
                             </View>
                         ))}
                         {arrivalBuddys.map((buddy, index) => (
                             <TouchableOpacity
                                 key={index}
-                                style={styles.buddysStudent}
+                                style={stylesBuddy.buddysStudent}
                                 onPress={() => handleProfileBuddy(index)}
                             >
                                 <View style={stylesBuddy.form}>
@@ -186,14 +298,14 @@ const ArrivalBuddy = ({ navigation, route }) => {
                                         {buddy.full_name}
                                     </Text>
                                 </View>
-                                <View style={styles.buttons}>
+                                <View style={stylesBuddy.buttons}>
                                     <TouchableOpacity
-                                        style={styles.button}
+                                        style={stylesBuddy.button}
                                         onPress={() =>
                                             handleDelete(buddy.full_name)
                                         }
                                     >
-                                        <Text style={styles.textButton}>
+                                        <Text style={stylesBuddy.textButton}>
                                             {languageTranslate(
                                                 userData.language,
                                                 "Remove",
@@ -209,13 +321,13 @@ const ArrivalBuddy = ({ navigation, route }) => {
                                 </View>
                             </TouchableOpacity>
                         ))}
-                        <View style={styles.buttons}>
+                        <View style={stylesBuddy.buttons}>
                             <TouchableOpacity
-                                style={styles.button}
+                                style={stylesBuddy.button}
                                 title=""
                                 onPress={handleSignUp}
                             >
-                                <Text style={styles.textButton}>
+                                <Text style={stylesBuddy.textButton}>
                                     {languageTranslate(
                                         userData.language,
                                         "Sign up for this visit",
@@ -224,11 +336,11 @@ const ArrivalBuddy = ({ navigation, route }) => {
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={styles.button}
+                                style={stylesBuddy.button}
                                 title=""
                                 onPress={handleApprove}
                             >
-                                <Text style={styles.textButton}>
+                                <Text style={stylesBuddy.textButton}>
                                     {languageTranslate(
                                         userData.language,
                                         "Approve this arrival",
@@ -260,46 +372,125 @@ export const stylesBuddy = StyleSheet.create({
         borderRadius: 20,
         marginRight: 10,
     },
+    textBlock: {
+        width: "65%",
+    },
+
+    text1: {
+        padding: "1%",
+        width: "100%",
+    },
+
+    textHeader: {
+        marginTop: "0%",
+        paddingBottom: "5%",
+        fontSize: 20,
+        fontWeight: "600",
+
+        textAlign: "center",
+    },
+
+    buddysStudents: {
+        backgroundColor: "white",
+        padding: "8%",
+        marginBottom: "5%",
+        borderRadius: 30,
+        width: "100%",
+        borderRadius: 40,
+
+        shadowColor: "grey",
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.35,
+        shadowRadius: 10,
+    },
+
+    buddysStudent: {
+        backgroundColor: "white",
+        borderBottomWidth: 1,
+        borderColor: "black",
+        padding: "5%",
+        marginBottom: "5%",
+
+        borderRadius: 0,
+    },
+    buttons: {
+        flex: 1,
+        // width: "40%",
+
+        marginTop: "5%",
+        // marginBottom: "25%",
+    },
+    button: {
+        padding: "5%",
+        margin: "2%",
+        alignItems: "center",
+        backgroundColor: "black",
+        color: "grey",
+        borderRadius: 30,
+    },
+    textButton: {
+        fontWeight: "700",
+        textAlign: "center",
+
+        color: "white",
+    },
+
+    text2: {
+        padding: "1%",
+        width: "100%",
+        fontWeight: "700",
+    },
+
+    contactContainer: {
+        display: "flex",
+        flexDirection: "row",
+    },
+
+    dateAndTime: {
+        display: "flex",
+        flexDirection: "row",
+    },
+    imgContact: {
+        width: 20,
+        height: 20,
+
+        marginRight: "1%",
+        marginTop: "1%",
+    },
 });
 
 export const putSignUpArrival = async (token, adress, contentType) => {
     try {
-        const res = await fetch(
-            "https://privet-mobile-app.onrender.com" + adress,
-            {
-                method: "PUT",
-                headers: {
-                    Accept: "application" + contentType,
-                    Authorization: "Bearer " + token,
-                },
-            }
-        );
+        const res = await fetch("http://79.174.94.7:8000" + adress, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                Authorization: "Bearer " + token,
+            },
+        });
+
+        // console.log(res);
+
         const responseData = await res.json();
-        console.log("----------------");
-        console.log(adress, responseData);
-        console.log("----------------");
 
         return responseData;
     } catch (err) {
         console.log(adress, err);
-        throw err;
+        // throw err;
     }
 };
 
 const deleteBuddy = async (data, token, adress) => {
     try {
-        const res = await fetch(
-            "https://privet-mobile-app.onrender.com" + adress,
-            {
-                headers: {
-                    Accept: "application/json",
-                    Authorization: "Bearer " + token,
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-                method: "DELETE",
-            }
-        );
+        const res = await fetch("http://79.174.94.7:8000" + adress, {
+            headers: {
+                Accept: "application/json",
+                Authorization: "Bearer " + token,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+            method: "DELETE",
+        });
         const responseData = await res.json();
         console.log(adress, responseData);
         return responseData;

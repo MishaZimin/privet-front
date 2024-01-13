@@ -1,9 +1,21 @@
 import { StyleSheet, StatusBar } from "react-native";
+import * as Font from "expo-font";
+
+// const fonts = () =>
+//     Font.loadAsync({
+//         "proxima-nova": require("../assets/fonts/proximanova_black.ttf"),
+//     });
+
+// loadFonts().then(() => {
+//     styles.main.fontFamily = "proxima-nova";
+// });
 
 export const styles = StyleSheet.create({
     main: {
         flex: 1,
         backgroundColor: "white",
+
+        // fontFamily: "proxima-nova",
     },
 
     form: {
@@ -51,7 +63,7 @@ export const styles = StyleSheet.create({
     },
 
     deadline: {
-        color: "red",
+        color: "black",
     },
 
     textBlock: {
@@ -139,17 +151,24 @@ export const styles = StyleSheet.create({
     },
 
     buddysStudents: {
-        backgroundColor: "rgba(230, 230, 230, 0.8)",
-        padding: "10%",
+        backgroundColor: "white",
+        padding: "8%",
         marginBottom: "5%",
         borderRadius: 30,
         width: "100%",
         borderRadius: 40,
+
+        shadowColor: "grey",
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.35,
+        shadowRadius: 10,
     },
 
     buddysStudent: {
-        backgroundColor: "rgba(221, 220, 220, 0.8)",
-        padding: "10%",
+        backgroundColor: "white",
+        borderWidth: 1,
+        borderColor: "silver",
+        padding: "5%",
         marginBottom: "5%",
         borderRadius: 30,
         width: "100%",

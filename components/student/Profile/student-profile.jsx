@@ -11,6 +11,7 @@ import {
     ScrollView,
     Alert,
     Platform,
+    Image,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -81,8 +82,8 @@ const StudentProfileScreen = ({ navigation, route }) => {
     // const [buddysComment, setBuddysComment] = useState(userData.buddysComment);
 
     const sexPicker = [
-        { key: "Male", value: "Man" },
-        { key: "Female", value: "Woman" },
+        { key: "Man", value: "Man" },
+        { key: "Woman", value: "Woman" },
     ];
 
     const showToastIOS = () => {
@@ -103,11 +104,29 @@ const StudentProfileScreen = ({ navigation, route }) => {
     };
 
     const handleSave = async () => {
+        userData.fullName = fullName == "" ? null : fullName;
+        userData.citizenship = citizenship == "" ? null : citizenship;
+        userData.sex = sex == "" ? null : sex;
+        userData.birthDate = birthDate == "" ? null : birthDate;
+
+        userData.phone = phone == "" ? null : phone;
+        userData.email = email == "" ? null : email;
+        userData.telegram = telegram == "" ? null : telegram;
+        userData.whatsApp = whatsApp == "" ? null : citizenship;
+        userData.vk = citizenship == "" ? null : citizenship;
+
+        userData.nativeLanguage = citizenship == "" ? null : citizenship;
+        userData.otherLanguage = citizenship == "" ? null : citizenship;
+        userData.university = citizenship == "" ? null : citizenship;
+        userData.escortIsPaid = citizenship == "" ? null : citizenship;
+
+        // userData.id = response.contacts.user_id;
+
         const data = {
             full_name: fullName == "" ? null : fullName,
             citizenship: citizenship == "" ? null : citizenship,
             city: null,
-            sex: sex == "" ? null : sex,
+            sex: sex,
             birthdate: birthDate == "" ? null : birthDate,
             phone: phone == "" ? null : phone,
             telegram: telegram == "" ? null : telegram,
@@ -117,7 +136,7 @@ const StudentProfileScreen = ({ navigation, route }) => {
             other_languages_ids: [],
             university: university == "" ? null : university,
         };
-        console.log("sex:", sex);
+        // console.log("sex:", data.sex);
         console.log("birthDate:", birthDate);
 
         console.log("send data:", data);
@@ -132,6 +151,8 @@ const StudentProfileScreen = ({ navigation, route }) => {
 
         Alert.alert("профиль сохранен");
     };
+
+    console.log(getValueByKey(userData.nativeLanguage, languagePicker));
 
     const handleNotifications = () => {
         if (Platform.OS === "android") {
@@ -163,40 +184,30 @@ const StudentProfileScreen = ({ navigation, route }) => {
             <ScrollView style={profile.main}>
                 <View style={profile.form}>
                     {/* <BackButton /> */}
-                    <Text style={[profile.textHeader]}>
-                        {languageTranslate(
-                            userData.language,
-                            "Profile",
-                            "Профиль"
-                        )}
-                    </Text>
+                    <View style={profile.header}>
+                        <Text style={profile.textHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                "Profile",
+                                "Профиль"
+                            )}
+                        </Text>
 
-                    <View style={[profile.buttons, profile.settings]}>
-                        <TouchableOpacity
-                            style={profile.button}
-                            onPress={handleSettings}
-                        >
-                            <Text style={profile.textButton}>
-                                {languageTranslate(
-                                    userData.language,
-                                    "Settings",
-                                    "Настройки"
-                                )}
-                            </Text>
-                        </TouchableOpacity>
-                        {/* <TouchableOpacity
-                            style={styles.button}
-                            onPress={handleNotifications}
-                        >
-                            <Text style={styles.textButton}>
-                                {languageTranslate(
-                                    userData.language,
-                                    "Notifications",
-                                    "Уведомления"
-                                )}
-                            </Text>
-                        </TouchableOpacity> */}
+                        <View style={profile.buttonsSettings}>
+                            <TouchableOpacity
+                                style={profile.buttonSettings}
+                                title="handleAllArrivals"
+                                onPress={handleSettings}
+                            >
+                                <Image
+                                    resizeMode="contain"
+                                    style={profile.img}
+                                    source={require("../../img/setting.png")}
+                                />
+                            </TouchableOpacity>
+                        </View>
                     </View>
+
                     <View style={profile.profileForm}>
                         <View style={profile.textInputs}>
                             <Text style={profile.inputHeader}>
@@ -311,28 +322,27 @@ const StudentProfileScreen = ({ navigation, route }) => {
                             />
                         </View> */}
                             <View style={profile.dateAndTime}>
+                                <Image
+                                    resizeMode="contain"
+                                    style={profile.imgData}
+                                    source={require("../../img/3d-fluency-planner.png")}
+                                />
                                 <TextInputMask
-                                    style={profile.textInput}
+                                    style={profile.textInputData}
                                     type={"datetime"}
                                     options={{
-                                        format: "YYYY.MM.DD",
+                                        format: "YYYY-MM-DD",
                                     }}
                                     placeholder="YYYY-MM-DD"
                                     value={birthDate}
                                     onChangeText={(text) => setBirthDate(text)}
                                     keyboardType="numeric"
                                 />
-                                {/* <TextInputMask
-                                    style={profile.textInput}
-                                    type={"datetime"}
-                                    options={{
-                                        format: "HH:MM",
-                                    }}
-                                    placeholder="HH:MM"
-                                    value={birthDate}
-                                    onChangeText={(text) => setBirthDate(text)}
-                                    keyboardType="numeric"
-                                /> */}
+                                {birthDate.length >= 10 ? (
+                                    <Text style={profile.textAge}>
+                                        {calculateAge(birthDate)} лет
+                                    </Text>
+                                ) : null}
                             </View>
                             <View style={profile.textInputUnderline}></View>
 
@@ -349,93 +359,98 @@ const StudentProfileScreen = ({ navigation, route }) => {
                                     "Контакты"
                                 )}
                             </Text>
-                            <TextInput
-                                style={profile.textInput}
-                                placeholder="+"
-                                value={phone}
-                                onChangeText={(text) => {
-                                    if (text.length <= 12) {
-                                        setPhone(text);
-                                    }
-                                }}
-                                maxLength={12}
-                            />
-                            {/* <View style={profile.textInputUnderline}></View> */}
 
-                            {/* <Text style={profile.inputHeader}>
-                                {languageTranslate(
-                                    userData.language,
-                                    "Email",
-                                    "Email"
-                                )}
-                            </Text> */}
-                            <TextInput
-                                style={profile.textInput}
-                                placeholder="Email"
-                                value={email}
-                                editable={false}
-                                onChangeText={(text) => setEmail(text)}
-                            />
-                            {/* <View style={profile.textInputUnderline}></View> */}
+                            <View style={profile.contactContainer}>
+                                <Image
+                                    resizeMode="contain"
+                                    style={profile.imgContact}
+                                    source={require("../../img/3d-fluency-telephone-handset.png")}
+                                />
+                                <TextInput
+                                    style={profile.textInputContact}
+                                    placeholder="+"
+                                    value={phone}
+                                    onChangeText={(text) => {
+                                        if (text.length <= 12) {
+                                            setPhone(text);
+                                        }
+                                    }}
+                                    maxLength={12}
+                                />
+                            </View>
 
-                            {/* <Text style={profile.inputHeader}>
-                                {languageTranslate(
-                                    userData.language,
-                                    "Telegram",
-                                    "Telegram"
-                                )}
-                            </Text> */}
-                            <TextInput
-                                style={profile.textInput}
-                                placeholder="@"
-                                value={telegram}
-                                onChangeText={(text) => {
-                                    if (text.length <= 32) {
-                                        setTelegram(text);
-                                    }
-                                }}
-                                maxLength={32}
-                            />
-                            {/* <View style={profile.textInputUnderline}></View> */}
+                            <View style={profile.contactContainer}>
+                                <Image
+                                    resizeMode="contain"
+                                    style={profile.imgContact}
+                                    source={require("../../img/3d-fluency-blue-envelope.png")}
+                                />
+                                <TextInput
+                                    style={profile.textInput}
+                                    placeholder="Email"
+                                    value={email}
+                                    editable={false}
+                                    onChangeText={(text) => setEmail(text)}
+                                />
+                            </View>
 
-                            {/* <Text style={profile.inputHeader}>
-                                {languageTranslate(
-                                    userData.language,
-                                    "WhatsApp",
-                                    "WhatsApp"
-                                )}
-                            </Text> */}
-                            <TextInput
-                                style={profile.textInput}
-                                placeholder="+"
-                                value={whatsApp}
-                                onChangeText={(text) => {
-                                    if (text.length <= 12) {
-                                        setWhatsApp(text);
-                                    }
-                                }}
-                                maxLength={12}
-                            />
-                            {/* <View style={profile.textInputUnderline}></View> */}
+                            <View style={profile.contactContainer}>
+                                <Image
+                                    resizeMode="contain"
+                                    style={profile.imgContact}
+                                    source={require("../../img/3d-fluency-telegram-logo.png")}
+                                />
+                                <TextInput
+                                    style={profile.textInputContact}
+                                    placeholder="@"
+                                    value={telegram}
+                                    onChangeText={(text) => {
+                                        if (text.length <= 32) {
+                                            setTelegram(text);
+                                        }
+                                    }}
+                                    maxLength={32}
+                                />
+                            </View>
 
-                            {/* <Text style={profile.inputHeader}>
-                                {languageTranslate(
-                                    userData.language,
-                                    "VK",
-                                    "VK"
-                                )}
-                            </Text> */}
-                            <TextInput
-                                style={profile.textInput}
-                                placeholder="@"
-                                value={vk}
-                                onChangeText={(text) => {
-                                    if (text.length <= 32) {
-                                        setVk(text);
-                                    }
-                                }}
-                                maxLength={32}
-                            />
+                            <View style={profile.contactContainer}>
+                                <Image
+                                    resizeMode="contain"
+                                    style={profile.imgContact}
+                                    source={require("../../img/3d-fluency-whatsapp-logo.png")}
+                                />
+                                <TextInput
+                                    style={profile.textInputContact}
+                                    placeholder="+"
+                                    value={whatsApp}
+                                    onChangeText={(text) => {
+                                        if (text.length <= 12) {
+                                            setWhatsApp(text);
+                                        }
+                                    }}
+                                    maxLength={12}
+                                />
+                            </View>
+
+                            <View style={profile.contactContainer}>
+                                <Image
+                                    resizeMode="contain"
+                                    style={profile.imgContact}
+                                    source={require("../../img/3d-fluency-vk-logo.png")}
+                                />
+                                <TextInput
+                                    style={profile.textInputContact}
+                                    placeholder="@"
+                                    value={vk}
+                                    onChangeText={(text) => {
+                                        if (text.length <= 32) {
+                                            setVk(text);
+                                        }
+                                    }}
+                                    maxLength={32}
+                                />
+                            </View>
+
                             <View style={profile.textInputUnderline}></View>
 
                             <Text style={profile.inputHeader}>
@@ -488,7 +503,7 @@ const StudentProfileScreen = ({ navigation, route }) => {
                             <TextInput
                                 style={profile.textInput}
                                 placeholder=""
-                                value={"otherLanguage"}
+                                value={""}
                                 onChangeText={(text) => setOtherLanguage(text)}
                             />
                             <View style={profile.textInputUnderline}></View>
@@ -543,7 +558,7 @@ const StudentProfileScreen = ({ navigation, route }) => {
                                 style={
                                     userProfile.escortIsPaid
                                         ? profile.textInputPaid
-                                        : profile.textInput
+                                        : profile.textInputNotPaid
                                 }
                                 placeholder=""
                                 value={escortIsPaid}
@@ -601,11 +616,15 @@ export const profile = StyleSheet.create({
         gap: 0,
         backgroundColor: "white",
     },
+
+    header: {
+        display: "flex",
+        flexDirection: "row",
+    },
     textHeader: {
-        flex: 1,
+        flex: 3,
         paddingLeft: "10%",
-        paddingBottom: "0%",
-        marginTop: 30,
+        marginTop: 10,
         fontWeight: "800",
         fontSize: 30,
     },
@@ -642,7 +661,7 @@ export const profile = StyleSheet.create({
         // justifyContent: "start",
     },
     textInput: {
-        width: "100%",
+        // width: "100%",
         padding: "0%",
         paddingLeft: 0,
         paddingTop: "1%",
@@ -652,8 +671,9 @@ export const profile = StyleSheet.create({
         // borderRadius: 10,
         // borderColor: "grey",
     },
-    textInputPaid: {
-        width: "auto",
+
+    textInputNotPaid: {
+        width: "59%", //!
         padding: "1%",
         // paddingLeft: 0,
         // paddingTop: "1%",
@@ -662,7 +682,19 @@ export const profile = StyleSheet.create({
 
         borderRadius: 20,
 
-        backgroundColor: "plum",
+        backgroundColor: "rgb(230, 230, 230)",
+    },
+    textInputPaid: {
+        width: "59%", //!
+        padding: "1%",
+        // paddingLeft: 0,
+        // paddingTop: "1%",
+
+        marginTop: "0%",
+
+        borderRadius: 20,
+
+        backgroundColor: "rgb(230, 74, 140)",
     },
 
     textInputUnderline: {
@@ -676,8 +708,8 @@ export const profile = StyleSheet.create({
 
     buttons: {
         flex: 1,
-        width: "60%",
-        marginLeft: "20%",
+        width: "40%",
+        marginLeft: "30%",
         marginTop: "5%",
         marginBottom: "25%",
     },
@@ -686,21 +718,97 @@ export const profile = StyleSheet.create({
         padding: "5%",
         margin: "2%",
         alignItems: "center",
-        backgroundColor: "rgb(240, 240, 240)",
+        backgroundColor: "black",
         color: "grey",
-        borderRadius: 40,
-        shadowColor: "grey",
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 5,
+        borderRadius: 20,
     },
-    textButton: {},
+    textButton: {
+        fontWeight: "700",
+        textAlign: "center",
+
+        color: "white",
+    },
 
     settings: {
         marginTop: "0%",
 
         marginBottom: "10%",
     },
+
+    img: {
+        width: 25,
+        height: 25,
+    },
+    buttonsSettings: {
+        flex: 1,
+        width: "10%",
+        marginTop: 13,
+
+        marginBottom: "10%",
+    },
+    buttonSettings: {
+        padding: "5%",
+
+        alignItems: "center",
+        // backgroundColor: "red",
+    },
+
+    contactContainer: {
+        display: "flex",
+        flexDirection: "row",
+    },
+
+    imgContact: {
+        width: 20,
+        height: 20,
+
+        marginRight: "1%",
+        marginTop: "1%",
+    },
+
+    textInputData: {
+        backgroundColor: "rgb(230,230,230)",
+
+        paddingHorizontal: 3,
+        paddingVertical: 0,
+
+        borderRadius: 20,
+    },
+    imgData: {
+        width: 20,
+        height: 20,
+
+        marginRight: "1%",
+        // marginTop: "1%",
+    },
+
+    dateAndTime: {
+        display: "flex",
+        flexDirection: "row",
+    },
+    textAge: {
+        marginLeft: 15,
+        paddingTop: 1,
+        color: "grey",
+    },
 });
+
+function calculateAge(birthdate) {
+    const birthdateArray = birthdate.split("-");
+
+    const birthdateObj = new Date(
+        birthdateArray[0],
+        birthdateArray[1] - 1,
+        birthdateArray[2]
+    );
+
+    const currentDate = new Date();
+
+    const timeDifference = currentDate - birthdateObj;
+
+    const age = Math.floor(timeDifference / (365.25 * 24 * 60 * 60 * 1000));
+
+    return age;
+}
 
 export default StudentProfileScreen;

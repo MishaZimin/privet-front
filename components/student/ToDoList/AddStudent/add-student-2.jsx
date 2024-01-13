@@ -1,11 +1,19 @@
 //2.2.3. Регистрация Сопровождающего
 
-
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, Alert } from 'react-native';
-import { useRoute } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native-safe-area-context'
-import RNPickerSelect from 'react-native-picker-select';
+import React, { useState } from "react";
+import {
+    StyleSheet,
+    View,
+    Text,
+    TextInput,
+    Button,
+    TouchableOpacity,
+    ScrollView,
+    Alert,
+} from "react-native";
+import { useRoute } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import RNPickerSelect from "react-native-picker-select";
 import {
     registrationData,
     languageTranslate,
@@ -14,28 +22,28 @@ import {
     userData,
     arrivalBookData,
     arrivalBookDataArr,
-    sendDataToServer
-} from '../../../Utils.jsx';
-import { styles } from '../../../main.jsx';
-import BackButton from '../../../back-button.jsx';
+    sendDataToServer,
+} from "../../../Utils.jsx";
+import { styles } from "../../../main.jsx";
+import BackButton from "../../../back-button.jsx";
 
-const nameArr = ['Name1@mail.ru', 'Name2@mail.ru', 'Gg424gg@mail.ru'];
+const nameArr = ["Name1@mail.ru", "Name2@mail.ru", "Gg424gg@mail.ru"];
 const arrivalBookDataSecond = {
-    id: '',
-    arrivalDate: '',
-    flightNumber: '',
-    arrivalPoint: '',
-    comment: '',
-    tickets: '',
+    id: "",
+    arrivalDate: "",
+    flightNumber: "",
+    arrivalPoint: "",
+    comment: "",
+    tickets: "",
 
-    fullName: '',
+    fullName: "",
     sex: null,
-    arrivalTime: '',
-    citizenship: '',
-    phone: '',
-    telegram: '',
-    whatsApp: '',
-    vk: '',
+    arrivalTime: "",
+    citizenship: "",
+    phone: "",
+    telegram: "",
+    whatsApp: "",
+    vk: "",
 };
 
 const AddSecondScreen = ({ navigation }) => {
@@ -67,42 +75,54 @@ const AddSecondScreen = ({ navigation }) => {
         invite.length = 0;
         console.log(invite.length);
         // arrivalBookDataArr.push(data);
-        arrivalBookDataArr[0].invite.push(fullName)
+        arrivalBookDataArr[0].invite.push(fullName);
         console.log("--arrivalBookDataArr--");
-        console.log(arrivalBookDataArr[0].invite)
-        console.log(arrivalBookDataArr);
+        console.log(arrivalBookDataArr[0]);
+        // console.log(arrivalBookDataArr);
 
-        const response = await postArrivalBook(arrivalBookDataArr[0], '/users/me/book-arrival', "/json", userData.access_token);
+        const response = await postArrivalBook(
+            arrivalBookDataArr[0],
+            "/users/me/book-arrival",
+            "/json",
+            userData.access_token
+        );
         console.log(response);
 
-        if (response.detail == "User has already booked arrival") {
-            console.log("приезд уже зарегистрирован");
-            Alert.alert("приезд уже зарегистрирован");
-            // navigation.navigate('ArrivalSubmitted');
-
-            navigation.navigate('ToDoListISScreen');
-
+        if (response.detail == "Arrival has been booked") {
+            navigation.navigate("ArrivalSubmitted");
+        } else {
+            Alert.alert("Произошла ошибка");
         }
-        else if (response.detail == "") {
-            navigation.navigate('ArrivalSubmitted');
-        }
-
     };
 
     const handleAdd = () => {
-        addStudent('4563', arrivalDate, flightNumber, arrivalPoint, comment, tickets, fullName, sex, arrivalTime, citizenship, phone, telegram, whatsApp, vk);
-
+        addStudent(
+            "4563",
+            arrivalDate,
+            flightNumber,
+            arrivalPoint,
+            comment,
+            tickets,
+            fullName,
+            sex,
+            arrivalTime,
+            citizenship,
+            phone,
+            telegram,
+            whatsApp,
+            vk
+        );
 
         const invite = arrivalBookDataArr[0].invite;
         invite.length = 0;
         console.log(invite.length);
         // arrivalBookDataArr.push(data);
-        arrivalBookDataArr[0].invite.push(fullName)
+        arrivalBookDataArr[0].invite.push(fullName);
         console.log("--arrivalBookDataArr--");
-        console.log(arrivalBookDataArr[0].invite)
+        console.log(arrivalBookDataArr[0].invite);
         console.log(arrivalBookDataArr);
 
-        navigation.navigate('AddThirdScreen');
+        navigation.navigate("AddThirdScreen");
     };
 
     const handleDelete = () => {
@@ -113,256 +133,250 @@ const AddSecondScreen = ({ navigation }) => {
         try {
             // console.log('find', isCorrectName, fullName);
 
-            const isPayment = await getUserPyment('/check-payment/' + fullName, "application/json");
-            console.log('--', isPayment);
+            const isPayment = await getUserPyment(
+                "/check-payment/" + fullName,
+                "application/json"
+            );
+            console.log("--", isPayment);
             if (isPayment.detail == "User does not exist") {
                 setIsCorrectName(false);
-                setaccessToInputs('мы не нашли сдудента');
+                setaccessToInputs("мы не нашли сдудента");
             }
-            if (isPayment == true) { // оплата приезда
-                console.log('можно редактировать');
-                setaccessToInputs('студент есть в системе и услуги оплачены');
+            if (isPayment == true) {
+                // оплата приезда
+                console.log("можно редактировать");
+                setaccessToInputs("студент есть в системе и услуги оплачены");
                 setIsCorrectName(true);
             }
             if (isPayment == false) {
                 setIsCorrectName(false);
-                setaccessToInputs('студент есть в системе, но услуги не оплачены');
+                setaccessToInputs(
+                    "студент есть в системе, но услуги не оплачены"
+                );
             }
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err);
         }
     };
 
     return (
-        <SafeAreaView style={styles.main}>
-            <ScrollView style={styles.main}>
-                <View style={styles.form}>
-                    <BackButton />
-                    <View style={styles.textBlock}>
-                        <Text style={styles.textHeader}>
+        <SafeAreaView style={arrivalBooking.main}>
+            <ScrollView style={arrivalBooking.main}>
+                <View style={arrivalBooking.form}>
+                    {/* <BackButton /> */}
+                    <View style={arrivalBooking.textBlock}>
+                        <Text style={arrivalBooking.textHeader}>
                             {languageTranslate(
                                 userData.language,
-                                'Arrival Booking',
-                                'Регистрация приезда')}</Text>
+                                "Find a student",
+                                "Найти студента"
+                            )}
+                        </Text>
                     </View>
-                    <View style={styles.textInputs}>
-                        <Text style={styles.inputHeader}>
+                    <View style={arrivalBooking.textInputs}>
+                        {/* <Text style={styles.inputHeader}>
                             {languageTranslate(
                                 userData.language,
-                                'Full Name',
-                                'Полное имя')}</Text>
+                                "Full Name",
+                                "Полное имя"
+                            )}
+                        </Text> */}
                         <TextInput
-                            style={styles.textInput}
-                            placeholder=""
+                            style={arrivalBooking.textInput}
+                            placeholder="Введите почту студента"
                             value={fullName}
                             editable={!isCorrectName}
-                            onChangeText={text => setFullName(text)}
+                            onChangeText={(text) => setFullName(text)}
                         />
-                        <Text style={styles.inputHeader}>
-                            {accessToInputs}</Text><Text></Text>
-
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={handleFind}>
-                            <Text style={styles.textButton}>
-                                {languageTranslate(
-                                    userData.language,
-                                    'Find Student',
-                                    'Найти студента')}
-                            </Text>
-                        </TouchableOpacity>
+                        <Text style={arrivalBooking.find}>
+                            {accessToInputs}
+                        </Text>
+                        <View style={arrivalBooking.buttonsFind}>
+                            <TouchableOpacity
+                                style={arrivalBooking.button}
+                                onPress={handleFind}
+                            >
+                                <Text style={arrivalBooking.textButton}>
+                                    {languageTranslate(
+                                        userData.language,
+                                        "Find Student",
+                                        "Найти студента"
+                                    )}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                    {/* <View style={styles.textInputs}> */}
-
-                    {/* <Text style={styles.inputHeader}>
+                </View>
+                <View style={arrivalBooking.buttons}>
+                    <TouchableOpacity
+                        style={[
+                            arrivalBooking.button,
+                            { backgroundColor: "black" },
+                        ]}
+                        onPress={handleDelete}
+                    >
+                        <Text
+                            style={[
+                                arrivalBooking.textButton,
+                                { color: "white" },
+                            ]}
+                        >
                             {languageTranslate(
                                 userData.language,
-                                'Sex',
-                                'Пол')}</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder=""
-                            value={sex}
-                            editable={isCorrectName}
-                            onChangeText={text => setSex(text)}
-                        /> */}
-                    {/* <Text style={styles.inputHeader}>
+                                "Delete this participant",
+                                "Удалить этого участника"
+                            )}
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[
+                            arrivalBooking.button,
+                            { backgroundColor: "rgb(122, 60, 227)" },
+                        ]}
+                        onPress={isCorrectName ? handleAdd : null}
+                    >
+                        <Text style={arrivalBooking.textButton}>
                             {languageTranslate(
                                 userData.language,
-                                'Arrival Date',
-                                'Дата приезда')}</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder=""
-                            value={arrivalDate}
-                            editable={isCorrectName}
-                            onChangeText={text => setArrivalDate(text)}
-                        />
-                        <Text style={styles.inputHeader}>
+                                "Add a participant",
+                                "Добавить участника"
+                            )}
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[
+                            arrivalBooking.button,
+                            { backgroundColor: "rgb(245, 193, 68)" },
+                        ]}
+                        onPress={isCorrectName ? handleSave : null}
+                    >
+                        {/* disabled={isCorrectName} */}
+                        <Text style={arrivalBooking.textButton}>
                             {languageTranslate(
                                 userData.language,
-                                'Arrival Time',
-                                'Время приезда')}</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder=""
-                            value={arrivalTime}
-                            editable={isCorrectName}
-                            onChangeText={text => setArrivalTime(text)}
-                        />
-                        <Text style={styles.inputHeader}>
-                            {languageTranslate(
-                                userData.language,
-                                'Flight Number',
-                                'Номер рейса')}</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder=""
-                            value={flightNumber}
-                            editable={isCorrectName}
-                            onChangeText={text => setFlightNumber(text)}
-                        />
-                        <Text style={styles.inputHeader}>
-                            {languageTranslate(
-                                userData.language,
-                                'Arrival Point',
-                                'Пункт прибытия')}</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder=""
-                            value={arrivalPoint}
-                            editable={isCorrectName}
-                            onChangeText={text => setArrivalPoint(text)}
-                        />
-                        <Text style={styles.inputHeader}>
-                            {languageTranslate(
-                                userData.language,
-                                'Citizenship',
-                                'Гражданство')}</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder=""
-                            value={citizenship}
-                            editable={isCorrectName}
-                            onChangeText={text => setCitizenship(text)}
-                        />
-                        <Text style={styles.inputHeader}>
-                            {languageTranslate(
-                                userData.language,
-                                'Phone',
-                                'Телефон')}</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder="+"
-                            value={phone}
-                            editable={isCorrectName}
-                            onChangeText={text => setPhone(text)}
-                        />
-                        <Text style={styles.inputHeader}>
-                            {languageTranslate(
-                                userData.language,
-                                'Telegram',
-                                'Telegram')}</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder="@"
-                            value={telegram}
-                            editable={isCorrectName}
-                            onChangeText={text => setTelegram(text)}
-                        />
-                        <Text style={styles.inputHeader}>
-                            {languageTranslate(
-                                userData.language,
-                                'WhatsApp',
-                                'WhatsApp')}</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder="+"
-                            value={whatsApp}
-                            editable={isCorrectName}
-                            onChangeText={text => setWhatsApp(text)}
-                        />
-                        <Text style={styles.inputHeader}>
-                            {languageTranslate(
-                                userData.language,
-                                'VK',
-                                'VK')}</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder="@"
-                            value={vk}
-                            editable={isCorrectName}
-                            onChangeText={text => setVk(text)}
-                        />
-
-                        <Text style={styles.inputHeader}>
-                            {languageTranslate(
-                                userData.language,
-                                'Comment',
-                                'Комментарий')}</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder={''}
-                            value={comment}
-                            editable={isCorrectName}
-                            onChangeText={text => setComment(text)}
-                        />
-                        <Text style={styles.inputHeader}>
-                            {languageTranslate(
-                                userData.language,
-                                'Tickets',
-                                'Билеты')}</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder={''}
-                            value={tickets}
-                            editable={isCorrectName}
-
-                            onChangeText={text => setTickets(text)}
-                        />
-                    </View> */}
-
-                    <View style={styles.buttons}>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={handleDelete}>
-                            <Text style={styles.textButton}>
-                                {languageTranslate(
-                                    userData.language,
-                                    'Delete this participant',
-                                    'Удалить этого участника')}
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={isCorrectName ? handleAdd : null}>
-                            <Text style={styles.textButton}>
-                                {languageTranslate(
-                                    userData.language,
-                                    'Add a participant',
-                                    'Добавить участника')}
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={isCorrectName ? handleSave : null}>
-                            {/* disabled={isCorrectName} */}
-                            <Text style={styles.textButton}>
-                                {languageTranslate(
-                                    userData.language,
-                                    'Submit Arrival',
-                                    'Отправить информацию о приезде')}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
+                                "Submit Arrival",
+                                "Отправить информацию о приезде"
+                            )}
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </SafeAreaView>
     );
 };
 
-const addStudent = (id, arrivalDate, flightNumber, arrivalPoint, comment, tickets, fullName, sex, arrivalTime, citizenship, phone, telegram, whatsApp, vk) => {
+export const arrivalBooking = StyleSheet.create({
+    main: {
+        flex: 1,
+        backgroundColor: "white",
+    },
+    form: {
+        flex: 1,
+        gap: 0,
+        backgroundColor: "white",
+    },
+
+    textHeader: {
+        paddingLeft: "10%",
+        paddingBottom: "20%",
+        fontWeight: "700",
+        fontSize: 30,
+        paddingTop: "5%",
+    },
+
+    buttons: {
+        flex: 1,
+        width: "53%",
+        marginLeft: "23.5%",
+        marginTop: "5%",
+        marginBottom: "15%",
+    },
+
+    buttonsFind: {
+        flex: 1,
+        width: "53%",
+        marginLeft: "23.5%",
+        // marginTop: "5%",
+        marginBottom: "15%",
+    },
+
+    button: {
+        padding: "5%",
+        paddingTop: "8%",
+        paddingBottom: "8%",
+
+        margin: "2%",
+        alignItems: "center",
+        backgroundColor: "black",
+        color: "white",
+        borderRadius: 18,
+        shadowColor: "grey",
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+    },
+    textButton: {
+        fontWeight: "700",
+        textAlign: "center",
+
+        color: "white",
+    },
+    textInputs: {
+        flex: 1,
+        width: "90%",
+        marginLeft: "5%",
+        padding: "5%",
+        marginBottom: "15%",
+
+        justifyContent: "start",
+    },
+
+    textInput: {
+        width: "100%",
+        padding: "1%",
+        marginTop: "0%",
+        borderBottomWidth: 1,
+        borderColor: "grey",
+    },
+
+    inputHeader: {
+        // marginTop: "10%",
+        textAlign: "left",
+        marginLeft: "5%",
+        marginBottom: "1%",
+    },
+
+    find: {
+        paddingTop: "2%",
+        paddingBottom: "5%",
+        color: "#1E90FF",
+
+        fontWeight: "600",
+
+        textDecorationLine: "underline",
+    },
+
+    textBlock: {
+        marginTop: "15%",
+    },
+});
+
+const addStudent = (
+    id,
+    arrivalDate,
+    flightNumber,
+    arrivalPoint,
+    comment,
+    tickets,
+    fullName,
+    sex,
+    arrivalTime,
+    citizenship,
+    phone,
+    telegram,
+    whatsApp,
+    vk
+) => {
     arrivalBookDataSecond.id = id;
     arrivalBookDataSecond.arrivalDate = arrivalDate;
     arrivalBookDataSecond.flightNumber = flightNumber;
@@ -384,21 +398,22 @@ const addStudentArr = () => {
     arrivalBookDataArr.push(arrivalBookDataSecond);
 
     console.log("--arrivalBookDataArr--");
-    console.log(arrivalBookDataArr)
+    console.log(arrivalBookDataArr);
 };
 
 const postArrivalBook = async (data, adress, contentType, token) => {
     try {
-        const res = await fetch("https://privet-mobile-app.onrender.com" + adress, {
+        const res = await fetch("http://79.174.94.7:8000" + adress, {
             method: "POST",
             headers: {
-                "Accept": "application" + contentType,
+                Accept: "application" + contentType,
                 "Content-Type": "application" + contentType,
-                "Authorization": "Bearer " + token,
+                Authorization: "Bearer " + token,
             },
-            credentials: 'include',
+            credentials: "include",
             body: JSON.stringify(data),
         });
+        console.log(res);
         const responseData = await res.json();
         console.log(adress, responseData);
         return responseData;
@@ -406,16 +421,16 @@ const postArrivalBook = async (data, adress, contentType, token) => {
         console.log(adress, err);
         throw err;
     }
-}
+};
 
 const getUserPyment = async (adress, contentType) => {
     try {
-        const res = await fetch("https://privet-mobile-app.onrender.com" + adress, {
+        const res = await fetch("http://79.174.94.7:8000" + adress, {
             method: "GET",
             headers: {
                 "Content-Type": "application" + contentType,
             },
-            credentials: 'include',
+            credentials: "include",
         });
         const responseData = await res.json();
         console.log(adress, responseData);
@@ -424,6 +439,6 @@ const getUserPyment = async (adress, contentType) => {
         console.log(adress, err);
         throw err;
     }
-}
+};
 
 export default AddSecondScreen;

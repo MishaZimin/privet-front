@@ -113,30 +113,81 @@ const LoadingSettingBuddyScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.main}>
             <View style={loading.loading}>
-                <Text style={loading.textLoading}>
+                <Text style={loadingIS.textLoading}>
+                    {/* {userData.fullName}
+                    {",\n"} */}
                     {languageTranslate(
                         userData.language,
                         "Privet👋",
                         "Privet👋"
                     )}
                 </Text>
-                <Text style={loading.textLoadingMini}>
-                    {languageTranslate(
-                        userData.language,
-                        "Loading",
-                        "Идет загрузка"
-                    )}
-                </Text>
-                <TouchableOpacity
-                    style={loading.button}
-                    title="loading..."
-                    onPress={handleLoading}
-                >
-                    <Text style={loading.textButton}>skip</Text>
-                </TouchableOpacity>
             </View>
+            <TouchableOpacity
+                style={loadingIS.button}
+                title="loading..."
+                onPress={handleLoading}
+            >
+                <Text style={loadingIS.textButton}>
+                    {languageTranslate(userData.language, "Next", "Продолжить")}
+                </Text>
+            </TouchableOpacity>
         </SafeAreaView>
     );
 };
+
+export const loadingIS = StyleSheet.create({
+    loading: {
+        display: "flex",
+        flex: 10,
+        backgroundColor: "white",
+        alignItems: "center",
+
+        justifyContent: "center",
+        paddingBottom: "15%",
+    },
+
+    textLoading: {
+        width: "90%",
+        fontWeight: "600",
+        fontSize: 36,
+        textAlign: "center",
+    },
+    textLoadingMini: {
+        position: "absolute",
+        bottom: "15%",
+        fontWeight: "200",
+        fontSize: 16,
+    },
+
+    button: {
+        padding: "4%",
+        margin: "2%",
+        // marginBottom: "20%",
+
+        width: "75%",
+        marginLeft: "12.5%",
+        alignItems: "center",
+        backgroundColor: "black",
+        color: "grey",
+        borderRadius: 28,
+        shadowColor: "grey",
+    },
+    buttonImg: {
+        height: 50,
+        width: "60%",
+    },
+    textButton: {
+        color: "white",
+        fontSize: 24,
+        fontWeight: "600",
+    },
+
+    buttonForm: {
+        position: "absolute",
+        width: "100%",
+        bottom: "10%",
+    },
+});
 
 export default LoadingSettingBuddyScreen;

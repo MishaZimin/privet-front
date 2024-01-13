@@ -33,22 +33,17 @@ import Loader from "../loader.jsx";
 const StudentsScreen = ({ navigation }) => {
     const [loading, setLoading] = useState(false);
 
-    console.log("---navigation---", navigation);
-
     const handleStudentProfile = async () => {
         try {
             setLoading(true);
-            console.log("p1");
 
             const accessToken = await AsyncStorage.getItem("access_token");
-            console.log("p1");
 
             const response = await getTokenToServer(
                 accessToken,
                 "/users/me/profile",
                 "/json"
             );
-            console.log("p1");
 
             userData.fullName = response.profile_info.full_name;
             userData.citizenship = response.profile_info.citizenship;
@@ -104,106 +99,124 @@ const StudentsScreen = ({ navigation }) => {
             setLoading(true);
 
             // получение приглашений
-            const response = await getTokenToServer(
+            const responseInvitation = await getTokenToServer(
                 userData.access_token,
                 "/users/me/check-invitation",
                 "/json"
             );
-            console.log("check-invitation:", response);
-            if (response != null) {
-                invitationsData.length = 0;
-                invitationsData.push(response);
-            }
 
-            console.log("1", invitationsData);
-
-            // получение ту ду листа
-            const showTasks = await getTokenToServer(
+            const responseMeArrivals = await getTokenToServer(
                 userData.access_token,
-                "/users/me/tasks",
+                "/me/arrivals",
                 "/json"
             );
 
-            var initialTasksDataCopy = [
-                {
-                    id: 1,
-                    text: "Встреча в аэропорту ",
-                    completed: showTasks.airport_meeting,
-                    deadline: "\nDeadline: 11.11.2023",
-                },
-                {
-                    id: 2,
-                    text: "Оплата и заселение в хостел",
-                    completed: showTasks.motel_checked_in,
-                },
-                {
-                    id: 3,
-                    text: "Прохождение медосмотра",
-                    completed: showTasks.medical_examinated,
-                },
-                {
-                    id: 4,
-                    text: "Оформление сим-карты",
-                    completed: showTasks.sim_card_created,
-                },
-                {
-                    id: 5,
-                    text: "Обмен денег",
-                    completed: showTasks.money_exchange,
-                },
-                {
-                    id: 6,
-                    text: "Перевод и нотариальное заверение паспорта",
-                    completed: showTasks.passport_translated,
-                },
-                {
-                    id: 7,
-                    text: "Оформление банковской карты",
-                    completed: showTasks.bank_card,
-                },
-                {
-                    id: 8,
-                    text: "Оформление документов о зачислении",
-                    completed: showTasks.enrollment_documents,
-                },
-                {
-                    id: 9,
-                    text: "Оформление страховки",
-                    completed: showTasks.insurance,
-                },
-                {
-                    id: 10,
-                    text: "Оформление документов на общежитие",
-                    completed: showTasks.dormitory_documents,
-                },
-                {
-                    id: 11,
-                    text: "student_ID",
-                    completed: showTasks.student_ID,
-                },
-                {
-                    id: 12,
-                    text: "Прохождение медосвидетельствования",
-                    completed: showTasks.medical_tests[0],
-                    deadline: "\nDeadline: " + showTasks.medical_tests[1],
-                },
-                {
-                    id: 13,
-                    text: "Продление визы",
-                    completed: showTasks.visa_extension[0],
-                    deadline: "\nDeadline: " + showTasks.visa_extension[1],
-                },
-                {
-                    id: 14,
-                    text: "Прохождение дактилоскопии",
-                    completed: showTasks.fingerprinting[0],
-                    deadline: "\nDeadline: " + showTasks.fingerprinting[1],
-                },
-            ];
+            if (responseMeArrivals.length > 0) {
+                const showTasks = await getTokenToServer(
+                    userData.access_token,
+                    "/users/me/tasks",
+                    "/json"
+                );
 
-            console.log("-=-=-=", showTasks);
+                var initialTasksDataCopy = [
+                    {
+                        id: 1,
+                        text: "Встреча в аэропорту ",
+                        completed: showTasks.airport_meeting,
+                        deadline:
+                            "\n" +
+                            responseMeArrivals[0].arrival_date.slice(0, 10),
+                    },
+                    {
+                        id: 2,
+                        text: "Оплата и заселение в хостел",
+                        completed: showTasks.motel_checked_in,
+                    },
+                    {
+                        id: 3,
+                        text: "Прохождение медосмотра",
+                        completed: showTasks.medical_examinated,
+                    },
+                    {
+                        id: 4,
+                        text: "Оформление сим-карты",
+                        completed: showTasks.sim_card_created,
+                    },
+                    {
+                        id: 5,
+                        text: "Обмен денег",
+                        completed: showTasks.money_exchange,
+                    },
+                    {
+                        id: 6,
+                        text: "Перевод и нотариальное заверение паспорта",
+                        completed: showTasks.passport_translated,
+                    },
+                    {
+                        id: 7,
+                        text: "Оформление банковской карты",
+                        completed: showTasks.bank_card,
+                    },
+                    {
+                        id: 8,
+                        text: "Оформление документов о зачислении",
+                        completed: showTasks.enrollment_documents,
+                    },
+                    {
+                        id: 9,
+                        text: "Оформление страховки",
+                        completed: showTasks.insurance,
+                    },
+                    {
+                        id: 10,
+                        text: "Оформление документов на общежитие",
+                        completed: showTasks.dormitory_documents,
+                    },
 
-            navigation.navigate("ToDoListISScreen", { initialTasksDataCopy });
+                    {
+                        id: 11,
+                        text: "Оформление студенческого билета",
+                        completed: showTasks.student_ID,
+                    },
+                    {
+                        id: 12,
+                        text: "Оформление электронного пропуска",
+                        completed: showTasks.student_pass,
+                        taskName: "student_pass",
+                    },
+                    {
+                        id: 13,
+                        text: "Прохождение медосвидетельствования",
+                        completed: showTasks.medical_tests[0],
+                        deadline: "\nDeadline: " + showTasks.medical_tests[1],
+                    },
+                    {
+                        id: 14,
+                        text: "Продление визы",
+                        completed: showTasks.visa_extension[0],
+                        deadline: "\nDeadline: " + showTasks.visa_extension[1],
+                    },
+                    {
+                        id: 15,
+                        text: "Прохождение дактилоскопии",
+                        completed: showTasks.fingerprinting[0],
+                        deadline: "\nDeadline: " + showTasks.fingerprinting[1],
+                    },
+                ];
+            } else {
+                var initialTasksDataCopy = [];
+            }
+
+            console.log("responseMeArrivals:", responseMeArrivals);
+            if (responseInvitation != null) {
+                invitationsData.length = 0;
+                invitationsData.push(responseInvitation);
+            }
+
+            navigation.navigate("ToDoListISScreen", {
+                initialTasksDataCopy,
+                responseInvitation,
+            });
         } catch (err) {
             console.log(err);
         } finally {
@@ -284,7 +297,7 @@ const StudentsScreen = ({ navigation }) => {
                             )}
                         </Text>
                     </TouchableOpacity>
-                    {/* <TouchableOpacity
+                    <TouchableOpacity
                         style={styles.button}
                         title="handleRoute"
                         onPress={handleRoute}
@@ -301,7 +314,7 @@ const StudentsScreen = ({ navigation }) => {
                                 "Маршрут"
                             )}
                         </Text>
-                    </TouchableOpacity> */}
+                    </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         title="handleInfo"
@@ -347,7 +360,6 @@ const StudentsScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     main: {
-        // flex: 1,
         backgroundColor: "white",
         padding: 0,
         margin: 0,
@@ -355,13 +367,12 @@ const styles = StyleSheet.create({
     },
 
     form: {
-        // flex: 1,
         backgroundColor: "white",
         justifyContent: "space-between",
 
         padding: 0,
         margin: 0,
-        // marginTop: 100,
+
         backgroundColor: "none",
     },
 
@@ -399,7 +410,7 @@ const styles = StyleSheet.create({
     },
     textButton: {
         fontSize: 10,
-        fontWeight: "600",
+        fontWeight: "700",
     },
     img: {
         width: 30,
@@ -410,16 +421,13 @@ const styles = StyleSheet.create({
 
 const getToDoList = async (adress, token) => {
     try {
-        const res = await fetch(
-            "https://privet-mobile-app.onrender.com" + adress,
-            {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    Authorization: "Bearer " + token,
-                },
-            }
-        );
+        const res = await fetch("http://79.174.94.7:8000" + adress, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                Authorization: "Bearer " + token,
+            },
+        });
         const userData = await res.json();
         console.log(userData);
         return userData;

@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
     ScrollView,
     Alert,
+    Image,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -29,6 +30,7 @@ import {
 import { universityPicker } from "../data-picker/university.jsx";
 import { countriesPicker } from "../data-picker/citizenship.jsx";
 import { languagePicker } from "../data-picker/langues.jsx";
+import { cityPicker } from "../data-picker/city.jsx";
 
 import { SelectList } from "react-native-dropdown-select-list";
 
@@ -68,45 +70,45 @@ const BuddyProfileScreen = ({ navigation, route }) => {
     const showToastIOS = () => {
         ToastIOS.show("Ваш текст уведомления", ToastIOS.LONG);
     };
+    console.log(userData.city, cityPicker);
 
-    const showToastAndroid = () => {
-        ToastAndroid.showWithGravityAndOffset(
-            "Ваш текст уведомления",
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50
-        );
-    };
+    console.log(getValueByKey(userData.city, cityPicker));
 
-    const handleNotifications = () => {
-        if (Platform.OS === "android") {
-            console.log("уведомления android");
-            showToastAndroid;
-        } else {
-            showToastIOS();
-        }
-    };
     const handleSettings = () => {
         navigation.navigate("SettingScreen");
     };
     const handleSave = async () => {
         const data = {
             full_name: fullName,
-            citizenship: null,
-            city: city == "" ? null : city.toString(),
-            sex: null,
-            birthdate: birthDate == "" ? null : birthDate,
-            phone: phone == "" ? null : phone,
-            telegram: telegram == "" ? null : telegram,
+            citizenship: 1,
+            city: city == "Not chosen" ? "" : city.toString(),
+            sex: "",
+            birthdate: birthDate == "" ? "" : birthDate,
+            phone: phone == "" ? "" : phone,
+            telegram: telegram == "" ? "" : telegram,
             whatsapp: whatsApp == "" ? null : whatsApp,
             vk: vk == "" ? null : vk,
             native_language:
-                nativeLanguage == "" ? null : nativeLanguage.toString(),
+                nativeLanguage == "Not chosen" ? null : nativeLanguage,
             other_languages_ids: [],
-            university: university == "" ? null : university,
+            university: university == "Not chosen" ? null : university,
         };
         console.log("send data:", data);
+
+        const a = {
+            birthdate: "2000-01-01",
+            citizenship: 1,
+            city: 1,
+            full_name: "Name buddy",
+            native_language: 7,
+            other_languages_ids: [],
+            phone: "+7459054044",
+            sex: "",
+            telegram: "@tgtgtgtg",
+            university: 1,
+            vk: "@vkvkvkvkvvkvkvkv",
+            whatsapp: "+7459054044",
+        };
         try {
             const accessToken = await AsyncStorage.getItem("access_token");
 
@@ -128,39 +130,28 @@ const BuddyProfileScreen = ({ navigation, route }) => {
             <ScrollView style={profile.main}>
                 <View style={profile.form}>
                     {/* <BackButton /> */}
-                    <Text style={profile.textHeader}>
-                        {languageTranslate(
-                            userData.language,
-                            "Profile",
-                            "Профиль"
-                        )}
-                    </Text>
+                    <View style={profile.header}>
+                        <Text style={profile.textHeader}>
+                            {languageTranslate(
+                                userData.language,
+                                "Profile",
+                                "Профиль"
+                            )}
+                        </Text>
 
-                    <View style={[profile.buttons, profile.settings]}>
-                        {/* <TouchableOpacity
-                            style={profile.button}
-                            onPress={handleSettings}
-                        >
-                            <Text style={profile.textButton}>
-                                {languageTranslate(
-                                    userData.language,
-                                    "Settings",
-                                    "Настройки"
-                                )}
-                            </Text>
-                        </TouchableOpacity> */}
-                        {/* <TouchableOpacity
-                            style={profile.button}
-                            onPress={handleNotifications}
-                        >
-                            <Text style={profile.textButton}>
-                                {languageTranslate(
-                                    userData.language,
-                                    "Notifications",
-                                    "Уведомдления"
-                                )}
-                            </Text>
-                        </TouchableOpacity> */}
+                        <View style={profile.buttonsSettings}>
+                            <TouchableOpacity
+                                style={profile.buttonSettings}
+                                title="handleAllArrivals"
+                                onPress={handleSettings}
+                            >
+                                <Image
+                                    resizeMode="contain"
+                                    style={profile.img}
+                                    source={require("../img/setting.png")}
+                                />
+                            </TouchableOpacity>
+                        </View>
                     </View>
                     <View style={profile.profileForm}>
                         <View style={profile.textInputs}>
@@ -247,11 +238,11 @@ const BuddyProfileScreen = ({ navigation, route }) => {
                                     marginLeft: -20,
                                     marginTop: -10,
                                 }}
-                                data={countriesPicker}
+                                data={cityPicker}
                                 save="key"
                                 placeholder={getValueByKey(
-                                    userProfile.citizenship,
-                                    countriesPicker
+                                    userProfile.city,
+                                    cityPicker
                                 )}
                                 setSelected={(val) => setCity(val)}
                             />
@@ -265,17 +256,28 @@ const BuddyProfileScreen = ({ navigation, route }) => {
                                 )}
                             </Text>
                             <View style={profile.dateAndTime}>
+                                <Image
+                                    resizeMode="contain"
+                                    style={profile.imgData}
+                                    source={require("../img/3d-fluency-planner.png")}
+                                />
                                 <TextInputMask
-                                    style={profile.textInput}
+                                    style={profile.textInputData}
                                     type={"datetime"}
                                     options={{
-                                        format: "YYYY.MM.DD",
+                                        format: "YYYY-MM-DD",
                                     }}
                                     placeholder="YYYY-MM-DD"
                                     value={birthDate}
                                     onChangeText={(text) => setBirthDate(text)}
                                     keyboardType="numeric"
                                 />
+                                {birthDate.length >= 10 ? (
+                                    <Text style={profile.textAge}>
+                                        {calculateAge(birthDate)} лет
+                                    </Text>
+                                ) : null}
+
                                 {/* <TextInputMask
                                     style={profile.textInput}
                                     type={"datetime"}
@@ -297,93 +299,97 @@ const BuddyProfileScreen = ({ navigation, route }) => {
                                     "Контакты"
                                 )}
                             </Text>
-                            <TextInput
-                                style={profile.textInput}
-                                placeholder="+"
-                                value={phone}
-                                onChangeText={(text) => {
-                                    if (text.length <= 12) {
-                                        setPhone(text);
-                                    }
-                                }}
-                                maxLength={12}
-                            />
-                            {/* <View style={profile.textInputUnderline}></View> */}
+                            <View style={profile.contactContainer}>
+                                <Image
+                                    resizeMode="contain"
+                                    style={profile.imgContact}
+                                    source={require("../img/3d-fluency-telephone-handset.png")}
+                                />
+                                <TextInput
+                                    style={profile.textInputContact}
+                                    placeholder="+"
+                                    value={phone}
+                                    onChangeText={(text) => {
+                                        if (text.length <= 12) {
+                                            setPhone(text);
+                                        }
+                                    }}
+                                    maxLength={12}
+                                />
+                            </View>
 
-                            {/* <Text style={profile.inputHeader}>
-                                {languageTranslate(
-                                    userData.language,
-                                    "Email",
-                                    "Email"
-                                )}
-                            </Text> */}
-                            <TextInput
-                                style={profile.textInput}
-                                placeholder="Email"
-                                value={email}
-                                editable={false}
-                                onChangeText={(text) => setEmail(text)}
-                            />
-                            {/* <View style={profile.textInputUnderline}></View> */}
+                            <View style={profile.contactContainer}>
+                                <Image
+                                    resizeMode="contain"
+                                    style={profile.imgContact}
+                                    source={require("../img/3d-fluency-blue-envelope.png")}
+                                />
+                                <TextInput
+                                    style={profile.textInput}
+                                    placeholder="Email"
+                                    value={email}
+                                    editable={false}
+                                    onChangeText={(text) => setEmail(text)}
+                                />
+                            </View>
 
-                            {/* <Text style={profile.inputHeader}>
-                                {languageTranslate(
-                                    userData.language,
-                                    "Telegram",
-                                    "Telegram"
-                                )}
-                            </Text> */}
-                            <TextInput
-                                style={profile.textInput}
-                                placeholder="@"
-                                value={telegram}
-                                onChangeText={(text) => {
-                                    if (text.length <= 32) {
-                                        setTelegram(text);
-                                    }
-                                }}
-                                maxLength={32}
-                            />
-                            {/* <View style={profile.textInputUnderline}></View> */}
+                            <View style={profile.contactContainer}>
+                                <Image
+                                    resizeMode="contain"
+                                    style={profile.imgContact}
+                                    source={require("../img/3d-fluency-telegram-logo.png")}
+                                />
+                                <TextInput
+                                    style={profile.textInputContact}
+                                    placeholder="@"
+                                    value={telegram}
+                                    onChangeText={(text) => {
+                                        if (text.length <= 32) {
+                                            setTelegram(text);
+                                        }
+                                    }}
+                                    maxLength={32}
+                                />
+                            </View>
 
-                            {/* <Text style={profile.inputHeader}>
-                                {languageTranslate(
-                                    userData.language,
-                                    "WhatsApp",
-                                    "WhatsApp"
-                                )}
-                            </Text> */}
-                            <TextInput
-                                style={profile.textInput}
-                                placeholder="+"
-                                value={whatsApp}
-                                onChangeText={(text) => {
-                                    if (text.length <= 12) {
-                                        setWhatsApp(text);
-                                    }
-                                }}
-                                maxLength={12}
-                            />
-                            {/* <View style={profile.textInputUnderline}></View> */}
+                            <View style={profile.contactContainer}>
+                                <Image
+                                    resizeMode="contain"
+                                    style={profile.imgContact}
+                                    source={require("../img/3d-fluency-whatsapp-logo.png")}
+                                />
+                                <TextInput
+                                    style={profile.textInputContact}
+                                    placeholder="+"
+                                    value={whatsApp}
+                                    onChangeText={(text) => {
+                                        if (text.length <= 12) {
+                                            setWhatsApp(text);
+                                        }
+                                    }}
+                                    maxLength={12}
+                                />
+                            </View>
 
-                            {/* <Text style={profile.inputHeader}>
-                                {languageTranslate(
-                                    userData.language,
-                                    "VK",
-                                    "VK"
-                                )}
-                            </Text> */}
-                            <TextInput
-                                style={profile.textInput}
-                                placeholder="@"
-                                value={vk}
-                                onChangeText={(text) => {
-                                    if (text.length <= 32) {
-                                        setVk(text);
-                                    }
-                                }}
-                                maxLength={32}
-                            />
+                            <View style={profile.contactContainer}>
+                                <Image
+                                    resizeMode="contain"
+                                    style={profile.imgContact}
+                                    source={require("../img/3d-fluency-vk-logo.png")}
+                                />
+                                <TextInput
+                                    style={profile.textInputContact}
+                                    placeholder="@"
+                                    value={vk}
+                                    onChangeText={(text) => {
+                                        if (text.length <= 32) {
+                                            setVk(text);
+                                        }
+                                    }}
+                                    maxLength={32}
+                                />
+                            </View>
+
                             <View style={profile.textInputUnderline}></View>
 
                             <Text style={profile.inputHeader}>
@@ -506,11 +512,16 @@ export const profile = StyleSheet.create({
         gap: 0,
         backgroundColor: "white",
     },
+
+    header: {
+        display: "flex",
+        flexDirection: "row",
+    },
+
     textHeader: {
-        flex: 1,
+        flex: 3,
         paddingLeft: "10%",
-        paddingBottom: "0%",
-        marginTop: 30,
+        marginTop: 10,
         fontWeight: "800",
         fontSize: 30,
     },
@@ -532,7 +543,7 @@ export const profile = StyleSheet.create({
     inputHeader: {
         marginTop: "3%",
         textAlign: "left",
-        // marginLeft: "5%",
+
         marginBottom: "1%",
         fontWeight: "700",
     },
@@ -541,26 +552,17 @@ export const profile = StyleSheet.create({
         flex: 1,
         width: "80%",
         marginLeft: "10%",
-        // padding: "2.5%",
-        // borderRadius: 40,
-        // justifyContent: "start",
     },
     textInput: {
-        width: "100%",
         padding: "0%",
         paddingLeft: 0,
-        paddingTop: "1%",
+        marginTop: "1%",
 
-        marginTop: "0%",
-        // borderWidth: 1,
-        // borderRadius: 10,
-        // borderColor: "grey",
+        borderRadius: 20,
     },
     textInputPaid: {
         width: "auto",
         padding: "1%",
-        // paddingLeft: 0,
-        // paddingTop: "1%",
 
         marginTop: "0%",
 
@@ -580,8 +582,8 @@ export const profile = StyleSheet.create({
 
     buttons: {
         flex: 1,
-        width: "60%",
-        marginLeft: "20%",
+        width: "40%",
+        marginLeft: "30%",
         marginTop: "5%",
         marginBottom: "25%",
     },
@@ -590,21 +592,99 @@ export const profile = StyleSheet.create({
         padding: "5%",
         margin: "2%",
         alignItems: "center",
-        backgroundColor: "rgb(240, 240, 240)",
+        backgroundColor: "black",
         color: "grey",
-        borderRadius: 40,
-        shadowColor: "grey",
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 5,
+        borderRadius: 20,
     },
-    textButton: {},
+    textButton: {
+        fontWeight: "700",
+        textAlign: "center",
+
+        color: "white",
+    },
+
+    buttonsSettings: {
+        flex: 1,
+        width: "10%",
+        marginTop: 13,
+
+        marginBottom: "10%",
+    },
+
+    buttonSettings: {
+        padding: "5%",
+
+        alignItems: "center",
+    },
 
     settings: {
         marginTop: "0%",
 
         marginBottom: "10%",
     },
+
+    img: {
+        width: 25,
+        height: 25,
+    },
+
+    contactContainer: {
+        display: "flex",
+        flexDirection: "row",
+    },
+
+    dateAndTime: {
+        display: "flex",
+        flexDirection: "row",
+    },
+    imgContact: {
+        width: 20,
+        height: 20,
+
+        marginRight: "1%",
+        marginTop: "1%",
+    },
+
+    imgData: {
+        width: 20,
+        height: 20,
+
+        marginRight: "1%",
+        // marginTop: "1%",
+    },
+
+    textInputData: {
+        backgroundColor: "rgb(230,230,230)",
+
+        paddingHorizontal: 3,
+        paddingVertical: 0,
+
+        borderRadius: 20,
+    },
+
+    textAge: {
+        marginLeft: 15,
+        paddingTop: 1,
+        color: "grey",
+    },
 });
+
+function calculateAge(birthdate) {
+    const birthdateArray = birthdate.split("-");
+
+    const birthdateObj = new Date(
+        birthdateArray[0],
+        birthdateArray[1] - 1,
+        birthdateArray[2]
+    );
+
+    const currentDate = new Date();
+
+    const timeDifference = currentDate - birthdateObj;
+
+    const age = Math.floor(timeDifference / (365.25 * 24 * 60 * 60 * 1000));
+
+    return age;
+}
 
 export default BuddyProfileScreen;

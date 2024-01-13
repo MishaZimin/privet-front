@@ -171,7 +171,7 @@ const EmailScreen = ({ navigation }) => {
         <SafeAreaView style={form.main}>
             <ScrollView style={form.main}>
                 <View style={form.form}>
-                    <BackButton />
+                    {/* <BackButton /> */}
                     <Text style={confirm.textHeader}>
                         {languageTranslate(
                             userData.language,
